@@ -94,7 +94,7 @@
 	<hr/>
 	<div class="row">
 		<div class="one columns">
-		</br>
+		<br/>
 			<input type="button" class="button-primary submit-button" value="Reserve"/>
 		</div>
 	</div>
