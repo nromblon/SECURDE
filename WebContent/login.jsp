@@ -75,7 +75,6 @@
           <a class = "link" href="register">New User? Register here</a>
         </div>
       </div>
-
     </form>
   </div>
 
