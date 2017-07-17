@@ -80,23 +80,27 @@
           <div class = "nine columns">
             <div class = "container">
                 <div class="row">
-                    <form action = "search/get_pubs" class = "search-forms" method = "get">
+                    <form action = "get_pubs" class = "search-forms" method = "get">
                         <div class="two columns">
-                            <select class = "search-select" id = "searchBy">
-                                <option>Title</option>
-                                <option>Author</option>
-                                <option>Publisher</option>
+                            <select name = "searchBy" class = "search-select" id = "searchBy">
+                                <option value = "Publication">Title</option>
+                                <option value = "Author">Author</option>
+                                <option value = "Publisher">Publisher</option>
                             </select>
                         </div>
                         <div class="seven columns">
-                            <input class="u-full-width" placeholder="Search..." type="text" id="username">
+                        	<% if(request.getAttribute("searchTerm") == null) {%>
+                            	<input name = "searchTerm" class="u-full-width" placeholder="Search..." type="text" id="username">
+                            <% } else { %>
+                            	<input name = "searchTerm" class="u-full-width" placeholder="Search..." type="text" id="username" value = <%= request.getAttribute("searchTerm")%>>
+                            <% } %>
                         </div>
                         <div class="one column">
-                            <select class = "search-select" id = "category">
+                            <select name = "category" class = "search-select" id = "category">
                                 <option>View Entire Collection</option>
-                                <option>Books</option>
-                                <option>Thesis</option>
-                                <option>Magazines</option>
+                                <option value = "Book">Books</option>
+                                <option value = "Magazine">Thesis</option>
+                                <option value = "Thesis">Magazines</option>
                             </select>
                         </div>
                     </form>

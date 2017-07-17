@@ -21,7 +21,7 @@ import com.objects.Publisher;
 /**
  * Servlet implementation class AddPublicationServlet
  */
-@WebServlet("/search/get_pubs")
+@WebServlet("/get_pubs")
 public class GetPublicationsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -44,9 +44,18 @@ public class GetPublicationsServlet extends HttpServlet {
 		String searchTerm = request.getParameter("searchTerm");
 		String searchBy = request.getParameter("searchBy");
 		String category = request.getParameter("category");
-		System.out.println(searchBy);
+		System.out.println(category);
 	    try {
-	    	PreparedStatement getPubs = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId INNER JOIN publisher pub ON p.PublisherId = pub.PublisherId INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId INNER JOIN status s ON p.StatusId = s.StatusId WHERE p.Publication LIKE '%"+searchTerm+"%'");
+	    	String condition1 = "";
+	    	String condition2 = (category.equals("View Entire Collection"))? "": "AND pubt.PublicationType = '" + category+"'";
+	    	
+	    	switch(searchBy) {
+	    	case "Publication": condition1 = "p.Publication LIKE '%"+searchTerm+"%'"; break;
+	    	case "Author": condition1 = "a.AuthorFirstName LIKE '%"+searchTerm+"%' OR a.AuthorLastName LIKE '%"+searchTerm+"%'"; break;
+	    	case "Publisher": condition1 = "pub.Publisher LIKE '%"+searchTerm+"%'"; break;
+	    	}
+	    	System.out.println(condition1+" "+condition2);
+	    	PreparedStatement getPubs = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId INNER JOIN publisher pub ON p.PublisherId = pub.PublisherId INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId INNER JOIN status s ON p.StatusId = s.StatusId WHERE "+condition1+" "+condition2);
 	    	ResultSet rs = getPubs.executeQuery();
 	    	ArrayList<Publication> publications = new ArrayList<Publication>();
 
@@ -55,6 +64,7 @@ public class GetPublicationsServlet extends HttpServlet {
 	        			new Publisher(rs.getInt("PublisherId"), rs.getString("Publisher")), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
 	        }
 	        
+	        request.setAttribute("searchTerm", searchTerm);
 	        request.setAttribute("publications", publications);
 	    } catch(Exception e) {
 	    	System.out.println(e.getMessage());
