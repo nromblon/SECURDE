@@ -26,7 +26,6 @@ public class SearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("IN SEARCH");
 		request.getRequestDispatcher("/search.jsp").forward(request, response);
 		
 	}

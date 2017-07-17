@@ -186,9 +186,7 @@
                 <!--can only be seen by the lib manager-->
                 <span class = "side-bar-header">Library Manager</span>
                 <ul>
-                    <li class = "side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
-                    <li class = "link side-bar-link">Thesis</li>
-                    <li class = "link side-bar-link">Magazines</li>
+                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
                 </ul>
             </div>
           </div>

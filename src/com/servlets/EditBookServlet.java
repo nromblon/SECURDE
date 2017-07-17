@@ -70,7 +70,7 @@ public class EditBookServlet extends HttpServlet {
 	    	System.out.println(e.getMessage());
 	    }
 	    
-	    doGet(request, response);
+//	    doGet(request, response);
 	    
 	}
 

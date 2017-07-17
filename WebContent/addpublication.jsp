@@ -65,7 +65,7 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   
-    <form action="publication/add" method = "POST" class = "add-forms">
+    <form action="../addbook" method = "POST" class = "add-forms">
         <div class="row">
         <div class="three columns"><img src="${pageContext.request.contextPath}/resources/images/Publication/noimage.jpg"></div>
             <div class="seven columns">
@@ -74,16 +74,16 @@
                     <tr>
                     <td>
                         <label for="pub-title">Publication Title</label>
-                        <input class="u-full-width" type="text" id="pub-title">
+                        <input name = "title" class="u-full-width" type="text" id="pub-title">
                     </td>
                     <td></td>
                     </tr>
                     <tr>
                     <td>
-                        <select id = "pub-type-select">
-                            <option>Book</option>
-                            <option>Thesis</option>
-                            <option>Magazine</option>
+                        <select name = "type" id = "pub-type-select">
+                            <option value = "1">Book</option>
+                            <option value = "2">Thesis</option>
+                            <option value = "3">Magazine</option>
                         </select>
                     </td>
                     <td></td>
@@ -93,7 +93,7 @@
                         Author
                     </td>
                     <td>
-                        <input class="u-full-width" type="text" id="pub-author">
+                        <input name = "author" class="u-full-width" type="text" id="pub-author">
                     </td>
                     </tr>
                     <tr>
@@ -101,20 +101,20 @@
                         Publisher
                     </td>
                     <td>
-                        <input class="u-full-width" type="text" id="pub-publisher">
+                        <input name = "publisher" class="u-full-width" type="text" id="pub-publisher">
                     </td>
                     </tr>
                     <tr>
                     <td>Year</td>
                     <td>
-                        <select id = "pub-year-select">
+                        <select name = "year" id = "pub-year-select">
                         </select>
                     </td>
                     </tr>
                     <tr>
                     <td>Location</td>
                     <td>
-                        <input class="u-full-width" type="text" id="pub-location">
+                        <input name = "location" class="u-full-width" type="text" id="pub-location">
                     </td>
                     </tr>
                     <tr>
