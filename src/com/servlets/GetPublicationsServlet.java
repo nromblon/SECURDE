@@ -41,28 +41,19 @@ public class GetPublicationsServlet extends HttpServlet {
 		Statement stmt = null;
 		Connection con = DBConnector.getConnection();
 		
+		String searchTerm = request.getParameter("searchTerm");
+		String searchBy = request.getParameter("searchBy");
+		String category = request.getParameter("category");
+		System.out.println(searchBy);
 	    try {
-//	        stmt = DBConnector.getConnection().createStatement();
-	                
-//	        String query = "SELECT * FROM user WHERE id=1";
-//	        ResultSet rs = stmt.executeQuery(query);
-	    	
-	    	PreparedStatement getPubs = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId INNER JOIN publisher pub ON p.PublisherId = pub.PublisherId INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId INNER JOIN status s ON p.StatusId = s.StatusId");
+	    	PreparedStatement getPubs = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId INNER JOIN publisher pub ON p.PublisherId = pub.PublisherId INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId INNER JOIN status s ON p.StatusId = s.StatusId WHERE p.Publication LIKE '%"+searchTerm+"%'");
 	    	ResultSet rs = getPubs.executeQuery();
 	    	ArrayList<Publication> publications = new ArrayList<Publication>();
-//	        rs.next();  // retrieve first row	        
+
 	        while(rs.next()) {
 	        	publications.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), new Author(rs.getInt("AuthorId"), rs.getString("AuthorFirstName"), rs.getString("AuthorLastName")), 
 	        			new Publisher(rs.getInt("PublisherId"), rs.getString("Publisher")), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
 	        }
-	        // user table columns:
-	        // id, username, password, first_name, last_name, description
-//	        request.setAttribute("id", rs.getInt("id"));
-//	        request.setAttribute("username", rs.getString("username"));
-//	        request.setAttribute("password", rs.getString("password"));
-//	        request.setAttribute("first_name", rs.getString("first_name"));
-//	        request.setAttribute("last_name", rs.getString("last_name"));
-//	        request.setAttribute("description", rs.getString("description"));
 	        
 	        request.setAttribute("publications", publications);
 	    } catch(Exception e) {
