@@ -42,9 +42,9 @@
 		</div>
 		<div class="row">
 			<div class="topnav twelve columns">
-			  <a href="searchpage.html">Publications</a>
-			  <a href="roomspage.html">Rooms</a>
-			  <a class="r-nav active" href="loginpage.html">Login</a>
+			  <a href="search">Publications</a>
+			  <a href="rooms">Rooms</a>
+			  <a class="r-nav active" href="login">Login</a>
 			</div>
 		</div>
 	</div>
@@ -72,7 +72,7 @@
       </div>
       <div class="row">
         <div class="six columns offset-by-five">
-          <a class = "link" href="registrationpage.html">New User? Register here</a>
+          <a class = "link" href="register">New User? Register here</a>
         </div>
       </div>
 

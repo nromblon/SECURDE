@@ -45,9 +45,9 @@
 		</div>
 		<div class="row">
 			<div class="topnav twelve columns">
-			  <a href="searchpage.html">Publications</a>
-			  <a class="active" href="roomspage.html">Rooms</a>
-			  <a class="r-nav" href="loginpage.html">Login</a>
+			  <a href="search">Publications</a>
+			  <a class="active" href="rooms">Rooms</a>
+			  <a class="r-nav" href="login">Login</a>
 			</div>
 		</div>
 	</div>
