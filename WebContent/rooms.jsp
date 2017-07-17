@@ -105,7 +105,17 @@
 	<div class="row">
 		<div class="one columns">
 		<br/>
-			<input type="button" class="button-primary submit-button" onclick="reserve()" value="Reserve"/>
+			<input id="room-reserve-btn" type="button" class="button-primary submit-button" onclick="reserve()" value="Reserve"/>
+			<script>
+				var privilege = <%=session.getAttribute("privilege")%>;
+				if (privilege == null){
+					$("#room-reserve-btn").hide();
+				}
+				else{	
+					if(privilege=='1')
+						$("#room-reserve-btn").show();
+				}
+			</script>
 		</div>
 	</div>
 </div>
