@@ -74,27 +74,30 @@
 
 <!-- Search bar -->
 <div class="row">
-  <form class="unpadded" action="search" method="post" name="searchtool" id="search" style="margin:20px;">
-    Search:
-    <select name="searchtype" id="searchtype">
-      <option selected="selected"> Keyword</option>
-      <option> Title</option>
-      <option> Author</option>
-      <option> Publisher</option>
-      <option> Location</option>
-    </select>
-
-    <input type="hidden" name="SORT" id="SORT" value="D">
-    <input type="text" maxlength="100" id="searcharg" size="20">
-    <label for="searchscope" style="display:none;">Search Scope</label>
-    <select name="searchscope" id="searchscope">
-      <option value="1" selected="selected"> View Entire Collection</option> 
-      <option value="2"> Books</option> 
-      <option value="3"> Thesis</option> 
-      <option value="4"> Magazines</option>  
-    </select>
-    <button type="button" class="btn btn-success">Submit</button>
-  </form>
+  <form action = "../get_pubs" class = "search-forms" method = "get">
+	 <div class="two columns">
+	     <select name = "searchBy" class = "search-select" id = "searchBy">
+	         <option value = "Publication">Title</option>
+	         <option value = "Author">Author</option>
+	         <option value = "Publisher">Publisher</option>
+	     </select>
+	 </div>
+	 <div class="seven columns">
+	 	<% if(request.getAttribute("searchTerm") == null) {%>
+	     	<input name = "searchTerm" class="u-full-width" placeholder="Search..." type="text" id="username">
+	     <% } else { %>
+	     	<input name = "searchTerm" class="u-full-width" placeholder="Search..." type="text" id="username" value = <%= request.getAttribute("searchTerm")%>>
+	     <% } %>
+	    </div>
+	    <div class="one column">
+	        <select name = "category" class = "search-select" id = "category">
+	            <option>View Entire Collection</option>
+	            <option value = "Book">Books</option>
+	            <option value = "Magazine">Thesis</option>
+	            <option value = "Thesis">Magazines</option>
+	        </select>
+	    </div>
+	</form>
 </div>
 
 <div class="row">
@@ -105,7 +108,7 @@
         <tr>
           <td>
             <div class = "description-elems">
-              <h3 id = "pub-title-text">Tara Road</h3>
+              <h3 id = "pub-title-text"><%= request.getAttribute("title") %></h3>
             </div>
             <div class = "edit-elems hidden">
               <label for="pub-title">Publication Title</label>
@@ -116,7 +119,7 @@
         <tr>
           <td>
             <div class = "description-elems">
-              <span id = "pub-type-text"><i class="icon-book"></i>Book</span>
+              <span id = "pub-type-text"><i class="icon-book"></i><%= request.getAttribute("type") %></span>
             </div>
             <div class = "edit-elems hidden">
               <select id = "pub-type-select">
@@ -131,7 +134,7 @@
           <td>Author</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-author-text">Binchy, Maeve</span>
+              <span id = "pub-author-text"><%= request.getAttribute("author") %></span>
             </div>
             <div class = "edit-elems hidden">
               <input class="u-full-width" type="text" id="pub-author">
@@ -142,7 +145,7 @@
           <td>Publisher</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-publisher-text">Orion Publishing Group</span>
+              <span id = "pub-publisher-text"><%= request.getAttribute("publisher") %></span>
             </div>
             <div class = "edit-elems hidden">
               <input class="u-full-width" type="text" id="pub-publisher">
@@ -153,7 +156,7 @@
           <td>Year</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-year-text">1998</span>
+              <span id = "pub-year-text"><%= request.getAttribute("year") %></span>
             </div>
             <div class = "edit-elems hidden">
               <select id = "pub-year-select">
@@ -165,7 +168,7 @@
           <td>Location</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-location-text">823.914</span>
+              <span id = "pub-location-text"><%= request.getAttribute("location") %></span>
             </div>
             <div class = "edit-elems hidden">
               <input class="u-full-width" type="text" id="pub-location">

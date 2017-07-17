@@ -132,7 +132,7 @@
                         	if(publications != null) {
                         		for(int i = 0; i < publications.size(); i++) {%>
 	                        		<div class = "row">
-										<a href="publication/details">
+										<a href="publication/details?id=<%= publications.get(i).getId()%>">
 											<div class="entry">
 												<div class = "three columns thumbnail">
 													<img src="${pageContext.request.contextPath}/resources/images/Publication/noimage.jpg">
