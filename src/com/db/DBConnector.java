@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class DBConnector {
 	private static Connection conn;
 	
-	private static String DB_URL = "jdbc:mysql://localhost:3306/shs_library_online";
+	private static String DB_URL = "jdbc:mysql://localhost:3306/shs_library_db";
 	private static String DB_USER = "root";
-	private static String DB_PASSWORD = "";
+	private static String DB_PASSWORD = "password";
 	
 	
 	public static Connection getConnection(){
