@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/skeleton.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/registrationpage.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/roomspage.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -51,7 +52,7 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-    <form class = "registration-forms">
+    <form class = "registration-forms" method = "POST" action = "register">
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="firstname">First Name</label>
@@ -73,7 +74,7 @@
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="username">Username</label>
-          <input class="half-width-form" type="email" id="username">
+          <input class="half-width-form" type="text" id="username">
         </div>
       </div>
       <div class="row">
@@ -102,19 +103,28 @@
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
-          <label for="birthday">Birthdate</label>
-          <input class="half-width-form" type="date" id="birthday">
+          <label for="calendar">Birthday</label>
+          <input class="full-width-form" type="date" id="calendar">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="secretQuestion">Secret Question</label>
-          <input class="half-width-form" type="text" id="secretQuestion">
+          <select id="secretQuestion">
+          	<!-- to change -->
+          	<option value="1">What is the name of your first pet?</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="twelve columns offset-by-three">
+          <label for="answer">Answer to secret question</label>
+          <input class="half-width-form" type="text" id="answer">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns">
-          <input class="button-primary submit-button" type="submit" value="REGISTER">
+          <input class="button-primary submit-button" type="submit" value="register">
         </div>
       </div>
 
