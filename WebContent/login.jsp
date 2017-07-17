@@ -52,7 +52,7 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   
-    <form action = "login" method = "POST" class = "login-forms">
+    <form action = "login" method ="POST" class = "login-forms">
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="username">Username</label>
