@@ -16,17 +16,17 @@
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/publicationpage.css">
-
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/normalize.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/skeleton.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/publicationdetails.css">
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 
   <!-- Scripts [jquery always goes first!]-->
   <script src="${pageContext.request.contextPath}/resources/scripts/jquery-3.0.0.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/scripts/publicationdetails.js"></script>
 
 </head>
 <body>
@@ -41,9 +41,9 @@
 			</div>
 			<div class="row">
 				<div class="topnav twelve columns">
-					<a href="admincreate.html">Create New Account</a>
-					<a href="viewusers.html">View Users</a>
-					<a href="admintools.html">Admin Tools</a>
+					<a href="../admin/create">Create New Account</a>
+				    <a href="../admin/users">View Users</a>
+				    <a href="../admin/tools">Admin Tools</a>
 					<a id="login-link" class="r-nav active" href="../login">
 					  <script>
 					  	if(<%= session.getAttribute("userId") %>!=null){
