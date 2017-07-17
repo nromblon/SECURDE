@@ -129,7 +129,7 @@
                     <div class = "result">
                         <!--<div class = "container">-->
                         <% 	ArrayList<Publication> publications = (ArrayList<Publication>)request.getAttribute("publications");
-                        	if(publications != null) {
+                        	if(publications != null && !publications.isEmpty()) {
                         		for(int i = 0; i < publications.size(); i++) {%>
 	                        		<div class = "row">
 										<a href="publication/details?id=<%= publications.get(i).getId()%>">
@@ -183,11 +183,21 @@
                     <li class = "link side-bar-link">Magazines</li>
                 </ul>
                 <hr>
-                <!--can only be seen by the lib manager-->
-                <span class = "side-bar-header">Library Manager</span>
-                <ul>
-                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
-                </ul>
+                <% 	String privilege = (String)request.getSession().getAttribute("privilege");
+          			if(privilege != null && (privilege == "Library Manager" || privilege == "Library Staff")) { %>
+		                <!--can only be seen by the lib manager-->
+		                <span class = "side-bar-header">Library Manager</span>
+		                <ul>
+		                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
+		                </ul>
+		                <hr>
+		        <% } %>
+		        <% 	if(privilege != null && privilege != "User") { %>
+		        		<span class = "side-bar-header">Reserved books</span>
+		                <ul>
+		                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
+		                </ul>
+		        <%  } %>
             </div>
           </div>
         </div>

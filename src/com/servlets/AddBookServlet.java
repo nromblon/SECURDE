@@ -69,7 +69,6 @@ public class AddBookServlet extends HttpServlet {
 	        ResultSet publisherId = insertPublisher.getGeneratedKeys();
 	        publisherId.next();
 	        		
-	        System.out.println(authorId);
 	        query = "INSERT INTO publication (Publication, AuthorId, PublisherId, PublicationTypeId, Location, Year) VALUES ('"+title+"', " +authorId.getInt(1)+ ", " +publisherId.getInt(1)+ ", " +type+ ", '"+location+"', " +year+ ")";
 	        PreparedStatement insertPub = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 	        insertPub.executeUpdate();
