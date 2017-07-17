@@ -45,9 +45,9 @@
 		</div>
 		<div class="row">
 			<div class="topnav twelve columns">
-			  <a href="searchpage.html">Publications</a>
-			  <a href="roomspage.html">Rooms</a>
-			  <a class="r-nav active" href="loginpage.html">Login</a>
+			  <a href="../search">Publications</a>
+			  <a href="../rooms">Rooms</a>
+			  <a class="r-nav active" href="../login">Login</a>
 			</div>
 		</div>
 	</div>
@@ -55,7 +55,7 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   
-    <form class = "add-forms">
+    <form action="publication/add" method = "POST" class = "add-forms">
         <div class="row">
         <div class="three columns"><img src="${pageContext.request.contextPath}/resources/images/Publication/noimage.jpg"></div>
             <div class="seven columns">

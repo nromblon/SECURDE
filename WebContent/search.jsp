@@ -47,9 +47,9 @@
 		</div>
 		<div class="row">
 			<div class="topnav twelve columns">
-			  <a href="searchpage.html" class="active">Publications</a>
-			  <a href="roomspage.html">Rooms</a>
-			  <a class="r-nav" href="loginpage.html">Login</a>
+			  <a href="search" class="active">Publications</a>
+			  <a href="rooms">Rooms</a>
+			  <a class="r-nav" href="login">Login</a>
 			</div>
 		</div>
 	</div>
@@ -107,7 +107,7 @@
                     <div class = "result">
                         <!--<div class = "container">-->
                             <div class = "row">
-								<a href="publicationdetailpage.html">
+								<a href="publication/details">
 									<div class="entry">
 										<div class = "three columns thumbnail">
 											<img src="${pageContext.request.contextPath}/resources/images/Publication/noimage.jpg">
@@ -123,7 +123,7 @@
                             </div>
 							
 							<div class = "row">
-								<a href="publicationdetailpage.html">
+								<a href="publication/details">
 									<div class="entry">
 										<div class = "three columns thumbnail">
 											<img src="${pageContext.request.contextPath}/resources/images/Publication/noimage.jpg">
@@ -155,7 +155,7 @@
                 <!--can only be seen by the lib manager-->
                 <span class = "side-bar-header">Library Manager</span>
                 <ul>
-                    <li class = "side-bar-link"><a href = "addpublication.html" class = "link">Add publication</a></li>
+                    <li class = "side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
                     <li class = "link side-bar-link">Thesis</li>
                     <li class = "link side-bar-link">Magazines</li>
                 </ul>

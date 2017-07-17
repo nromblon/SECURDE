@@ -53,9 +53,9 @@
     </div>
     <div class="row">
      <div class="topnav twelve columns">
-       <a href="searchpage.html">Publications</a>
-       <a href="roomspage.html">Rooms</a>
-       <a class="r-nav" href="loginpage.html">Login</a>
+       <a href="../search">Publications</a>
+       <a href="../rooms">Rooms</a>
+       <a class="r-nav" href="../login">Login</a>
      </div>
    </div>
  </div>
@@ -64,7 +64,7 @@
 
 <!-- Search bar -->
 <div class="row">
-  <form class="unpadded" action="/search" method="post" name="searchtool" id="search" style="margin:20px;">
+  <form class="unpadded" action="search" method="post" name="searchtool" id="search" style="margin:20px;">
     Search:
     <select name="searchtype" id="searchtype">
       <option selected="selected"> Keyword</option>
