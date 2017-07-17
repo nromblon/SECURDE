@@ -25,6 +25,9 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.png">
 
+  <!-- Scripts [jquery always goes first!]-->
+  <script src="${pageContext.request.contextPath}/resources/scripts/jquery-3.0.0.min.js"></script>
+
 </head>
 <body>
 
@@ -41,7 +44,17 @@
 					<a href="admincreate.html">Create New Account</a>
 					<a href="viewusers.html">View Users</a>
 					<a href="admintools.html">Admin Tools</a>
-					<a class="r-nav" href="loginpage.html">Login</a>
+					<a id="login-link" class="r-nav active" href="../login">
+					  <script>
+					  	if(<%= session.getAttribute("userId") %>!=null){
+					  		$("#login-link").attr("href","../logout");
+					  		$("#login-link").html("Logout");
+					  	}else{
+					  		$("#login-link").attr("href","../login");
+					  		$("#login-link").html("Login");
+					  	}
+					  </script>
+				  </a>
 				</div>
 			</div>
 		</div>
