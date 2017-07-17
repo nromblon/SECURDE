@@ -37,6 +37,13 @@ function populateAvailable(){
 	}
 }
 
+function reserve(){
+	var sel_slots = $(".selected");
+	
+
+
+}
+
 function clickedTimebtn(source,schedDetails){
 	var parent = $("#"+source.id);
 	console.log(schedDetails);

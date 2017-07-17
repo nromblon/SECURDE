@@ -9,7 +9,7 @@ public class DBConnector {
 	
 	private static String DB_URL = "jdbc:mysql://localhost:3306/shs_library_db";
 	private static String DB_USER = "root";
-	private static String DB_PASSWORD = "password";
+	private static String DB_PASSWORD = "";
 	
 	
 	public static Connection getConnection(){

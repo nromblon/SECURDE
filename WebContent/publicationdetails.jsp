@@ -55,7 +55,17 @@
      <div class="topnav twelve columns">
        <a href="../search">Publications</a>
        <a href="../rooms">Rooms</a>
-       <a class="r-nav" href="../login">Login</a>
+       <a id="login-link" class="r-nav active" href="../login">
+				  <script>
+				  	if(<%= session.getAttribute("userId") %>!=null){
+				  		$("#login-link").attr("href","../logout");
+				  		$("#login-link").html("Logout");
+				  	}else{
+				  		$("#login-link").attr("href","../login");
+				  		$("#login-link").html("Login");
+				  	}
+				  </script>
+			  </a>
      </div>
    </div>
  </div>
