@@ -65,6 +65,7 @@ public class LoginServlet extends HttpServlet {
 		if(password != "")
 			request.setAttribute("password", password);
 		
+		//input validation TODO: add escaping and checking for potential malicious inputs
 		if((username != "") && (password != ""))
 			flag=true;
 		else
@@ -72,31 +73,30 @@ public class LoginServlet extends HttpServlet {
 		
 		if(flag){
 			Connection conn = null;
-			Statement stmt = null;
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
 				conn = DBConnector.getConnection();
-				stmt = conn.createStatement();
-				String query = "SELECT * FROM user WHERE Username='"+username+"' AND PasswordHash='"+password+"'";
-//		        PreparedStatement stmt = conn.prepareStatement(query);
-//		        stmt.setString(1, username);
-//		        stmt.setString(2, password);
+				String query = "SELECT * FROM user WHERE Username=? AND PasswordHash=?";
+		        PreparedStatement stmt = conn.prepareStatement(query);
+		        stmt.setString(1, username);
+		        stmt.setString(2, password);
 		        
-		        ResultSet rs = stmt.executeQuery(query);
+		        ResultSet rs = stmt.executeQuery();
 		        if(rs.next()){
+
 					HttpSession session= request.getSession();
 					session.setAttribute("userId", rs.getInt("UserId"));
 					session.setAttribute("lastName", rs.getString("LastName"));
 					session.setAttribute("middleName", rs.getString("MiddleInitial"));
 					session.setAttribute("firstName", rs.getString("FirstName"));
-					session.setAttribute("email", rs.getString("Email"));
 //					session.setAttribute("password", rs.getString("PasswordHash"));
 					session.setAttribute("username", rs.getString("Username"));
 					session.setAttribute("privilege", rs.getString("Privilege_PrivilegeId"));
 		        
+					response.sendRedirect("search");
 		        }
 		        else {
-		        	request.setAttribute("error", "Incorrect user ID or password");
+		        	request.setAttribute("error", "<script type='text/javascript'> alert('Invalid username or password!'); </script>");
 		        	request.getRequestDispatcher("login.jsp").forward(request, response);
 		        }
 		        
