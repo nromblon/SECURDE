@@ -21,7 +21,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/normalize.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/skeleton.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/publicationdetails.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/registration.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/roomspage.css">
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
@@ -32,37 +33,38 @@
 
 </head>
 <body>
-  <div class = "container">
+<div class = "container">
    <!--nav header-->
-   <div class="header">
-    <div class="row">
-     <div class="navheader twelve columns">
-      <h3> SHS Online Library System </h3>
-    </div>
-  </div>
-  <div class="row">
-   <div class="topnav twelve columns">
-    <a href="../admin/create">Create New Account</a>
-    <a href="../admin/users">View Users</a>
-    <a href="../admin/tools">Admin Tools</a>
-    <a id="login-link" class="r-nav active" href="../login">
-		  <script>
-		  	if(<%= session.getAttribute("userId") %>!=null){
-		  		$("#login-link").attr("href","../logout");
-		  		$("#login-link").html("Logout");
-		  	}else{
-		  		$("#login-link").attr("href","../login");
-		  		$("#login-link").html("Login");
-		  	}
-		  </script>
-	  </a>
-  </div>
-</div>
-</div>
+	<div class="header">
+		<div class="row">
+			<div class="navheader twelve columns">
+				<h3> SHS Online Library System </h3>
+			</div>
+		</div>
+	  	<div class="row">
+	   		<div class="topnav twelve columns">
+			    <a href="/admin/create">Create New Account</a>
+			    <a href="/admin/users">View Users</a>
+			    <a href="/admin/tools">Admin Tools</a>
+			    <a id="login-link" class="r-nav active" href="../login">
+					  <script>
+					  	if(<%= session.getAttribute("userId") %>!=null){
+					  		$("#login-link").attr("href","../logout");
+					  		$("#login-link").html("Logout");
+					  	}else{
+					  		$("#login-link").attr("href","../login");
+					  		$("#login-link").html("Login");
+					  	}
+					  </script>
+				  </a>
+	  		</div>
+		</div>
+	</div>
+
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-  <form class = "registration-forms">
+  <div style="margin-top:150px;"> </div>
+  <form class = "registration-forms"  method = "POST" action = "admin/create">
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="firstname">First Name</label>
@@ -84,7 +86,7 @@
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="username">Username</label>
-        <input class="half-width-form" type="email" id="username">
+        <input class="half-width-form" type="text" id="username">
       </div>
     </div>
     <div class="row">
@@ -110,15 +112,24 @@
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
-        <label for="birthday">Birthdate</label>
+        <label for="birthday">Birthday</label>
         <input class="half-width-form" type="date" id="birthday">
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
-        <label for="secretQuestion">Secret Question</label>
-        <input class="half-width-form" type="text" id="secretQuestion">
-      </div>
+          <label for="secretQuestion">Secret Question</label>
+          <select id="secretQuestion">
+          	<!-- to change -->
+          	<option value="1">What is the name of your first pet?</option>
+          </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns offset-by-three">
+          <label for="answer">Answer to secret question</label>
+          <input class="half-width-form" type="text" id="answer">
+        </div>
     </div>
     <div class="row">
       <div class="twelve columns">
@@ -127,7 +138,7 @@
     </div>
 
   </form>
-</div>
 
+</div>
 </body>
 </html>

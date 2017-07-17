@@ -47,7 +47,7 @@
 			<div class="topnav twelve columns">
 			  <a href="search">Publications</a>
 			  <a href="rooms">Rooms</a>
-			  <a id="login-link" class="r-nav active" href="login">
+			  <a id="login-link" class="r-nav active" href="../login">
 				  <script>
 				  	if(<%= session.getAttribute("id") %>!=null){
 				  		$("#login-link").attr("href","logout");
