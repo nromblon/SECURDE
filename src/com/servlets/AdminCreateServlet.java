@@ -27,7 +27,7 @@ public class AdminCreateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/admincreate.jsp").forward(request, response);
+		request.getRequestDispatcher("/admin/create.jsp").forward(request, response);
 	}
 
 	/**
