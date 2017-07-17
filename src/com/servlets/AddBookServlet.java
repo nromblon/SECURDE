@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,27 +53,39 @@ public class AddBookServlet extends HttpServlet {
 		String location = request.getParameter("location");
 		String type = request.getParameter("type");
 		
-		int pubId = 0;
+		ResultSet pubId = null;
 		
 	    try {	      
 	    	//TODO: fix for security
 	        String query = "INSERT INTO author (AuthorFirstName, AuthorLastName) VALUES ('', '" +author+ "')";
 	        PreparedStatement insertAuthor = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-	        int authorId = insertAuthor.executeUpdate();
+	        insertAuthor.executeUpdate();
+	        ResultSet authorId = insertAuthor.getGeneratedKeys();
+	        authorId.next();
 	        
 	        query = "INSERT INTO publisher (Publisher) VALUES ('"+publisher+"')";
 	        PreparedStatement insertPublisher = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-	        int publisherId = insertPublisher.executeUpdate();
-	        
-	        query = "INSERT INTO publication (Publication, AuthorId, PublisherId, PublicationTypeId, Location, Year) VALUES ('"+title+"', " +authorId+ ", " +publisherId+ ", " +type+ ", '"+location+"', " +year+ ")";
+	        insertPublisher.executeUpdate();
+	        ResultSet publisherId = insertPublisher.getGeneratedKeys();
+	        publisherId.next();
+	        		
+	        System.out.println(authorId);
+	        query = "INSERT INTO publication (Publication, AuthorId, PublisherId, PublicationTypeId, Location, Year) VALUES ('"+title+"', " +authorId.getInt(1)+ ", " +publisherId.getInt(1)+ ", " +type+ ", '"+location+"', " +year+ ")";
 	        PreparedStatement insertPub = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-	        pubId = insertPub.executeUpdate();
+	        insertPub.executeUpdate();
+	        pubId = insertPub.getGeneratedKeys();
+	        pubId.next();
 
 	    } catch(Exception e) {
 	    	System.out.println(e.getMessage());
 	    }
 	    
-	    response.sendRedirect("/publication/details?id="+pubId);
+	    try {
+			response.sendRedirect("publication/details?id="+pubId.getInt(1));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
