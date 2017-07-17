@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
-import com.objects.Author;
-import com.objects.Publication;
-import com.objects.Publisher;
-
 /**
  * Servlet implementation class PublicationDetailsServlet
  */
@@ -40,8 +36,8 @@ public class PublicationDetailsServlet extends HttpServlet {
 		String id = request.getParameter("id");
 		
 		try {
-	    	PreparedStatement getPubs = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId INNER JOIN publisher pub ON p.PublisherId = pub.PublisherId INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId INNER JOIN status s ON p.StatusId = s.StatusId WHERE p.PublicationId = "+id);
-	    	ResultSet rs = getPubs.executeQuery();
+	    	PreparedStatement getPub = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId INNER JOIN publisher pub ON p.PublisherId = pub.PublisherId INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId INNER JOIN status s ON p.StatusId = s.StatusId WHERE p.PublicationId = "+id);
+	    	ResultSet rs = getPub.executeQuery();
 	    	
 	    	rs.next();
 	    	

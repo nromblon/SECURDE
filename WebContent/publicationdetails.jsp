@@ -57,6 +57,7 @@
        <a href="../rooms">Rooms</a>
        <a id="login-link" class="r-nav active" href="../login">
 		  <script>
+		  	var id = <%= request.getParameter("id")%>
 		  	if(<%= session.getAttribute("userId") %>!=null){
 		  		$("#login-link").attr("href","../logout");
 		  		$("#login-link").html("Logout");
@@ -191,19 +192,24 @@
         </tr>
         <td>
           <div class = "edit-elems hidden">
-                <button class = "button-primary submit-button">SUBMIT</button>
+                <button id = "submitEdit" class = "button-primary submit-button">SUBMIT EDIT</button>
           </div>
         </td>
       </tbody>
     </table>
   </div>
   <div class = "one column">
-    <!--can only be seen by lib managers and lib staff-->
-    <button id = "edit-button" class = "button-primary submit-button">EDIT</button>
+  	<% 	String privilege = (String)request.getSession().getAttribute("privilege");
+  		if(privilege != null && (privilege == "Library Manager" || privilege == "Library Staff")) {%>
+	    	<!--can only be seen by lib managers and lib staff-->
+	    	<button id = "edit-button" class = "button-primary submit-button">EDIT</button>
+	<% } %>
   </div>
   <div class = "one column">
-    <!--can only be seen by lib managers and lib staff-->
-    <button id = "delete-button" class = "button-primary submit-button">DELETE</button>
+    <% 	if(privilege != null && (privilege == "Library Manager" || privilege == "Library Staff")) {%>
+	    	<!--can only be seen by lib managers and lib staff-->
+	    	<button id = "delete-button" class = "button-primary submit-button">DELETE</button>
+	<% } %>
   </div>
 </div>
 

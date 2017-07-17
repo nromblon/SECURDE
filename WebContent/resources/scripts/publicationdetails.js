@@ -27,6 +27,30 @@ $(document).ready(function() {
         editMode = !editMode;
 
     })
+    
+    $("#submitEdit").click(function() {
+    	$.post("../editbook", {
+    		id: id,
+    		title: $("#pub-title").val(),
+    		author: $("#pub-author").val(),
+    		location: $("#pub-location").val(),
+    		publisher: $("#pub-publisher").val(),
+    		year: $("#pub-year-select").val()
+    	}).done(function() {
+        	location.reload()
+        })
+    });
+    
+    $("#delete-button").click(function() {
+    	var r = confirm("Are you sure you want to delete this publication?");
+        if (r == true) {
+            $.post("../deletebook", {
+            	id: id
+            }).done(function() {
+            	window.location.href = "../search"
+            })
+        } 
+    })
 })
 
 function copyDescriptions() {
