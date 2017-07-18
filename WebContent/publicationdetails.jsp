@@ -219,27 +219,29 @@
   </div>
 </div>
 
-<div class = "row">
-  <form>
-    <h6>Leave Review</h6>
-    <textarea rows="4" cols="100"></textarea>
-    <div class = "twelve columns">
-      <input id = "submit-review" class="button-primary submit-button" type="submit" value="SUBMIT">
-    </div>
-  </form>
-</div>
-
-<div class = "reviews">
-  <!--one review-->
-  <div class = "row">
-    <div class = "twelve columns">
-      <p class = "review-author">Maynard Si</p>
-      <p class = "review-desc">This is good book</p>
-    </div>
-  </div>
-  <hr>
-  
-</div>
+<% if(request.getSession().getAttribute("UserId") != null) { %>
+	<div class = "row">
+	  <form action = "addreview?userId=<%= request.getSession().getAttribute("UserId") %>" method = "post">
+	    <h6>Leave Review</h6>
+	    <textarea name = "reviewText" rows="4" cols="100"></textarea>
+	    <div class = "twelve columns">
+	      <input id = "submit-review" class="button-primary submit-button" type="submit" value="SUBMIT">
+	    </div>
+	  </form>
+	</div>
+	
+	<div class = "reviews">
+	  <!--one review-->
+	  <div class = "row">
+	    <div class = "twelve columns">
+	      <p class = "review-author">Maynard Si</p>
+	      <p class = "review-desc">This is good book</p>
+	    </div>
+	  </div>
+	  <hr>
+	  
+	</div>
+<% } %>
 
 </div>
 <!--<footer class="footer">
