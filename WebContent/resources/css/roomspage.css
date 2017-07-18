@@ -22,12 +22,22 @@
 	padding:0;
 }
 
+
+
+.time-btn:hover{
+	background-color:#99ff66;
+}
+
+.unavailable{
+	background-color: #ff3300;
+}
+
 .selected{
 	background-color: #ff9900;
 }
 
-.time-btn:hover{
-	background-color:#99ff66;
+.unavailable:hover{
+	background-color: #ff9933;
 }
 
 .selected:hover{

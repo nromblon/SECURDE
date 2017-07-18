@@ -3,7 +3,6 @@ var rowNum = 5;
 var numInterval = 26;
 
 
-
 function init(){
 	populateAvailable();
 
@@ -37,16 +36,112 @@ function populateAvailable(){
 	}
 }
 
-function reserve(){
+function updateSlots(){
+	var date = $("#calendar").val();
+	var timebtnList = $(".time-btn");
+	
+	//first, reset button tags
+	var current;
+	for(var i=0;i<timebtnList.length;i++){
+		current = timebtnList[i];
+		$(current).removeClass("selected");
+		$(current).removeClass("unavailable");
+	}
+	
+	$.get("rooms/update",{
+		date: date
+	}, function(data,status){
+		var jsonArray = JSON.parse(data);
+		console.log(jsonArray);
+	
+		for(var i=0;i<jsonArray.length;i++){
+			var rmid = jsonArray[i]["rmid"];
+			var slotid = jsonArray[i]["slotid"];
+			var id = "#rm"+rmid+"-"+slotid;
+			$(id).addClass("unavailable");
+		}
+	});
+	
+	
+	
+}
+
+function delReservation(){
+	console.log("del");
 	var sel_slots = $(".selected");
 	
-
-
-}
-
-function clickedTimebtn(source,schedDetails){
-	var parent = $("#"+source.id);
-	console.log(schedDetails);
-	parent.toggleClass("selected");
+	var tokens, rmid, slotid;
 	
+	var date = $("#calendar").val();
+	if(date==""){
+		alert("Select a date!");
+		return;
+	}
+	var current;
+	var flag = true;
+	for(var i=0; i<sel_slots.length;i++){;
+		current = sel_slots[i];
+		
+		tokens = $(current).attr("id").split("-");
+		rmid = parseInt(tokens[0].substring(2,3));
+		slotid = parseInt(tokens[1]);
+		
+		$.post("rooms/update",{
+		rmid: rmid,
+		slotid: slotid,
+		date: date
+			
+		}, function(data,status){
+			if(data=="error")
+				flag = false;
+			else
+				updateSlots();
+		});
+		
+		
+	}
+	if(!flag)
+		alert("Cancellation unsuccessful!");
 }
+
+
+function reserve(){
+	var sel_slots = $(".selected");
+
+	var tokens, rmid, slotid;
+	
+	var date = $("#calendar").val();
+	
+	if(date==""){
+		alert("Select a date!");
+		return;
+	}
+	
+	var current;
+	var flag = true;
+	for(var i=0; i<sel_slots.length;i++){;
+		current = sel_slots[i];
+		
+		tokens = $(current).attr("id").split("-");
+		rmid = parseInt(tokens[0].substring(2,3));
+		slotid = parseInt(tokens[1]);
+		
+		$.post("rooms",{
+		rmid: rmid,
+		slotid: slotid,
+		date: date
+			
+		}, function(data,status){
+			if(data=="fail")
+				flag = false;
+			else
+				updateSlots();
+		});
+		
+		
+	}
+	if(!flag)
+		alert("Reservation unsuccessful!");
+
+}
+

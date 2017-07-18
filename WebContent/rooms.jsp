@@ -69,7 +69,7 @@
 		<div class="twelve columns">
 			<div class="two columns calendar">
 				<label for="calendar">Date to Reserve:</label>
-				<input class="full-width-form" type="date" id="calendar" class="calendar">
+				<input class="full-width-form" type="date" id="calendar" class="calendar" oninput="updateSlots()">
 		</div>
 		
 	</div>
@@ -112,12 +112,38 @@
 					$("#room-reserve-btn").hide();
 				}
 				else{	
-					if(privilege=='1')
+					if(privilege=='1'){
 						$("#room-reserve-btn").show();
+						$("#room-reserve-btn").attr("value","Reserve");
+						$("#room-reserve-btn").attr("onclick","reserve()");
+					}
+					else if(privilege=='2'){
+						$("#room-reserve-btn").show();
+						$("#room-reserve-btn").attr("value","Remove Reservation");
+						$("#room-reserve-btn").attr("onclick","delReservation()");
+					}
 				}
 			</script>
 		</div>
 	</div>
 </div>
+
+<script>
+function clickedTimebtn(source,schedDetails){
+	var privilege = <%=session.getAttribute("privilege")%>;
+	var parent = $("#"+source.id);
+	if(privilege==1){
+		if(!parent.hasClass("unavailable")){
+			console.log(schedDetails);
+			parent.toggleClass("selected");
+		}
+	}else if(privilege==2){
+		if(parent.hasClass("unavailable")){
+			console.log(schedDetails);
+			parent.toggleClass("selected");
+		}
+	}
+}
+</script>
 </body>
 </html>
