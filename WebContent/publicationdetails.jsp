@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.objects.Review"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -228,9 +231,8 @@
   </div>
 </div>
 
-<% if(request.getSession().getAttribute("UserId") != null) { %>
 	<div class = "row">
-	  <form action = "addreview?userId=<%= request.getSession().getAttribute("UserId") %>" method = "post">
+	  <form action = "addreview?pubId=<%= request.getParameter("id") %>" method = "post">
 	    <h6>Leave Review</h6>
 	    <textarea name = "reviewText" rows="4" cols="100"></textarea>
 	    <div class = "twelve columns">
@@ -241,16 +243,20 @@
 	
 	<div class = "reviews">
 	  <!--one review-->
-	  <div class = "row">
-	    <div class = "twelve columns">
-	      <p class = "review-author">Maynard Si</p>
-	      <p class = "review-desc">This is good book</p>
-	    </div>
-	  </div>
-	  <hr>
+  		<% 	ArrayList<Review> reviews = (ArrayList<Review>)request.getAttribute("reviews");
+           	if(reviews != null && !reviews.isEmpty()) {
+           		for(int i = 0; i < reviews.size(); i++) {%>
+				  <div class = "row">
+				    <div class = "twelve columns">
+				      <p class = "review-author"><%= reviews.get(i).getUsername() %></p>
+				      <p class = "review-desc"><%= reviews.get(i).getReviewText() %></p>
+				    </div>
+				  </div>
+				  <hr>
+		<%  	}
+           	}%>
 	  
 	</div>
-<% } %>
 
 </div>
 <!--<footer class="footer">
