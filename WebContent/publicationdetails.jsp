@@ -199,17 +199,26 @@
     </table>
   </div>
   <div class = "one column">
-  	<% 	String privilege = (String)request.getSession().getAttribute("privilege");
-  		if(privilege != null && (privilege == "Library Manager" || privilege == "Library Staff")) {%>
-	    	<!--can only be seen by lib managers and lib staff-->
-	    	<button id = "edit-button" class = "button-primary submit-button">EDIT</button>
-	<% } %>
+  <button id = "edit-button" class = "button-primary submit-button">EDIT</button>
+  	<script>
+		var privilege = <%= session.getAttribute("privilege") %>;		
+  		if(privilege == "2" || privilege == "3")
+  			$("#edit-button").show();
+  		else
+  			$("#edit-button").hide();
+  		
+	</script>
   </div>
   <div class = "one column">
-    <% 	if(privilege != null && (privilege == "Library Manager" || privilege == "Library Staff")) {%>
-	    	<!--can only be seen by lib managers and lib staff-->
-	    	<button id = "delete-button" class = "button-primary submit-button">DELETE</button>
-	<% } %>
+  <button id = "delete-button" class = "button-primary submit-button">DELETE</button>
+  	<script>
+	  	var privilege = <%= session.getAttribute("privilege") %>;
+  		if(privilege == "2" || privilege == "3")
+			$("#delete-button").show();
+  		else
+  			$("#delete-button").hide();
+	    	
+	</script>
   </div>
 </div>
 

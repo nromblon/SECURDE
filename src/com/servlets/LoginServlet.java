@@ -37,11 +37,15 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 				HttpSession session = request.getSession();
 				
+				String privilege = (String) session.getAttribute("privilege") ;
+				
 				if(session.getAttribute("username") != null) {
-					if(session.getAttribute("privilege") == "1") {
+					if(privilege == "1") {
 						response.sendRedirect("/search");
-					} else if (session.getAttribute("privilege") == "3") {
+					} else if (privilege == "3") {
 						response.sendRedirect("/publication/add");
+					} else if (privilege == "4"){
+						response.sendRedirect("/admin/tools");
 					} else {
 						session.invalidate();			
 						request.getRequestDispatcher("/login.jsp").forward(request, response);
