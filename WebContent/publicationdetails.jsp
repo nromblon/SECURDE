@@ -205,10 +205,10 @@
   <button id = "edit-button" class = "button-primary submit-button">EDIT</button>
   	<script>
 		var privilege = <%= session.getAttribute("privilege") %>;		
-  		if(privilege == "2" || privilege == "3")
+  		/*if(privilege == "2" || privilege == "3")
   			$("#edit-button").show();
   		else
-  			$("#edit-button").hide();
+  			$("#edit-button").hide();*/
   		
 	</script>
   </div>
@@ -216,10 +216,10 @@
   <button id = "delete-button" class = "button-primary submit-button">DELETE</button>
   	<script>
 	  	var privilege = <%= session.getAttribute("privilege") %>;
-  		if(privilege == "2" || privilege == "3")
+  		/*if(privilege == "2" || privilege == "3")
 			$("#delete-button").show();
   		else
-  			$("#delete-button").hide();
+  			$("#delete-button").hide();*/
 	    	
 	</script>
   </div>

@@ -1,8 +1,7 @@
 package com.objects;
 
-public class Publication {
+public class Publication extends DBObject{
 	
-	private int id;
 	private String name;
 	private Author author;
 	private Publisher publisher;
@@ -22,12 +21,8 @@ public class Publication {
 		this.location = location;
 		this.year = year;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
+
 	public String getName() {
 		return name;
 	}

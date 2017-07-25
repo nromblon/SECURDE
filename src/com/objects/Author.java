@@ -1,7 +1,6 @@
 package com.objects;
 
-public class Author {
-	private int id;
+public class Author extends DBObject{
 	private String firstName;
 	private String lastName;
 	
@@ -11,12 +10,7 @@ public class Author {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getFirstName() {
 		return firstName;
 	}

@@ -183,21 +183,23 @@
                     <li class = "link side-bar-link">Magazines</li>
                 </ul>
                 <hr>
-                <% 	String privilege = (String)request.getSession().getAttribute("privilege");
-          			if(privilege != null && (privilege == "Library Manager" || privilege == "Library Staff")) { %>
-		                <!--can only be seen by the lib manager-->
-		                <span class = "side-bar-header">Library Manager</span>
-		                <ul>
-		                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
-		                </ul>
-		                <hr>
-		        <% } %>
-		        <% 	if(privilege != null && privilege != "User") { %>
-		        		<span class = "side-bar-header">Reserved books</span>
-		                <ul>
-		                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
-		                </ul>
-		        <%  } %>
+                <script>
+				  	var privilege = <%= session.getAttribute("privilege") %>;
+			  		if(privilege == "2" || privilege == "3")
+						$("#additional-options").show();
+			  		else
+			  			$("#additional-options").hide();
+				    	
+				</script>
+                
+                <!--can only be seen by the lib manager-->
+                <div id = "additional-options">
+	                <span class = "side-bar-header">Library Manager</span>
+	                <ul>
+	                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
+	                </ul>
+	                <hr>
+	            </div>
             </div>
           </div>
         </div>
