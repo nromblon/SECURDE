@@ -37,19 +37,11 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 				HttpSession session = request.getSession();
 				
-				String privilege = (String) session.getAttribute("privilege") ;
 				
 				if(session.getAttribute("username") != null) {
-					if(privilege == "1") {
-						response.sendRedirect("/search");
-					} else if (privilege == "3") {
-						response.sendRedirect("/publication/add");
-					} else if (privilege == "4"){
-						response.sendRedirect("/admin/tools");
-					} else {
-						session.invalidate();			
-						request.getRequestDispatcher("/login.jsp").forward(request, response);
-					}	
+					session.invalidate();			
+					request.getRequestDispatcher("/login.jsp").forward(request, response);
+				
 				} else {
 					request.getRequestDispatcher("/login.jsp").forward(request, response);		
 				}
@@ -97,11 +89,21 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("username", rs.getString("Username"));
 					session.setAttribute("privilege", rs.getString("Privilege_PrivilegeId"));
 		        
-					response.sendRedirect("search");
+		        	String privilege = (String) session.getAttribute("privilege");
+					System.out.println(privilege);
+					if(privilege.equals("1")) {
+						System.out.println("user login");
+						response.sendRedirect("search");
+					} else if (privilege.equals("2")) {
+						System.out.println("libmanager");
+						response.sendRedirect("publication/add");
+					} else if (privilege.equals("4")){
+						System.out.println("admin login");
+						response.sendRedirect("admin/tools");
+					}
 		        }
 		        else {
 		        	request.setAttribute("error", "<script type='text/javascript'> alert('Invalid username or password!'); </script>");
-		        	request.getRequestDispatcher("login.jsp").forward(request, response);
 		        }
 		        
 			}catch(Exception e) {

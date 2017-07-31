@@ -3,6 +3,7 @@ package com.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 
 import javax.servlet.ServletException;
@@ -33,7 +34,7 @@ public class AdminCreateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("admincreate.jsp").forward(request, response);
+		request.getRequestDispatcher("../admincreate.jsp").forward(request, response);
 	}
 
 	/**
@@ -48,12 +49,14 @@ public class AdminCreateServlet extends HttpServlet {
         String lastname = request.getParameter("lastname");
         String midinitial = request.getParameter("midinitial");
         String username = request.getParameter("username");
-        String type = request.getParameter("privilege");
+        String password = request.getParameter("password");
+        String cpassword= request.getParameter("cpassword");
         String email= request.getParameter("email");
-        String idnumber= request.getParameter("idnumber");
-        String birthday= request.getParameter("calendar");
+        int idnumber= Integer.parseInt(request.getParameter("idnumber"));
+        Date birthday= Date.valueOf(request.getParameter("calendar"));
         String secretQuestion= request.getParameter("secretQuestion");
         String answer= request.getParameter("answer");
+        int type = Integer.parseInt(request.getParameter("privilege"));
         Connection conn = null;
         
         try{
@@ -62,24 +65,26 @@ public class AdminCreateServlet extends HttpServlet {
 	        Class.forName("com.mysql.jdbc.Driver");
 			conn = DBConnector.getConnection();
 	
-	        PreparedStatement stmt = 
-	        		conn.prepareStatement("insert into user values(?,?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement stmt = 
+	        		conn.prepareStatement("INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId) VALUES (?,?,?,?,?,?,?,?,?,?)");
 	
-	        stmt.setString(2, firstname);
-	        stmt.setString(3, lastname);
-	        stmt.setString(4, midinitial);
+	        stmt.setString(1, firstname);
+	        stmt.setString(2, lastname);
+	        stmt.setString(3, midinitial);
+	        stmt.setString(4, username);
 	        stmt.setString(5, "password");
 	        stmt.setString(6, email);
-	        stmt.setString(7, idnumber);
-	        stmt.setString(8, birthday);
-	        stmt.setString(9, secretQuestion);
-	        stmt.setString(10, answer);
-	        stmt.setString(11, type);
+	        stmt.setInt(7, idnumber);
+	        stmt.setInt(8, 1);
+	        stmt.setString(9, answer);
+	        stmt.setInt(10, type);
+	        
 	        
 	        int i = stmt.executeUpdate();
 	        
 			if(i>0)
 			{
+				System.out.println("success");
 				out.println("You are sucessfully registered");
 			}
 	        

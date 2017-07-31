@@ -232,7 +232,7 @@
 </div>
 
 	<div class = "row">
-	  <form action = "addreview?pubId=<%= request.getParameter("id") %>" method = "post">
+	  <form action = "../addreview?pubId=<%= request.getParameter("id") %>" method = "post">
 	    <h6>Leave Review</h6>
 	    <textarea name = "reviewText" rows="4" cols="100"></textarea>
 	    <div class = "twelve columns">

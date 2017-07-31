@@ -43,9 +43,9 @@
 		</div>
 	  	<div class="row">
 	   		<div class="topnav twelve columns">
-			    <a href="/admin/create">Create New Account</a>
-			    <a href="/admin/users">View Users</a>
-			    <a href="/admin/tools">Admin Tools</a>
+			    <a href="../create">Create New Account</a>
+			    <a href="../users">View Users</a>
+			    <a href="../tools">Admin Tools</a>
 			    <a id="login-link" class="r-nav active" href="../login">
 					  <script>
 					  	if(<%= session.getAttribute("userId") %>!=null){
@@ -64,29 +64,29 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div style="margin-top:150px;"> </div>
-  <form class = "registration-forms"  method = "POST" action = "admin/create">
+  <form class = "registration-forms"  method = "POST" action = "create">
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="firstname">First Name</label>
-        <input class="half-width-form" type="text" id="firstname">
+        <input class="half-width-form" name="firstname" type="text" id="firstname">
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="midinitial">Middle Initial</label>
-        <input class="half-width-form" type="text" id="midinitial">
+        <input class="half-width-form" name="midinitial" type="text" id="midinitial">
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="lastname">Last Name</label>
-        <input class="half-width-form" type="text" id="lastname">
+        <input class="half-width-form" name="lastname" type="text" id="lastname">
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="username">Username</label>
-        <input class="half-width-form" type="text" id="username">
+        <input class="half-width-form" name="username" type="text" id="username">
       </div>
     </div>
     <div class="row">
@@ -101,25 +101,25 @@
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="email">Email Address</label>
-        <input class="half-width-form" type="email" id="email">
+        <input class="half-width-form" name="email" type="email" id="email">
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="idnumber">ID Number</label>
-        <input class="half-width-form" type="text" id="idnumber">
+        <input class="half-width-form" name="idnumber" type="text" id="idnumber">
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="birthday">Birthday</label>
-        <input class="half-width-form" type="date" id="birthday">
+        <input class="half-width-form" name="calendar" type="date" id="birthday">
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
           <label for="secretQuestion">Secret Question</label>
-          <select id="secretQuestion">
+          <select name="secretQuestion" id="secretQuestion">
           	<!-- to change -->
           	<option value="1">What is the name of your first pet?</option>
           </select>
@@ -128,7 +128,7 @@
     <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="answer">Answer to secret question</label>
-          <input class="half-width-form" type="text" id="answer">
+          <input class="half-width-form" name="answer" type="text" id="answer">
         </div>
     </div>
     <div class="row">

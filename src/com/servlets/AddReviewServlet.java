@@ -43,7 +43,7 @@ public class AddReviewServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Connection con = DBConnector.getConnection();
-		String pubId = request.getParameter("id");
+		String pubId = request.getParameter("pubId");
 		String reviewText = request.getParameter("reviewText");
 		
 		try {	      
@@ -62,7 +62,7 @@ public class AddReviewServlet extends HttpServlet {
 	    	System.out.println(e.getMessage());
 	    }
 		
-		doGet(request, response);
+		response.sendRedirect("publication/details?id="+pubId);
 	}
 
 }
