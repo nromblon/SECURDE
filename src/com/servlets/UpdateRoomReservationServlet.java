@@ -26,7 +26,6 @@ public class UpdateRoomReservationServlet extends HttpServlet {
      */
     public UpdateRoomReservationServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

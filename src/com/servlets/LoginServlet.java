@@ -34,7 +34,6 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<<<<<<< HEAD
 		HttpSession session = request.getSession();
 		
 		String privilege = (String) session.getAttribute("privilege") ;
@@ -48,27 +47,6 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("/admin/tools");
 			}
 		}
-=======
-		// TODO Auto-generated method stub
-				HttpSession session = request.getSession();
-				
-				String privilege = (String) session.getAttribute("privilege") ;
-				
-				if(session.getAttribute("username") != null) {
-					if(privilege == "1") {
-						response.sendRedirect("/search");
-					} else if (privilege == "3") {
-						response.sendRedirect("/publication/add");
-					} else if (privilege == "4"){
-						response.sendRedirect("/admin/tools");
-					} else {
-						session.invalidate();			
-						request.getRequestDispatcher("/login.jsp").forward(request, response);
-					}	
-				} else {
-					request.getRequestDispatcher("/login.jsp").forward(request, response);		
-				}
->>>>>>> parent of da92305... code cleaning
 	}
 
 	/**

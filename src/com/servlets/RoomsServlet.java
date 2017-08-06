@@ -26,7 +26,6 @@ public class RoomsServlet extends HttpServlet {
      */
     public RoomsServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

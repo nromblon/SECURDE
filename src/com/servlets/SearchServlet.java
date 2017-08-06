@@ -19,7 +19,6 @@ public class SearchServlet extends HttpServlet {
      */
     public SearchServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -27,7 +26,6 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/search.jsp").forward(request, response);
-		
 	}
 
 	/**
