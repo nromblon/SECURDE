@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.db.DBConnector;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,7 +36,7 @@ public class RegistrationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/registration.jsp").forward(request, response);
 	}
 
 	/**
@@ -52,8 +53,8 @@ public class RegistrationServlet extends HttpServlet {
         String password = request.getParameter("password");
         String cpassword= request.getParameter("cpassword");
         String email= request.getParameter("email");
-        String idnumber= request.getParameter("idnumber");
-        String birthday= request.getParameter("calendar");
+        int idnumber= Integer.parseInt(request.getParameter("idnumber"));
+        Date birthday= Date.valueOf(request.getParameter("calendar"));
         String secretQuestion= request.getParameter("secretQuestion");
         String answer= request.getParameter("answer");
         Connection conn = null;
@@ -65,24 +66,24 @@ public class RegistrationServlet extends HttpServlet {
 			conn = DBConnector.getConnection();
 	
 	        PreparedStatement stmt = 
-	        		conn.prepareStatement("insert into user values(?,?,?,?,?,?,?,?,?,?,?)");
+	        		conn.prepareStatement("INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId) VALUES (?,?,?,?,?,?,?,?,?,?)");
 	
-	        stmt.setString(2, firstname);
-	        stmt.setString(3, lastname);
-	        stmt.setString(4, midinitial);
+	        stmt.setString(1, firstname);
+	        stmt.setString(2, lastname);
+	        stmt.setString(3, midinitial);
+	        stmt.setString(4, username);
 	        stmt.setString(5, password);
 	        stmt.setString(6, email);
-	        stmt.setString(7, idnumber);
-	        stmt.setString(8, birthday);
-	        stmt.setString(9, secretQuestion);
-	        stmt.setString(10, answer);
-	        stmt.setInt(11, 1);
+	        stmt.setInt(7, idnumber);
+	        stmt.setInt(8, 1);
+	        stmt.setString(9, answer);
+	        stmt.setInt(10, 1);
 	        
-	        int i = stmt.executeUpdate();
-	        
-			if(i>0)
+	  
+			if(stmt.executeUpdate()>0)
 			{
-				out.println("You are sucessfully registered");
+				System.out.println("success");
+				response.sendRedirect("search.jsp");
 			}
 	        
 		}

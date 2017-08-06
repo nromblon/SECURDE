@@ -42,31 +42,31 @@
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="firstname">First Name</label>
-          <input class="half-width-form" type="text" id="firstname">
+          <input class="half-width-form" type="text" name="firstname" id="firstname">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="midinitial">Middle Initial</label>
-          <input class="half-width-form" type="text" id="midinitial">
+          <input class="half-width-form" type="text" name="midinitial" id="midinitial">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="lastname">Last Name</label>
-          <input class="half-width-form" type="text" id="lastname">
+          <input class="half-width-form" type="text" name="lastname" id="lastname">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="username">Username</label>
-          <input class="half-width-form" type="text" id="username">
+          <input class="half-width-form" type="text" name="username" id="username">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="password">Password</label>
-          <input class="half-width-form" type="password" id="password">
+          <input class="half-width-form" name="password" type="password" id="password">
         </div>
       </div>
       <div class="row">
@@ -78,25 +78,25 @@
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="email">Email Address</label>
-          <input class="half-width-form" type="email" id="email">
+          <input class="half-width-form" name="email" type="email" id="email">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="idnumber">ID Number</label>
-          <input class="half-width-form" type="text" id="idnumber">
+          <input class="half-width-form" name="idnumber" type="text" id="idnumber">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="calendar">Birthday</label>
-          <input class="full-width-form" type="date" id="calendar">
+          <input class="full-width-form" name="calendar" type="date" id="calendar">
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="secretQuestion">Secret Question</label>
-          <select id="secretQuestion">
+          <select name="secretQuestion" id="secretQuestion">
           	<!-- to change -->
           	<option value="1">What is the name of your first pet?</option>
           </select>
@@ -105,7 +105,7 @@
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="answer">Answer to secret question</label>
-          <input class="half-width-form" type="text" id="answer">
+          <input class="half-width-form" name="answer" type="text" id="answer">
         </div>
       </div>
       <div class="row">
