@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
+import com.models.AuthorModel;
+import com.models.PublicationModel;
+import com.models.PublisherModel;
 import com.mysql.jdbc.Statement;
 
 /**
@@ -41,8 +44,6 @@ public class AddBookServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection con = DBConnector.getConnection();
-		
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
 		String publisher = request.getParameter("publisher");
@@ -50,37 +51,12 @@ public class AddBookServlet extends HttpServlet {
 		String location = request.getParameter("location");
 		String type = request.getParameter("type");
 		
-		ResultSet pubId = null;
-		
-	    try {	      
-	    	//TODO: fix for security
-	        String query = "INSERT INTO author (AuthorFirstName, AuthorLastName) VALUES ('', '" +author+ "')";
-	        PreparedStatement insertAuthor = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-	        insertAuthor.executeUpdate();
-	        ResultSet authorId = insertAuthor.getGeneratedKeys();
-	        authorId.next();
-	        
-	        query = "INSERT INTO publisher (Publisher) VALUES ('"+publisher+"')";
-	        PreparedStatement insertPublisher = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-	        insertPublisher.executeUpdate();
-	        ResultSet publisherId = insertPublisher.getGeneratedKeys();
-	        publisherId.next();
-	        		
-	        query = "INSERT INTO publication (Publication, AuthorId, PublisherId, PublicationTypeId, Location, Year) VALUES ('"+title+"', " +authorId.getInt(1)+ ", " +publisherId.getInt(1)+ ", " +type+ ", '"+location+"', " +year+ ")";
-	        PreparedStatement insertPub = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-	        insertPub.executeUpdate();
-	        pubId = insertPub.getGeneratedKeys();
-	        pubId.next();
-
-	    } catch(Exception e) {
-	    	System.out.println(e.getMessage());
-	    }
+		//TODO: add fname to author input
+		int authorId = AuthorModel.insertAuthor("", author);
+		int publisherId = PublisherModel.insertPublisher(publisher);
+		int pubId = PublicationModel.insertPublication(title, authorId, publisherId, Integer.valueOf(type), location, Integer.valueOf(year));
 	    
-	    try {
-			response.sendRedirect("publication/details?id="+pubId.getInt(1));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		response.sendRedirect("publication/details?id="+pubId);
 	}
 
 }
