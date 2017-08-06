@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
-
 /**
  * Servlet implementation class AddPublicationServlet
  */
@@ -28,15 +26,12 @@ public class EditBookServlet extends HttpServlet {
      */
     public EditBookServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println(bookId);
 		request.getRequestDispatcher("/publication/details?id="+bookId).forward(request, response);
 	}
 
@@ -44,7 +39,6 @@ public class EditBookServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Connection con = DBConnector.getConnection();
 		
 		bookId = request.getParameter("id");

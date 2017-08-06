@@ -9,41 +9,26 @@
 <html lang="en">
 <head>
 
-  <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
   <title>SHS Online Library System</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <!--<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">-->
-
-  <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/normalize.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/skeleton.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/searchpage.css">
 
-  <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 
-  <!-- Scripts [jquery always goes first!]-->
   <script src="${pageContext.request.contextPath}/resources/scripts/jquery-3.0.0.min.js"></script>
   
 </head>
 <body>
 
 
-  <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class = "container max-width">
   
 	<!-- nav header -->
@@ -204,7 +189,5 @@
           </div>
         </div>
   </div>
-<!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
