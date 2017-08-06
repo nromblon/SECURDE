@@ -1,0 +1,23 @@
+a , a:link, a:hover{
+	color: inherit;
+}
+
+.thumbnail img {
+	max-height:300px;
+	max-width:100px;
+	z-index:-1
+}
+
+.book-details{
+	vertical-align:text-top;
+	margin-left: 80px;
+}
+
+.book-details span{
+	margin:0px;
+}
+
+#book-title{
+	font-size: 1.9rem;
+	font-weight: bold;
+}

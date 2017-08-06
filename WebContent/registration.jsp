@@ -4,19 +4,31 @@
 <html lang="en">
 <head>
 
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
   <title>Registration</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!--<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">-->
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/normalize.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/skeleton.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/registrationpage.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/roomspage.css">
 
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 
 </head>
@@ -37,7 +49,9 @@
 			</div>
 		</div>
 	</div>
-	
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
     <form class = "registration-forms" method = "POST" action = "register">
       <div class="row">
         <div class="twelve columns offset-by-three">
@@ -117,5 +131,7 @@
     </form>
   </div>
 
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>

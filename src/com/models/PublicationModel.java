@@ -18,6 +18,7 @@ public class PublicationModel implements Model{
 			
 //			pub = new Publication(id, rs.getString("Publication"), rs.getString("LastName"), rs.getString("MiddleInitial"), rs.getString("Username"), rs.getString("FirstName"), rs.getString("FirstName"), rs.getString("FirstName"));
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

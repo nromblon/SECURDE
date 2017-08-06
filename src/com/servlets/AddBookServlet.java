@@ -28,12 +28,14 @@ public class AddBookServlet extends HttpServlet {
      */
     public AddBookServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		request.getRequestDispatcher("/addpublication.jsp").forward(request, response);
 	}
 
@@ -41,6 +43,7 @@ public class AddBookServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		Connection con = DBConnector.getConnection();
 		
 		String title = request.getParameter("title");
@@ -79,6 +82,7 @@ public class AddBookServlet extends HttpServlet {
 	    try {
 			response.sendRedirect("publication/details?id="+pubId.getInt(1));
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

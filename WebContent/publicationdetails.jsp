@@ -7,17 +7,28 @@
 <html lang="en">
 <head>
 
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
   <title>Publication details Page</title> <!-- TODO: change to publication name -->
   <meta name="description" content="">
   <meta name="author" content="">
 
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!--<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">-->
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/normalize.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/skeleton.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/global.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/publicationdetails.css">
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 
   <!-- Scripts [jquery always goes first!]-->
@@ -28,6 +39,11 @@
 
 </style>
 <body>
+
+  <!--insert sick navbar @Maynard-->
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
     <header>
 
@@ -243,5 +259,13 @@
 	</div>
 
 </div>
+<!--<footer class="footer">
+<div class="container">
+  <p class="text-muted"> ©2017 Undefeated sa 3V3</p>
+</div>
+  
+</footer>-->
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
