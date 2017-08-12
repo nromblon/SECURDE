@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
+import com.models.ReviewModel;
 import com.mysql.jdbc.Statement;
 
 /**
@@ -39,26 +40,11 @@ public class AddReviewServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection con = DBConnector.getConnection();
 		String pubId = request.getParameter("pubId");
 		String reviewText = request.getParameter("reviewText");
 		
-		try {	      
-	    	//TODO: fix for security
-	        String query = "INSERT INTO reviews (Review, UserId) VALUES ('" +reviewText+ "', " +request.getSession().getAttribute("UserId")+ ")";
-	        PreparedStatement insertReview = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-	        insertReview.executeUpdate();
-	        ResultSet reviewId = insertReview.getGeneratedKeys();
-	        reviewId.next();
-	        
-	        query = "INSERT INTO publicationreviews (Publication_PublicationId, Reviews_ReviewId) VALUES ("+pubId+", " +reviewId.getInt(1)+ ")";
-	        PreparedStatement insertCon = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-	        insertCon.executeUpdate();
-	        
-	    } catch(Exception e) {
-	    	System.out.println(e.getMessage());
-	    }
-		
+		ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
+
 		response.sendRedirect("publication/details?id="+pubId);
 	}
 

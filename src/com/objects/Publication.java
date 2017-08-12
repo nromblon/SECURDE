@@ -5,11 +5,11 @@ public class Publication extends DBObject{
 	private String name;
 	private Author author;
 	private Publisher publisher;
-	private int type;
-	private int status;
+	private String type;
+	private String status;
 	private String location;
 	private int year;
-	public Publication(int id, String name, Author author, Publisher publisher, int type, int status,
+	public Publication(int id, String name, Author author, Publisher publisher, String type, String status,
 			String location, int year) {
 		super();
 		this.id = id;
@@ -41,16 +41,16 @@ public class Publication extends DBObject{
 	public void setPublisher(Publisher publisher) {
 		this.publisher = publisher;
 	}
-	public int getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	public String getLocation() {

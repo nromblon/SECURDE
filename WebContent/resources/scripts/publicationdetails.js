@@ -1,6 +1,19 @@
 var editMode = false;
 
 $(document).ready(function() {
+	if(privilege == "2" || privilege == "3") {
+		$("#edit-button").show();
+		$("#delete-button").show();
+	}
+	else {
+		$("#edit-button").hide();
+		$("#delete-button").hide();
+	}
+	
+	if(privilege == "1")
+		$(".review-section").show();
+	else
+		$(".review-section").hide();
     for(var i = 0; i <= 100; i++) {
         $("#pub-year-select").append("<option>" + (1917+i) + "</option>");
     }

@@ -28,7 +28,7 @@ public class PublicationModel implements Model{
 			
 			rs.next();
 			
-			pub = new Publication(id, rs.getString("Publication"), new Author(rs.getInt("AuthorId"), rs.getString("AuthorFirstName"), rs.getString("AuthorLastName")), new Publisher(rs.getInt("PublisherId"), rs.getString("Publisher")), rs.getInt("PublicationTypeId"), rs.getInt("StatusId"), rs.getString("Location"), rs.getInt("Year"));
+			pub = new Publication(id, rs.getString("Publication"), new Author(rs.getInt("AuthorId"), rs.getString("AuthorFirstName"), rs.getString("AuthorLastName")), new Publisher(rs.getInt("PublisherId"), rs.getString("Publisher")), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +61,7 @@ public class PublicationModel implements Model{
 	    	ResultSet rs = getPubs.executeQuery();
 			
 	    	while(rs.next())
-				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), new Author(rs.getInt("AuthorId"), rs.getString("AuthorFirstName"), rs.getString("AuthorLastName")), new Publisher(rs.getInt("PublisherId"), rs.getString("Publisher")), rs.getInt("PublicationTypeId"), rs.getInt("StatusId"), rs.getString("Location"), rs.getInt("Year")));
+				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), new Author(rs.getInt("AuthorId"), rs.getString("AuthorFirstName"), rs.getString("AuthorLastName")), new Publisher(rs.getInt("PublisherId"), rs.getString("Publisher")), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
