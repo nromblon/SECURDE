@@ -38,14 +38,17 @@ public class LoginServlet extends HttpServlet {
 		
 		String privilege = (String) session.getAttribute("privilege") ;
 		
+		//TODO: assign redirects after login for each user type
 		if(session.getAttribute("username") != null) {
-			if(privilege == "1") {
+			if(privilege == "1" || privilege == "2") {
 				response.sendRedirect("/search");
 			} else if (privilege == "3") {
 				response.sendRedirect("/publication/add");
 			} else if (privilege == "4"){
 				response.sendRedirect("/admin/tools");
 			}
+		} else {
+		    request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
 
@@ -68,20 +71,19 @@ public class LoginServlet extends HttpServlet {
 			flag=true;
 		else
 			flag=false;
-		
+
 		if(flag){
 			Connection conn = null;
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
 				conn = DBConnector.getConnection();
 				String query = "SELECT * FROM user WHERE Username=? AND PasswordHash=?";
+
 		        PreparedStatement stmt = conn.prepareStatement(query);
 		        stmt.setString(1, username);
 		        stmt.setString(2, password);
-		        
 		        ResultSet rs = stmt.executeQuery();
 		        if(rs.next()){
-
 					HttpSession session= request.getSession();
 					session.setAttribute("userId", rs.getInt("UserId"));
 					session.setAttribute("lastName", rs.getString("LastName"));
@@ -99,13 +101,17 @@ public class LoginServlet extends HttpServlet {
 					} else if (privilege.equals("2")) {
 						System.out.println("libmanager");
 						response.sendRedirect("publication/add");
+					} else if (privilege.equals("3")){
+						System.out.println("search");
+						response.sendRedirect("search");
 					} else if (privilege.equals("4")){
 						System.out.println("admin login");
 						response.sendRedirect("admin/tools");
 					}
 		        }
 		        else {
-		        	request.setAttribute("error", "<script type='text/javascript'> alert('Invalid username or password!'); </script>");
+		        	request.setAttribute("error", "Invalid username or password!");
+		        	request.getRequestDispatcher("login.jsp").forward(request, response);
 		        }
 		        
 			}catch(Exception e) {
@@ -113,6 +119,7 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 		else{
+			System.out.println("failed login");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 		

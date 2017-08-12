@@ -30,7 +30,7 @@ public class AddBookServlet extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public AddBookServlet() {
-        super();
+        super();//TODO: fix error pages to be less descriptive
     }
 
 	/**

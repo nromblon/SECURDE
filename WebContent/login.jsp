@@ -54,20 +54,24 @@
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="username">Username</label>
-          <input class="half-width-form" name="username" type="text" id="username">
+          <input class="half-width-form" name="username" type="text" id="username" required>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="password">Password</label>
-          <input class="half-width-form" name="password" type="password" id="password">
+          <input class="half-width-form" name="password" type="password" id="password" required>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns">
           <input class="button-primary submit-button" type="submit" value="LOGIN">
         </div>		
-        <span id="error" name="error">
+      </div>
+      <!-- TODO: fix di naka center puta -->
+      <div class="row">
+        <div class="six columns offset-by-four">
+	        <span class="error" name="error">
 				<%
 					if(request.getAttribute("error") == null) {
 						request.setAttribute("error", "");
@@ -75,6 +79,7 @@
 					out.print(request.getAttribute("error"));
 				%>
 			</span>
+        </div>
       </div>
       <div class="row">
         <div class="six columns offset-by-five">
