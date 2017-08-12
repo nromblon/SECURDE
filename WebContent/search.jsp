@@ -61,7 +61,7 @@
 	<!-- .container is main centered wrapper -->
 
 	<br/><br/><br/><br/>
-  
+  		<!--  TODO: fix value of select to be less descriptive -->
       <div class = "row">
           <div class = "nine columns">
             <div class = "container">
@@ -69,9 +69,7 @@
                     <form action = "get_pubs" class = "search-forms" method = "get">
                         <div class="two columns">
                             <select name = "searchBy" class = "search-select" id = "searchBy">
-                                <option value = "Publication">Title</option>
-                                <option value = "Author">Author</option>
-                                <option value = "Publisher">Publisher</option>
+                                <%= request.getAttribute("searchBySelect") %>
                             </select>
                         </div>
                         <div class="seven columns">
@@ -83,10 +81,7 @@
                         </div>
                         <div class="one column">
                             <select name = "category" class = "search-select" id = "category">
-                                <option>View Entire Collection</option>
-                                <option value = "Book">Books</option>
-                                <option value = "Magazine">Thesis</option>
-                                <option value = "Thesis">Magazines</option>
+                                <%= request.getAttribute("categorySelect") %>
                             </select>
                         </div>
                     </form>

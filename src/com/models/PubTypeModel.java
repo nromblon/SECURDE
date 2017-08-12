@@ -3,6 +3,7 @@ package com.models;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PubTypeModel implements Model{
 	
@@ -23,5 +24,22 @@ public class PubTypeModel implements Model{
 		}
 		
 		return pubType;
+	}
+	
+	public static ArrayList<String> getPubTypes() {
+		ArrayList<String> pubTypes = new ArrayList<String>();
+		try {
+			PreparedStatement stmt = con.prepareStatement("SELECT * "
+														+ "FROM `publicationtype` ");
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				pubTypes.add(rs.getString("PublicationType"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return pubTypes;
 	}
 }
