@@ -40,9 +40,18 @@ public class GetPublicationsServlet extends HttpServlet {
 		String searchTerm = request.getParameter("searchTerm");
 		String searchBy = request.getParameter("searchBy");
 		String category = request.getParameter("category");
+		ArrayList<Publication> results = PublicationModel.searchPubBy(searchTerm, searchBy, category);
+		String message = "";
+		
+		//TODO: add security checks for input
+		if(searchTerm == "")
+			message = message.concat("Input a search term to search!<br>");
+		else if(results.isEmpty())
+			message = message.concat("There seems to be nothing here...<br>");
 	    
 	    request.setAttribute("searchTerm", searchTerm);
-        request.setAttribute("publications", PublicationModel.searchPubBy(searchTerm, searchBy, category));
+        request.setAttribute("publications", results);
+        request.setAttribute("message", message);
 	    
 	    request.getRequestDispatcher("/search").forward(request, response);
 	}

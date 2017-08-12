@@ -86,7 +86,8 @@
                         </div>
                     </form>
                 </div>
-                <div class = "row">
+                <!-- TODO: decide if to include this shit -->
+                <!-- <div class = "row">
                     <span>Sort by
                         <span class = "link">Relevance</span> | 
                         <span class = "link">Date</span> | 
@@ -103,7 +104,7 @@
                         <span class = "link">6</span> |
                         <span class = "link">Next</span>
                     </span>
-                </div>
+                </div> -->
 
                 <div class = "search-results">
                     <!--one result-->
@@ -130,7 +131,14 @@
                         <% 		} 
                         	} else { %>
                         		<div class = "row">
-									<span> There seems to be nothing here </span>
+									<span> <% 
+										if(request.getAttribute("message") == null) {
+											out.print("There seems to be nothing here...");
+										}
+										else {
+											out.print(request.getAttribute("message"));
+										}
+										%> </span>
 	                            </div>
                         	<% } %>           
                     </div>

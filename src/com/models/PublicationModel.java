@@ -37,6 +37,8 @@ public class PublicationModel implements Model{
 	}
 	
 	public static ArrayList<Publication> searchPubBy(String searchTerm, String searchBy, String category) {
+		if(searchTerm == "")
+			return null;
 		ArrayList<Publication> pubs = new ArrayList<Publication>();
 		
 		String condition1 = "";
