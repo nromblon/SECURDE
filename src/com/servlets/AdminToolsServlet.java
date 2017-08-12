@@ -25,7 +25,7 @@ public class AdminToolsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/admin/tools.jsp").forward(request, response);
+		request.getRequestDispatcher("/admintools.jsp").forward(request, response);
 	}
 
 	/**

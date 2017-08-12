@@ -33,9 +33,9 @@
 		</div>
 	  	<div class="row">
 	   		<div class="topnav twelve columns">
-			    <a href="../create">Create New Account</a>
-			    <a href="../users">View Users</a>
-			    <a href="../tools">Admin Tools</a>
+			    <a href="create">Create New Account</a>
+			    <a href="users">View Users</a>
+			    <a href="tools">Admin Tools</a>
 			    <a id="login-link" class="r-nav active" href="../login">
 					  <script>
 					  	if(<%= session.getAttribute("userId") %>!=null){
