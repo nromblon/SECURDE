@@ -24,7 +24,7 @@
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 
   <script src="${pageContext.request.contextPath}/resources/scripts/jquery-3.0.0.min.js"></script>
-  
+  <script src = "${pageContext.request.contextPath}/resources/scripts/search.js"></script>
 </head>
 <body>
 
@@ -168,17 +168,9 @@
                     <li class = "link side-bar-link">Magazines</li>
                 </ul>
                 <hr>
-                <script>
-				  	var privilege = <%= session.getAttribute("privilege") %>;
-			  		if(privilege == "2" || privilege == "3")
-						$("#additional-options").show();
-			  		else
-			  			$("#additional-options").hide();
-				    	
-				</script>
                 
                 <!--can only be seen by the lib manager-->
-                <div id = "additional-options">
+                <div id = "additional-options" class = "hidden">
 	                <span class = "side-bar-header">Library Manager</span>
 	                <ul>
 	                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
@@ -190,4 +182,8 @@
         </div>
   </div>
 </body>
+
+<script type="text/javascript">
+  var privilege = <%= session.getAttribute("privilege") %>;
+</script>
 </html>
