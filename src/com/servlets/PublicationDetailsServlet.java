@@ -16,6 +16,7 @@ import com.objects.Review;
 /**
  * Servlet implementation class PublicationDetailsServlet
  */
+//TODO: vulnerable to indirect object references?
 @WebServlet("/publication/details")
 public class PublicationDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,6 +33,7 @@ public class PublicationDetailsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id = Integer.valueOf(request.getParameter("id"));
+//		int userId = (request.getSession().getAttribute("userId") == null)? 0: Integer.valueOf((String) request.getSession().getAttribute("userId"));
 		
 		Publication pub = PublicationModel.getPubWithId(id);
 		ArrayList<Review> reviews = ReviewModel.getReviewsByPublication(id);

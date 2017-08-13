@@ -164,6 +164,19 @@
 	                </ul>
 	                <hr>
 	            </div>
+	            
+	            <!--can only be seen by a registered user  -->
+	            <div id = "user-options">
+	            	<span class = "side-bar-header">Reserved Books</span>
+	            	<ul>
+	            	</ul>
+	            	<hr>
+	            	
+	            	<span class = "side-bar-header">Borrowed Books</span>
+	            	<ul>
+	            	</ul>
+	            	<hr>
+	            </div>
             </div>
           </div>
         </div>

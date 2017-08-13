@@ -195,11 +195,14 @@
   </div>
 </div>
 
-<div class = "row">
-  <div class = "six columns description-elems">
-    <button class = "button-primary submit-button u-pull-right">RESERVE</button>
-  </div>
-</div>
+<% if(request.getSession().getAttribute("userId") != null) {
+	if((int)request.getSession().getAttribute("userId") == 1)%>
+		<div class = "row">
+		  <div class = "six columns description-elems">
+		    <button class = "button-primary submit-button u-pull-right">RESERVE</button>
+		  </div>
+		</div>
+<% } %>
 <div class = "review-section hidden">
 	<div class = "row">
 	  <form action = "../addreview?pubId=<%= request.getParameter("id") %>" method = "post">
