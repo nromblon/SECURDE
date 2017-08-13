@@ -26,6 +26,8 @@ public class Author extends DBObject{
 	public String getName() {
 		return this.firstName + " " + this.lastName;
 	}
-	
+	public String getNameLastNameFirst() {
+		return this.lastName + ", " + this.firstName;
+	}
 	
 }
