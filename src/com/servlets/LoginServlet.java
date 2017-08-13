@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.constants.Privilege;
 import com.db.DBConnector;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,14 +37,14 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		String privilege = (String) session.getAttribute("privilege") ;
+		int privilege = Integer.getInteger((String) session.getAttribute("privilege")) ;
 		
 		if(session.getAttribute("username") != null) {
-			if(privilege == "1") {
+			if(privilege == Privilege.USER) {
 				response.sendRedirect("search");
-			} else if (privilege == "3" || privilege == "2") {
+			} else if (privilege == Privilege.LIB_STAFF || privilege == Privilege.LIB_MANAGER) {
 				response.sendRedirect("publication/add");
-			} else if (privilege == "4"){
+			} else if (privilege == Privilege.ADMIN){
 				response.sendRedirect("admin/tools");
 			}
 		}else
@@ -87,7 +88,6 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("lastName", rs.getString("LastName"));
 					session.setAttribute("middleName", rs.getString("MiddleInitial"));
 					session.setAttribute("firstName", rs.getString("FirstName"));
-//					session.setAttribute("password", rs.getString("PasswordHash"));
 					session.setAttribute("username", rs.getString("Username"));
 					session.setAttribute("privilege", rs.getString("Privilege_PrivilegeId"));
 		        
