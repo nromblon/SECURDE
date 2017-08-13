@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2017 at 05:41 PM
+-- Generation Time: Aug 13, 2017 at 06:40 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -129,17 +129,6 @@ INSERT INTO `publication` (`PublicationId`, `Publication`, `AuthorId`, `Publishe
 -- --------------------------------------------------------
 
 --
--- Table structure for table `publicationreviews`
---
-
-CREATE TABLE `publicationreviews` (
-  `Publication_PublicationId` int(11) NOT NULL,
-  `Reviews_ReviewId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `publicationtags`
 --
 
@@ -253,25 +242,26 @@ INSERT INTO `publisher` (`PublisherId`, `Publisher`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `publisherpublications`
---
-
-CREATE TABLE `publisherpublications` (
-  `PublisherId` int(11) NOT NULL,
-  `PublicationId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `reviews`
 --
 
 CREATE TABLE `reviews` (
   `ReviewId` int(11) NOT NULL,
   `Review` varchar(45) NOT NULL,
-  `UserId` int(11) NOT NULL
+  `UserId` int(11) NOT NULL,
+  `PublicationId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`ReviewId`, `Review`, `UserId`, `PublicationId`) VALUES
+(1, 'This is good book', 1, 1),
+(2, 'good one', 2, 3),
+(3, 'this is bad', 1, 3),
+(4, 'this is bad', 1, 3),
+(5, 'are you kidding', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -452,8 +442,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`) VALUES
 (1, 'Maynard', 'Si', 'C.', 'user', 'password', 'maynard_si@dlsu.edu.ph', '1', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1),
 (2, 'Neil', 'Romblon', 'V.', 'manager', 'password', 'neil_romblon@dlsu.edu.ph', '2', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2),
-(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'luis_madrigal@dlsu.edu.ph', '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3),
-(4, 'System', 'Administrator', 'D.', 'administrator', 'password\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', 'admin@dlsu.edu.ph', '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4);
+(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password', 'luis_madrigal@dlsu.edu.ph', '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3),
+(4, 'System', 'Administrator', 'D.', 'administrator', 'password', 'admin@dlsu.edu.ph', '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4);
 
 --
 -- Indexes for dumped tables
@@ -478,14 +468,6 @@ ALTER TABLE `publication`
   ADD PRIMARY KEY (`PublicationId`),
   ADD KEY `fk_Publication_PublicationType1_idx` (`PublicationTypeId`),
   ADD KEY `fk_Publication_Status1_idx` (`StatusId`);
-
---
--- Indexes for table `publicationreviews`
---
-ALTER TABLE `publicationreviews`
-  ADD PRIMARY KEY (`Publication_PublicationId`,`Reviews_ReviewId`),
-  ADD KEY `fk_Reviews_has_Publication_Publication1_idx` (`Publication_PublicationId`),
-  ADD KEY `fk_Reviews_has_Publication_Reviews1_idx` (`Reviews_ReviewId`);
 
 --
 -- Indexes for table `publicationtags`
@@ -516,18 +498,12 @@ ALTER TABLE `publisher`
   ADD PRIMARY KEY (`PublisherId`);
 
 --
--- Indexes for table `publisherpublications`
---
-ALTER TABLE `publisherpublications`
-  ADD PRIMARY KEY (`PublisherId`,`PublicationId`),
-  ADD KEY `fk_Publisher_has_Publication_Publication1_idx` (`PublicationId`),
-  ADD KEY `fk_Publisher_has_Publication_Publisher1_idx` (`PublisherId`);
-
---
 -- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`ReviewId`);
+  ADD PRIMARY KEY (`ReviewId`),
+  ADD KEY `UserId` (`UserId`),
+  ADD KEY `PublicationId` (`PublicationId`);
 
 --
 -- Indexes for table `room`
@@ -615,7 +591,7 @@ ALTER TABLE `publisher`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `ReviewId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ReviewId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `room`
 --
@@ -658,13 +634,6 @@ ALTER TABLE `publication`
   ADD CONSTRAINT `fk_Publication_Status1` FOREIGN KEY (`StatusId`) REFERENCES `status` (`StatusId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `publicationreviews`
---
-ALTER TABLE `publicationreviews`
-  ADD CONSTRAINT `fk_Reviews_has_Publication_Publication1` FOREIGN KEY (`Publication_PublicationId`) REFERENCES `publication` (`PublicationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Reviews_has_Publication_Reviews1` FOREIGN KEY (`Reviews_ReviewId`) REFERENCES `reviews` (`ReviewId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Constraints for table `publicationtags`
 --
 ALTER TABLE `publicationtags`
@@ -679,11 +648,11 @@ ALTER TABLE `publicationtransaction`
   ADD CONSTRAINT `fk_PublicationTransaction_User1` FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `publisherpublications`
+-- Constraints for table `reviews`
 --
-ALTER TABLE `publisherpublications`
-  ADD CONSTRAINT `fk_Publisher_has_Publication_Publication1` FOREIGN KEY (`PublicationId`) REFERENCES `publication` (`PublicationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Publisher_has_Publication_Publisher1` FOREIGN KEY (`PublisherId`) REFERENCES `publisher` (`PublisherId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `PUBLICATION` FOREIGN KEY (`PublicationId`) REFERENCES `publication` (`PublicationId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `USER` FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `room`
