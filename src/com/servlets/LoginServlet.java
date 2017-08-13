@@ -40,20 +40,20 @@ public class LoginServlet extends HttpServlet {
 		
 		if(session.getAttribute("username") != null) {
 			if(privilege == "1") {
-				response.sendRedirect("/search");
-			} else if (privilege == "3") {
-				response.sendRedirect("/publication/add");
+				response.sendRedirect("search");
+			} else if (privilege == "3" || privilege == "2") {
+				response.sendRedirect("publication/add");
 			} else if (privilege == "4"){
-				response.sendRedirect("/admin/tools");
+				response.sendRedirect("admin/tools");
 			}
-		}
+		}else
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		Boolean flag;
@@ -96,24 +96,26 @@ public class LoginServlet extends HttpServlet {
 					if(privilege.equals("1")) {
 						System.out.println("user login");
 						response.sendRedirect("search");
-					} else if (privilege.equals("2")) {
+					} else if (privilege.equals("2") || privilege.equals("3")) {
 						System.out.println("libmanager");
 						response.sendRedirect("publication/add");
 					} else if (privilege.equals("4")){
 						System.out.println("admin login");
 						response.sendRedirect("admin/tools");
-					}
+					} 
 		        }
 		        else {
+		        	System.out.println("no login");
 		        	request.setAttribute("error", "<script type='text/javascript'> alert('Invalid username or password!'); </script>");
+		        	request.getRequestDispatcher("/login.jsp").forward(request,response);
 		        }
 		        
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
-		else{
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+		else{//TODO: add error label instead because invalid input shit
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 		
 	}

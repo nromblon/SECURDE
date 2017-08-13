@@ -25,7 +25,7 @@ public class ViewUsersServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/admin/users.jsp").forward(request, response);
+		request.getRequestDispatcher("/viewusers.jsp").forward(request, response);
 	}
 
 	/**
