@@ -1,5 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.objects.Review"%>
+<%@page import="com.objects.Publication"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -92,11 +93,12 @@
   <div class="three columns"><img src="${pageContext.request.contextPath}/resources/images/Publication/noimage.jpg"></div>
   <div class="seven columns">
     <table>
+    <% Publication pub = (Publication)request.getAttribute("details"); %>
       <tbody>
         <tr>
           <td>
             <div class = "description-elems">
-              <h3 id = "pub-title-text"><%= request.getAttribute("title") %></h3>
+              <h3 id = "pub-title-text"><%= pub.getName() %></h3>
             </div>
             <div class = "edit-elems hidden">
               <label for="pub-title">Publication Title</label>
@@ -107,7 +109,7 @@
         <tr>
           <td>
             <div class = "description-elems">
-              <span id = "pub-type-text"><i class="icon-book"></i><%= request.getAttribute("type") %></span>
+              <span id = "pub-type-text"><i class="icon-book"></i><%= pub.getType() %></span>
             </div>
             <div class = "edit-elems hidden">
               <select id = "pub-type-select">
@@ -122,7 +124,7 @@
           <td>Author</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-author-text"><%= request.getAttribute("author") %></span>
+              <span id = "pub-author-text"><%= pub.getAuthor().getNameLastNameFirst() %></span>
             </div>
             <div class = "edit-elems hidden">
               <input class="u-full-width" type="text" id="pub-author">
@@ -133,7 +135,7 @@
           <td>Publisher</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-publisher-text"><%= request.getAttribute("publisher") %></span>
+              <span id = "pub-publisher-text"><%= pub.getPublisher().getName() %></span>
             </div>
             <div class = "edit-elems hidden">
               <input class="u-full-width" type="text" id="pub-publisher">
@@ -144,7 +146,7 @@
           <td>Year</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-year-text"><%= request.getAttribute("year") %></span>
+              <span id = "pub-year-text"><%= pub.getYear() %></span>
             </div>
             <div class = "edit-elems hidden">
               <select id = "pub-year-select">
@@ -156,7 +158,7 @@
           <td>Location</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-location-text"><%= request.getAttribute("location") %></span>
+              <span id = "pub-location-text"><%= pub.getLocation() %></span>
             </div>
             <div class = "edit-elems hidden">
               <input class="u-full-width" type="text" id="pub-location">
@@ -186,35 +188,22 @@
     </table>
   </div>
   <div class = "one column">
-  <button id = "edit-button" class = "button-primary submit-button">EDIT</button>
-  	<script>
-		var privilege = <%= session.getAttribute("privilege") %>;		
-  		/*if(privilege == "2" || privilege == "3")
-  			$("#edit-button").show();
-  		else
-  			$("#edit-button").hide();*/
-  		
-	</script>
+  <button id = "edit-button" class = "button-primary submit-button hidden">EDIT</button>
   </div>
   <div class = "one column">
-  <button id = "delete-button" class = "button-primary submit-button">DELETE</button>
-  	<script>
-	  	var privilege = <%= session.getAttribute("privilege") %>;
-  		/*if(privilege == "2" || privilege == "3")
-			$("#delete-button").show();
-  		else
-  			$("#delete-button").hide();*/
-	    	
-	</script>
+  <button id = "delete-button" class = "button-primary submit-button hidden">DELETE</button>
   </div>
 </div>
 
-<div class = "row">
-  <div class = "six columns description-elems">
-    <button class = "button-primary submit-button u-pull-right">RESERVE</button>
-  </div>
-</div>
-
+<% if(request.getSession().getAttribute("userId") != null) {
+	if((int)request.getSession().getAttribute("userId") == 1)%>
+		<div class = "row">
+		  <div class = "six columns description-elems">
+		    <button class = "button-primary submit-button u-pull-right">RESERVE</button>
+		  </div>
+		</div>
+<% } %>
+<div class = "review-section hidden">
 	<div class = "row">
 	  <form action = "../addreview?pubId=<%= request.getParameter("id") %>" method = "post">
 	    <h6>Leave Review</h6>
@@ -228,7 +217,7 @@
 	<div class = "reviews">
 	  <!--one review-->
   		<% 	ArrayList<Review> reviews = (ArrayList<Review>)request.getAttribute("reviews");
-           	if(reviews != null && !reviews.isEmpty()) {
+           	if(reviews != null) {
            		for(int i = 0; i < reviews.size(); i++) {%>
 				  <div class = "row">
 				    <div class = "twelve columns">
@@ -241,7 +230,10 @@
            	}%>
 	  
 	</div>
-
+</div>
 </div>
 </body>
+<script type = "text/javascript">
+	var privilege = <%= session.getAttribute("privilege") %>;
+</script>
 </html>

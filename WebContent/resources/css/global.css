@@ -132,3 +132,7 @@ hr {
 .hidden{
     display: none;
 }
+
+.error{
+	display: block;
+}

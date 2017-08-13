@@ -24,7 +24,7 @@
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 
   <script src="${pageContext.request.contextPath}/resources/scripts/jquery-3.0.0.min.js"></script>
-  <script src = "${pageContext.request.contextPath}/resources/scripts/search.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/scripts/search.js"></script>
 </head>
 <body>
 
@@ -60,7 +60,7 @@
 	<!-- .container is main centered wrapper -->
 
 	<br/><br/><br/><br/>
-  
+  		<!--  TODO: fix value of select to be less descriptive -->
       <div class = "row">
           <div class = "nine columns">
             <div class = "container">
@@ -68,9 +68,7 @@
                     <form action = "get_pubs" class = "search-forms" method = "get">
                         <div class="two columns">
                             <select name = "searchBy" class = "search-select" id = "searchBy">
-                                <option value = "Publication">Title</option>
-                                <option value = "Author">Author</option>
-                                <option value = "Publisher">Publisher</option>
+                                <%= request.getAttribute("searchBySelect") %>
                             </select>
                         </div>
                         <div class="seven columns">
@@ -82,15 +80,13 @@
                         </div>
                         <div class="one column">
                             <select name = "category" class = "search-select" id = "category">
-                                <option>View Entire Collection</option>
-                                <option value = "Book">Books</option>
-                                <option value = "Magazine">Thesis</option>
-                                <option value = "Thesis">Magazines</option>
+                                <%= request.getAttribute("categorySelect") %>
                             </select>
                         </div>
                     </form>
                 </div>
-                <div class = "row">
+                <!-- TODO: decide if to include this shit -->
+                <!-- <div class = "row">
                     <span>Sort by
                         <span class = "link">Relevance</span> | 
                         <span class = "link">Date</span> | 
@@ -107,7 +103,7 @@
                         <span class = "link">6</span> |
                         <span class = "link">Next</span>
                     </span>
-                </div>
+                </div> -->
 
                 <div class = "search-results">
                     <!--one result-->
@@ -134,26 +130,16 @@
                         <% 		} 
                         	} else { %>
                         		<div class = "row">
-									<span> There seems to be nothing here </span>
+									<span> <% 
+										if(request.getAttribute("message") == null) {
+											out.print("There seems to be nothing here...");
+										}
+										else {
+											out.print(request.getAttribute("message"));
+										}
+										%> </span>
 	                            </div>
-                        	<% } %>
-                            
-							  <!--  <div class = "row">
-								<a href="publication/details">
-									<div class="entry">
-										<div class = "three columns thumbnail">
-											<img src="${pageContext.request.contextPath}/resources/images/Publication/noimage.jpg">
-										</div>
-										<div class = "nine columns">
-											<span class = "link result-title">Tara Road</span>
-											<hr/>
-											<span class = "result-author">Maeve Binchy</span>
-											<span class = "result-publisher">Orion Publishing Group</span> (<span class="result-year">1998</span>)
-										</div>
-									</div>
-								</a>
-                            </div>-->
-                        <!--</div>-->
+                        	<% } %>           
                     </div>
                 </div>
             </div>
@@ -176,6 +162,19 @@
 	                    <li class = "link side-bar-link"><a href = "publication/add" class = "link">Add publication</a></li>
 	                </ul>
 	                <hr>
+	            </div>
+	            
+	            <!--can only be seen by a registered user  -->
+	            <div id = "user-options">
+	            	<span class = "side-bar-header">Reserved Books</span>
+	            	<ul>
+	            	</ul>
+	            	<hr>
+	            	
+	            	<span class = "side-bar-header">Borrowed Books</span>
+	            	<ul>
+	            	</ul>
+	            	<hr>
 	            </div>
             </div>
           </div>
