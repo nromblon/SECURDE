@@ -37,7 +37,13 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		int privilege = Integer.getInteger((String) session.getAttribute("privilege")) ;
+		int privilege = 0;
+		try{
+			privilege = Integer.getInteger((String) session.getAttribute("privilege")) ;
+		} catch(Exception e){
+			//TODO: fix to better error handling
+			e.printStackTrace();
+		}
 		
 		if(session.getAttribute("username") != null) {
 			if(privilege == Privilege.USER) {
@@ -46,7 +52,8 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("publication/add");
 			} else if (privilege == Privilege.ADMIN){
 				response.sendRedirect("admin/tools");
-			}
+			} else //TODO: change to fitting error message (this only appears when privilege is not parsable to int)
+				request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}else
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 	}
