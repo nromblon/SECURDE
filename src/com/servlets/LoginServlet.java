@@ -37,14 +37,13 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		int privilege = 0;
+		int privilege = -1;
 		try{
-			privilege = Integer.getInteger((String) session.getAttribute("privilege")) ;
-		} catch(Exception e){
-			//TODO: fix to better error handling
-			e.printStackTrace();
-		}
-		
+    		privilege = Integer.parseInt( (String) session.getAttribute("privilege"));
+    	}catch(NumberFormatException e){
+    		//TODO: appropriate error message for invalid number syntax
+    		e.printStackTrace();
+    	}
 		//TODO: assign redirects after login for each user type
 		if(session.getAttribute("username") != null) {
 			if(privilege == Privilege.USER) {
@@ -99,18 +98,21 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("username", rs.getString("Username"));
 					session.setAttribute("privilege", rs.getString("Privilege_PrivilegeId"));
 		        
-		        	String privilege = (String) session.getAttribute("privilege");
+		        	int privilege = -1;
+		        	try{
+		        		privilege = Integer.parseInt( (String) session.getAttribute("privilege"));
+		        	}catch(NumberFormatException e){
+		        		//TODO: appropriate error message for invalid number syntax
+		        		e.printStackTrace();
+		        	}
 					System.out.println(privilege);
-					if(privilege.equals("1")) {
+					if(privilege == (Privilege.USER)) {
 						System.out.println("user login");
 						response.sendRedirect("search");
-					} else if (privilege.equals("2") || privilege.equals("3")) {
+					} else if (privilege == (Privilege.LIB_MANAGER) || privilege == (Privilege.LIB_STAFF)) {
 						System.out.println("libmanager");
 						response.sendRedirect("publication/add");
-					} else if (privilege.equals("3")){
-						System.out.println("search");
-						response.sendRedirect("search");
-					} else if (privilege.equals("4")){
+					} else if (privilege == (Privilege.ADMIN)){
 						System.out.println("admin login");
 						response.sendRedirect("admin/tools");
 					} 
