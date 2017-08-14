@@ -47,6 +47,23 @@ public class UserModel implements Model{
 		
 		return false;
 	}
+	
+	public static boolean checkExistingReservation(int pubId) {
+		try {
+			PreparedStatement checkExisting = con.prepareStatement("SELECT * FROM publicationtransaction "
+																 + "WHERE PublicationId = ?");
+			checkExisting.setInt(1, pubId);
+			
+			ResultSet rs = checkExisting.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 
 	public static int reservePublication(int userId, int pubId) {
 		int transactionId = 0;

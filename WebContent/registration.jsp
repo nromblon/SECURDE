@@ -20,7 +20,7 @@
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
 
 </head>
-<body>
+<body><!-- TODO: data validation -->
   <div class = "container">
 	<!--nav header-->
 	<div class="header">

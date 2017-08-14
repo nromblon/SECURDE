@@ -1,6 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.objects.Review"%>
 <%@page import="com.objects.Publication"%>
+<%@page import="com.constants.Privilege"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -195,19 +196,19 @@
   </div>
 </div>
 
-<% if(request.getSession().getAttribute("userId") != null) {
-	if((int)request.getSession().getAttribute("userId") == 1) {%>
+<% if(session.getAttribute("privilege") != null && Integer.valueOf((String)session.getAttribute("privilege")) == Privilege.USER) {%>
 		<div class = "row">
 		  <div class = "six columns description-elems">
-		  	<% if((boolean)request.getAttribute("alreadyReserved")) {%>
+		  	<% if((boolean)request.getAttribute("reservedByMe")) {%>
 		    	<p>You have already reserved this book.</p>
-		    <% }else {%>
+		    <% }else if((boolean)request.getAttribute("alreadyReserved")) {%>
+		    	<p>This book has already been reserved.</p>
+		    <% }else { %>
 		    	<button id = "reserve-button" class = "button-primary submit-button u-pull-right">RESERVE</button>
 		    <% } %>
 		  </div>
 		</div>
-<%   }
-	} %>
+<% } %>
 <div class = "review-section hidden">
 	<div class = "row">
 	  <form action = "../addreview?pubId=<%= request.getParameter("id") %>" method = "post">
