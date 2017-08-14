@@ -196,13 +196,18 @@
 </div>
 
 <% if(request.getSession().getAttribute("userId") != null) {
-	if((int)request.getSession().getAttribute("userId") == 1)%>
+	if((int)request.getSession().getAttribute("userId") == 1) {%>
 		<div class = "row">
 		  <div class = "six columns description-elems">
-		    <button class = "button-primary submit-button u-pull-right">RESERVE</button>
+		  	<% if((boolean)request.getAttribute("alreadyReserved")) {%>
+		    	<p>You have already reserved this book.</p>
+		    <% }else {%>
+		    	<button id = "reserve-button" class = "button-primary submit-button u-pull-right">RESERVE</button>
+		    <% } %>
 		  </div>
 		</div>
-<% } %>
+<%   }
+	} %>
 <div class = "review-section hidden">
 	<div class = "row">
 	  <form action = "../addreview?pubId=<%= request.getParameter("id") %>" method = "post">

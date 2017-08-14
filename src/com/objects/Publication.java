@@ -21,6 +21,12 @@ public class Publication extends DBObject{
 		this.location = location;
 		this.year = year;
 	}
+	
+	public Publication(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 
 
 	public String getName() {

@@ -90,4 +90,21 @@ public class PublicationModel implements Model{
 		
 		return id;
 	}
+	
+	public static boolean deletePublication(int id) {
+		try {	   
+	    	PreparedStatement deletePubTags = con.prepareStatement("DELETE FROM publicationtags WHERE PublicationId = ?");
+	    	deletePubTags.setInt(1, id);
+	    	deletePubTags.executeUpdate();
+	        
+	        PreparedStatement deletePub = con.prepareStatement("DELETE FROM publication WHERE PublicationId = ?");
+	        deletePub.setInt(1, id);
+	        deletePub.executeUpdate();
+
+	    } catch(Exception e) {
+	    	return false;
+	    }
+		
+		return true;
+	}
 }

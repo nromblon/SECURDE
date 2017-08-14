@@ -2,6 +2,7 @@
 <%@page import="com.objects.Publication"%>
 <%@page import="com.objects.Author"%>
 <%@page import="com.objects.Publisher"%>
+<%@page import="com.constants.Privilege"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -165,17 +166,25 @@
 	            </div>
 	            
 	            <!--can only be seen by a registered user  -->
-	            <div id = "user-options">
-	            	<span class = "side-bar-header">Reserved Books</span>
-	            	<ul>
-	            	</ul>
-	            	<hr>
-	            	
-	            	<span class = "side-bar-header">Borrowed Books</span>
-	            	<ul>
-	            	</ul>
-	            	<hr>
-	            </div>
+	            <% if(session.getAttribute("privilege") != null && Integer.valueOf((String)session.getAttribute("privilege")) == Privilege.USER) {%>
+		            <div id = "user-options">
+		            	<span class = "side-bar-header">Reserved Books</span>
+		            	<ul>
+		            		<% if(request.getAttribute("reservedPubs") != null) {
+		            				ArrayList<Publication> reservedPubs = (ArrayList<Publication>) request.getAttribute("reservedPubs");
+		            				for(int i = 0; i < reservedPubs.size(); i++) { %>
+		            					<li class = "link side-bar-link"><a href = "publication/details?id=<%= reservedPubs.get(i).getId()%>" class = "link"><%= reservedPubs.get(i).getName() %></a></li>
+		            				<%}
+		            		}%>
+		            	</ul>
+		            	<hr>
+		            	
+		            	<span class = "side-bar-header">Borrowed Books</span>
+		            	<ul>
+		            	</ul>
+		            	<hr>
+		            </div>
+	            <%} %>
             </div>
           </div>
         </div>

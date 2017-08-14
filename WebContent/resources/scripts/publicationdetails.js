@@ -64,6 +64,17 @@ $(document).ready(function() {
             })
         } 
     })
+    
+    $("#reserve-button").click(function() {
+    	var r = confirm("Are you sure you want to reserve this publication?");
+        if (r == true) {
+            $.post("../reserve", {
+            	id: id
+            }).done(function() {
+            	location.reload();
+            })
+        } 
+    })
 })
 
 function copyDescriptions() {

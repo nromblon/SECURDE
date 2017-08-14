@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.models.PubTypeModel;
+import com.models.UserModel;
 
 /**
  * Servlet implementation class SearchServlet
@@ -48,6 +49,12 @@ public class SearchServlet extends HttpServlet {
 		
 		request.setAttribute("categorySelect", categorySelect);
 		request.setAttribute("searchBySelect", searchBySelect);
+		
+		if(request.getSession().getAttribute("username") != null) {
+			int userId = (int) request.getSession().getAttribute("userId");
+			request.setAttribute("reservedPubs", UserModel.getReservations(userId));
+		}
+		
 		request.getRequestDispatcher("/search.jsp").forward(request, response);
 	}
 

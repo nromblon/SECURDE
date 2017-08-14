@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
 import com.models.PublicationModel;
+import com.models.UserModel;
 import com.objects.Author;
 import com.objects.Publication;
 import com.objects.Publisher;
@@ -52,7 +53,7 @@ public class GetPublicationsServlet extends HttpServlet {
 	    request.setAttribute("searchTerm", searchTerm);
         request.setAttribute("publications", results);
         request.setAttribute("message", message);
-	    
+    
 	    request.getRequestDispatcher("/search").forward(request, response);
 	}
 

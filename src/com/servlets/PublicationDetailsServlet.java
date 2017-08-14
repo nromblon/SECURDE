@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.models.PublicationModel;
 import com.models.ReviewModel;
+import com.models.UserModel;
 import com.objects.Publication;
 import com.objects.Review;
 /**
@@ -32,11 +33,18 @@ public class PublicationDetailsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id = Integer.valueOf(request.getParameter("id"));
+		int pubId = Integer.valueOf(request.getParameter("id"));
 //		int userId = (request.getSession().getAttribute("userId") == null)? 0: Integer.valueOf((String) request.getSession().getAttribute("userId"));
+		boolean alreadyReserved = false;
 		
-		Publication pub = PublicationModel.getPubWithId(id);
-		ArrayList<Review> reviews = ReviewModel.getReviewsByPublication(id);
+		Publication pub = PublicationModel.getPubWithId(pubId);
+		ArrayList<Review> reviews = ReviewModel.getReviewsByPublication(pubId);
+		
+		if(request.getSession().getAttribute("username") != null) {
+			int userId = (int) request.getSession().getAttribute("userId");
+			alreadyReserved = UserModel.checkExistingReservation(userId, pubId);
+			request.setAttribute("alreadyReserved", alreadyReserved);
+		}
 		
 		request.setAttribute("details", pub);
 		request.setAttribute("reviews", reviews);
