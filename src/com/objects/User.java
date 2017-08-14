@@ -9,6 +9,7 @@ public class User extends DBObject{
 	private String email;
 	private String idNumber;
 	private String privilege;
+	private String userType;
 	
 	public User(int id, String firstName, String lastName, String middleInitial, String username, String email,
 			String idNumber, String privilege) {
@@ -21,6 +22,13 @@ public class User extends DBObject{
 		this.email = email;
 		this.idNumber = idNumber;
 		this.privilege = privilege;
+	}
+	
+	public User(int id, String idNumber, String userType) {
+		super();
+		this.id = id;
+		this.idNumber = idNumber;
+		this.userType = userType;
 	}
 	
 	public String getFirstName() {
@@ -64,6 +72,14 @@ public class User extends DBObject{
 	}
 	public void setPrivilege(String privilege) {
 		this.privilege = privilege;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 }

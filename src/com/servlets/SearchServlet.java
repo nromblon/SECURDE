@@ -53,6 +53,7 @@ public class SearchServlet extends HttpServlet {
 		if(request.getSession().getAttribute("username") != null) {
 			int userId = (int) request.getSession().getAttribute("userId");
 			request.setAttribute("reservedPubs", UserModel.getReservations(userId));
+			request.setAttribute("borrowedPubs", UserModel.getBorrowed(userId));
 		}
 		
 		request.getRequestDispatcher("/search.jsp").forward(request, response);

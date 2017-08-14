@@ -181,6 +181,12 @@
 		            	
 		            	<span class = "side-bar-header">Borrowed Books</span>
 		            	<ul>
+		            		<% if(request.getAttribute("borrowedPubs") != null) {
+		            				ArrayList<Publication> borrowedPubs = (ArrayList<Publication>) request.getAttribute("borrowedPubs");
+		            				for(int i = 0; i < borrowedPubs.size(); i++) { %>
+		            					<li class = "link side-bar-link"><a href = "publication/details?id=<%= borrowedPubs.get(i).getId()%>" class = "link"><%= borrowedPubs.get(i).getName() %></a></li>
+		            				<%}
+		            		}%>
 		            	</ul>
 		            	<hr>
 		            </div>

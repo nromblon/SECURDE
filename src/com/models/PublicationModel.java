@@ -9,6 +9,7 @@ import com.mysql.jdbc.Statement;
 import com.objects.Author;
 import com.objects.Publication;
 import com.objects.Publisher;
+import com.objects.User;
 
 public class PublicationModel implements Model{
 	
@@ -106,5 +107,61 @@ public class PublicationModel implements Model{
 	    }
 		
 		return true;
+	}
+	
+	public static User getUserWhoReserved(int pubId) {
+		User user = null;
+		try {
+			PreparedStatement checkExisting = con.prepareStatement("SELECT * FROM publicationtransaction pt "
+																 + "INNER JOIN user u ON pt.UserId = u.UserId "
+																 + "INNER JOIN usertype ut ON u.UserTypeId = ut.UserTypeId "
+																 + "WHERE pt.PublicationId = ?");
+			checkExisting.setInt(1, pubId);
+			
+			ResultSet rs = checkExisting.executeQuery();
+			if(rs.next()) {
+				user = new User(rs.getInt("UserId"), rs.getString("IdentificationNumber"), rs.getString("UserType"));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
+	
+	public static boolean checkIfBorrowed(int pubId) {
+		boolean borrowed = false;
+		try {
+			PreparedStatement checkExisting = con.prepareStatement("SELECT * FROM publicationtransaction "
+																 + "WHERE PublicationId = ?");
+			checkExisting.setInt(1, pubId);
+			
+			ResultSet rs = checkExisting.executeQuery();
+			if(rs.next()) {
+				if(rs.getTimestamp("DateBorrowed") != null)
+					borrowed = true;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return borrowed;
+	}
+	
+	public static boolean checkExistingReservation(int pubId) {
+		try {
+			PreparedStatement checkExisting = con.prepareStatement("SELECT * FROM publicationtransaction "
+																 + "WHERE PublicationId = ?");
+			checkExisting.setInt(1, pubId);
+			
+			ResultSet rs = checkExisting.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 }

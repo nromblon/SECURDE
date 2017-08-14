@@ -1,4 +1,5 @@
 <%@page import="java.util.ArrayList"%>
+<%@page import="com.objects.User"%>
 <%@page import="com.objects.Review"%>
 <%@page import="com.objects.Publication"%>
 <%@page import="com.constants.Privilege"%>
@@ -196,7 +197,9 @@
   </div>
 </div>
 
-<% if(session.getAttribute("privilege") != null && Integer.valueOf((String)session.getAttribute("privilege")) == Privilege.USER) {%>
+<% if(session.getAttribute("privilege") != null) {
+	int privilege = Integer.valueOf((String)session.getAttribute("privilege"));
+	if(privilege == Privilege.USER) {%>
 		<div class = "row">
 		  <div class = "six columns description-elems">
 		  	<% if((boolean)request.getAttribute("reservedByMe")) {%>
@@ -208,7 +211,22 @@
 		    <% } %>
 		  </div>
 		</div>
-<% } %>
+<%  } else if(privilege == Privilege.LIB_MANAGER) {%>
+		<div class = "row">
+		  <div class = "six columns">
+		  	<% if(request.getAttribute("userWhoReserved") != null) {
+		  		User user = (User)request.getAttribute("userWhoReserved");%>
+		  		<% if((boolean) request.getAttribute("alreadyBorrowed")){  %>
+			    	<span><%= user.getUserType() %> <%= user.getIdNumber() %> is currently borrowing this book.</span>
+			    <% } else { %>
+			    	<span><%= user.getUserType() %> <%= user.getIdNumber() %> wants to reserve this book.</span>
+			    	<button id = "override-reserve" class = "button-primary submit-button u-pull-right">OVERRIDE</button>
+			    <% } %>
+		    <% } %>
+		  </div>
+		</div>
+<%  } 
+  }%>
 <div class = "review-section hidden">
 	<div class = "row">
 	  <form action = "../addreview?pubId=<%= request.getParameter("id") %>" method = "post">

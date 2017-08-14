@@ -75,6 +75,18 @@ $(document).ready(function() {
             })
         } 
     })
+    
+    $("#override-reserve").click(function() {
+    	var r = confirm("Are you sure you want to override this reservation?");
+        if (r == true) {
+            $.post("../override", {
+            	id: id
+            }).done(function() {
+            	location.reload();
+            })
+        } 
+    })
+    
 })
 
 function copyDescriptions() {

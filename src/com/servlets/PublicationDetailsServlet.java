@@ -8,12 +8,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.constants.Privilege;
 import com.models.PublicationModel;
 import com.models.ReviewModel;
 import com.models.UserModel;
 import com.objects.Publication;
 import com.objects.Review;
+import com.objects.User;
 /**
  * Servlet implementation class PublicationDetailsServlet
  */
@@ -35,18 +38,27 @@ public class PublicationDetailsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int pubId = Integer.valueOf(request.getParameter("id"));
 //		int userId = (request.getSession().getAttribute("userId") == null)? 0: Integer.valueOf((String) request.getSession().getAttribute("userId"));
-		
+		HttpSession session = request.getSession();
 		
 		Publication pub = PublicationModel.getPubWithId(pubId);
 		ArrayList<Review> reviews = ReviewModel.getReviewsByPublication(pubId);
 		
-		if(request.getSession().getAttribute("username") != null) {
-			int userId = (int) request.getSession().getAttribute("userId");
-			boolean reservedByMe = UserModel.checkExistingReservation(userId, pubId);
-			request.setAttribute("reservedByMe", reservedByMe);
-			
-			boolean alreadyReserved = UserModel.checkExistingReservation(pubId);
-			request.setAttribute("alreadyReserved", alreadyReserved);
+		if(session.getAttribute("username") != null) {
+			int privilege = Integer.valueOf((String)session.getAttribute("privilege"));
+			if(privilege == Privilege.USER) {
+				int userId = (int) session.getAttribute("userId");
+				boolean reservedByMe = UserModel.checkExistingReservation(userId, pubId);
+				request.setAttribute("reservedByMe", reservedByMe);
+				
+				boolean alreadyReserved = PublicationModel.checkExistingReservation(pubId);
+				request.setAttribute("alreadyReserved", alreadyReserved);
+			} else if(privilege == Privilege.LIB_MANAGER) {
+				User user = PublicationModel.getUserWhoReserved(pubId);
+				boolean isBorrowed = PublicationModel.checkIfBorrowed(pubId);
+				
+				request.setAttribute("userWhoReserved", user);
+				request.setAttribute("alreadyBorrowed", isBorrowed);
+			}
 		}
 		
 		request.setAttribute("details", pub);
