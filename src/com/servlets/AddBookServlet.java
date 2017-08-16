@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
+import com.models.PubTypeModel;
 import com.models.PublicationModel;
 import com.mysql.jdbc.Statement;
 
@@ -42,16 +43,17 @@ public class AddBookServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String type = request.getParameter("type");
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
 		String publisher = request.getParameter("publisher");
 		String year = request.getParameter("year");
 		String location = request.getParameter("location");
-		String type = request.getParameter("type");
+		String[] tags = request.getParameterValues("tags");
 		
 //		int authorId = AuthorModel.insertAuthor("", author);
 //		int publisherId = PublisherModel.insertPublisher(publisher);
-		int pubId = PublicationModel.insertPublication(title, author, publisher, Integer.valueOf(type), location, Integer.valueOf(year));
+		int pubId = PublicationModel.insertPublication(Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags);
 	    
 		response.sendRedirect("publication/details?id="+pubId);
 	}

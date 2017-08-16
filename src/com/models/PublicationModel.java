@@ -67,14 +67,15 @@ public class PublicationModel implements Model{
 		return pubs;
 	}
 	
-	public static int insertPublication(String publication, String author, String publisher, int pubTypeId, String location, int year) {
+	public static int insertPublication(int type, String publication, String author, String publisher, String location, int year, String[] tags) {
 		int id = 0;
 		try {
-	        PreparedStatement insertPub = con.prepareStatement("INSERT INTO publication (Publication, Author, Publisher, PublicationTypeId, Location, Year) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+	        PreparedStatement insertPub = con.prepareStatement("INSERT INTO publication (Publication, PublicationTypeId, Author, Publisher, Location, Year) "
+	        												 + "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 	        insertPub.setString(1, publication);
-	        insertPub.setString(2, author);
-	        insertPub.setString(3, publisher);
-	        insertPub.setInt(4, pubTypeId);
+	        insertPub.setInt(2, type);
+	        insertPub.setString(3, author);
+	        insertPub.setString(4, publisher);
 	        insertPub.setString(5, location);
 	        insertPub.setInt(6, year);
 	        
@@ -82,6 +83,8 @@ public class PublicationModel implements Model{
 	        ResultSet pubId = insertPub.getGeneratedKeys();
 	        pubId.next();
 	        id = pubId.getInt(1);
+	        
+	        TagModel.insertTagsofPub(id, tags);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.models.PubTypeModel;
+import com.models.TagModel;
+
 /**
  * Servlet implementation class AddPublicationServlet
  */
@@ -25,6 +28,8 @@ public class AddPublicationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("allTags", TagModel.getAllTags());
+		request.setAttribute("pubTypes", PubTypeModel.getPubTypes());
 		request.getRequestDispatcher("/addpublication.jsp").forward(request, response);
 	}
 

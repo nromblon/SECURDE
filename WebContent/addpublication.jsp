@@ -1,3 +1,7 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.objects.Tag"%>
+<%@page import="com.objects.PubType"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -66,10 +70,11 @@
                     <tr>
                     <td>
                         <select name = "type" id = "pub-type-select">
-                            <option value = "1">Book</option>
-                            <option value = "2">Thesis</option>
-                            <option value = "3">Magazine</option>
-                        </select>
+			                  <% ArrayList<PubType> pubTypes = (ArrayList<PubType>)request.getAttribute("pubTypes"); 
+			                  	 for(int i = 0; i < pubTypes.size(); i++) { %>
+		                  	 		<option value = <%= pubTypes.get(i).getId() %>><%= pubTypes.get(i).getName() %></option>
+			                  <% } %>
+			              </select>
                     </td>
                     <td></td>
                     </tr>
@@ -105,10 +110,12 @@
                     <tr>
                     <td>Tags</td>
                     <td>
-                        <select id = "pub-tag-select">
-                            <option>Math</option>
-                            <option>Science</option>
-                        </select>
+                        <div id = "pub-tag-select">
+			              <% ArrayList<Tag> allTags = (ArrayList<Tag>)request.getAttribute("allTags"); 
+			                 for(int i = 0; i < allTags.size(); i++) { %>
+			              		<input type="checkbox" name="tags" value=<%= allTags.get(i).getId() %>> <%= allTags.get(i).getName() %><br>
+			              <% }%>
+            			</div>
                     </td>
                     </tr>
                     <tr>
