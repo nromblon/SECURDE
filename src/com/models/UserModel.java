@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.constants.Status;
 import com.mysql.jdbc.Statement;
 import com.objects.Publication;
 import com.objects.User;
@@ -63,6 +64,8 @@ public class UserModel implements Model{
 				ResultSet rs = insertTransaction.getGeneratedKeys();
 				rs.next();
 				transactionId = rs.getInt(1);
+				
+				PublicationModel.setPubStatus(pubId, Status.RESERVED);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -131,6 +134,8 @@ public class UserModel implements Model{
 				override.setInt(2, rs.getInt("PublicationTransactionId"));
 				
 				override.executeUpdate();
+				
+				PublicationModel.setPubStatus(pubId, Status.OUT);
 				success = true;
 			}
 		}catch(SQLException e) {

@@ -3,6 +3,7 @@
 <%@page import="com.objects.Review"%>
 <%@page import="com.objects.Publication"%>
 <%@page import="com.objects.Tag"%>
+<%@page import="com.objects.PubType"%>
 <%@page import="com.constants.Privilege"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -84,9 +85,9 @@
 	    <div class="one column">
 	        <select name = "category" class = "search-select" id = "category">
 	            <option>View Entire Collection</option>
-	            <option value = "Book">Books</option>
-	            <option value = "Magazine">Thesis</option>
-	            <option value = "Thesis">Magazines</option>
+	            <option value = "1">Books</option>
+	            <option value = "2">Thesis</option>
+	            <option value = "3">Magazines</option>
 	        </select>
 	    </div>
 	</form>
@@ -116,9 +117,14 @@
             </div>
             <div class = "edit-elems hidden">
               <select id = "pub-type-select">
-                  <option>Book</option>
-                  <option>Thesis</option>
-                  <option>Magazine</option>
+                  <% ArrayList<PubType> pubTypes = (ArrayList<PubType>)request.getAttribute("pubTypes"); 
+                  	 for(int i = 0; i < pubTypes.size(); i++) {
+                  	 	if(pubTypes.get(i).getName().equals(pub.getType())) {%>
+                  	 		<option value = <%= pubTypes.get(i).getId() %> selected><%= pubTypes.get(i).getName() %></option>
+                  	 	<%} else { %>
+                  	 		<option value = <%= pubTypes.get(i).getId() %>><%= pubTypes.get(i).getName() %></option>
+                  	 	<%} %>
+                  <% } %>
               </select>
             </div>
           </td>
@@ -197,6 +203,14 @@
               				<input type="checkbox" name="tags" value=<%= allTags.get(i).getId() %>> <%= allTags.get(i).getName() %><br>
               		<% } %>
               <% }%>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>
+            <div>
+              <span id = "pub-status-text"><%= pub.getStatus() %></span>
             </div>
           </td>
         </tr>

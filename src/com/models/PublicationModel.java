@@ -25,7 +25,9 @@ public class PublicationModel implements Model{
 			
 			rs.next();
 			
-			pub = new Publication(id, rs.getString("Publication"), rs.getString("Author"), rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"));
+			String author = (rs.getString("Author").equals("null"))? "No author":rs.getString("Author");
+			
+			pub = new Publication(id, rs.getString("Publication"), author, rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,16 +50,17 @@ public class PublicationModel implements Model{
     	}
     	
 		try {
-			//TODO: fix because query doesn't show pubs without authors
 			PreparedStatement getPubs = con.prepareStatement("SELECT * "
 															+ "FROM publication p "
 															+ "INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId "
 															+ "INNER JOIN status s ON p.StatusId = s.StatusId WHERE "+condition1+" "+condition2);
 	    	ResultSet rs = getPubs.executeQuery();
 			
-	    	while(rs.next())
-				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), rs.getString("Author"), rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
-		} catch (SQLException e) {
+	    	while(rs.next()) {
+				String author = (rs.getString("Author").equals("null"))? "No author":rs.getString("Author");
+				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), author, rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
+	    	}
+    	} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
@@ -159,22 +162,40 @@ public class PublicationModel implements Model{
 		return false;
 	}
 	
-	public static boolean editPublication(int pubId, String title, String author, String publisher, String location, int year, String[] tags) {
+	public static boolean editPublication(int pubId, int typeId, String title, String author, String publisher, String location, int year, String[] tags) {
 		boolean success = false;
 		try {	        	
 	        PreparedStatement updatePub = con.prepareStatement("UPDATE publication "
-	        												 + "SET Publication = ?, Author = ?, Publisher = ?, Location = ?, Year = ? "
+	        												 + "SET Publication = ?, PublicationTypeId = ?, Author = ?, Publisher = ?, Location = ?, Year = ? "
 	        												 + "WHERE PublicationId = ?");
 	        updatePub.setString(1, title);
-	        updatePub.setString(2, author);
-	        updatePub.setString(3, publisher);
-	        updatePub.setString(4, location);
-	        updatePub.setInt(5, year);
-	        updatePub.setInt(6, pubId);
+	        updatePub.setInt(2, typeId);
+	        updatePub.setString(3, author);
+	        updatePub.setString(4, publisher);
+	        updatePub.setString(5, location);
+	        updatePub.setInt(6, year);
+	        updatePub.setInt(7, pubId);
 	        updatePub.executeUpdate();
 	        
 	        TagModel.deleteTagsofPub(pubId);
 	        TagModel.insertTagsofPub(pubId, tags);
+	        
+	        success = true;
+	    } catch(Exception e) {
+	    	System.out.println(e.getMessage());
+	    }
+		
+		return success;
+	}
+	
+	public static boolean setPubStatus(int pubId, int status) {
+		boolean success = false;
+		try {	        	
+	        PreparedStatement setStatus = con.prepareStatement("UPDATE publication SET StatusId = ? WHERE PublicationId = ?");
+	        setStatus.setInt(1, status);
+	        setStatus.setInt(2, pubId);
+	        
+	        setStatus.executeUpdate();
 	        
 	        success = true;
 	    } catch(Exception e) {

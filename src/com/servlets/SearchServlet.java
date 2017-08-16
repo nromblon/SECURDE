@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.models.PubTypeModel;
 import com.models.UserModel;
+import com.objects.PubType;
 
 /**
  * Servlet implementation class SearchServlet
@@ -33,14 +34,14 @@ public class SearchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String category = (request.getParameter("category") == null)? "View Entire Collection": request.getParameter("category");
 		String searchBy = (request.getParameter("searchBy") == null)? "Title": request.getParameter("searchBy");
-		ArrayList<String> pubTypes = PubTypeModel.getPubTypes();
+		ArrayList<PubType> pubTypes = PubTypeModel.getPubTypes();
 		
 		String categorySelect = "<option>View Entire Collection</option>";
-		for (String pubType : pubTypes) {
-			if(pubType.equals(category))
-				categorySelect = categorySelect.concat("<option value = "+pubType+" selected>"+pubType+"</option>");
+		for (PubType pubType : pubTypes) {
+			if(pubType.getName().equals(category))
+				categorySelect = categorySelect.concat("<option value = "+pubType.getName()+" selected>"+pubType.getName()+"</option>");
 			else
-				categorySelect = categorySelect.concat("<option value = "+pubType+">"+pubType+"</option>");
+				categorySelect = categorySelect.concat("<option value = "+pubType.getName()+">"+pubType.getName()+"</option>");
 		}
 		
 		String searchBySelect = "<option value = 'Publication' "+((searchBy.equals("Publication"))? "selected":"")+">Title</option>"
