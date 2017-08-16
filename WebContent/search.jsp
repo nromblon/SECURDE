@@ -1,7 +1,5 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.objects.Publication"%>
-<%@page import="com.objects.Author"%>
-<%@page import="com.objects.Publisher"%>
 <%@page import="com.constants.Privilege"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -122,8 +120,8 @@
 												<div class = "nine columns">
 													<span class = "link result-title"><%= publications.get(i).getName() %></span>
 													<hr/>
-													<span class = "result-author"><%= publications.get(i).getAuthor().getName() %></span>
-													<span class = "result-publisher"><%= publications.get(i).getPublisher().getName() %></span> (<span class="result-year"><%= publications.get(i).getYear() %></span>)
+													<span class = "result-author"><%= publications.get(i).getAuthor() %></span>
+													<span class = "result-publisher"><%= publications.get(i).getPublisher() %></span> (<span class="result-year"><%= publications.get(i).getYear() %></span>)
 												</div>
 											</div>
 										</a>

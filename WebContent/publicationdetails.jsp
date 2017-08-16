@@ -126,7 +126,7 @@
           <td>Author</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-author-text"><%= pub.getAuthor().getNameLastNameFirst() %></span>
+              <span id = "pub-author-text"><%= pub.getAuthor() %></span>
             </div>
             <div class = "edit-elems hidden">
               <input class="u-full-width" type="text" id="pub-author">
@@ -137,7 +137,7 @@
           <td>Publisher</td>
           <td>
             <div class = "description-elems">
-              <span id = "pub-publisher-text"><%= pub.getPublisher().getName() %></span>
+              <span id = "pub-publisher-text"><%= pub.getPublisher() %></span>
             </div>
             <div class = "edit-elems hidden">
               <input class="u-full-width" type="text" id="pub-publisher">

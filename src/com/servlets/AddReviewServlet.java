@@ -43,6 +43,7 @@ public class AddReviewServlet extends HttpServlet {
 		String pubId = request.getParameter("pubId");
 		String reviewText = request.getParameter("reviewText");
 		
+		//TODO: only users who reserved book can review
 		ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
 
 		response.sendRedirect("publication/details?id="+pubId);

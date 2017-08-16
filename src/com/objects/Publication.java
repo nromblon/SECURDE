@@ -3,13 +3,13 @@ package com.objects;
 public class Publication extends DBObject{
 	
 	private String name;
-	private Author author;
-	private Publisher publisher;
+	private String author;
+	private String publisher;
 	private String type;
 	private String status;
 	private String location;
 	private int year;
-	public Publication(int id, String name, Author author, Publisher publisher, String type, String status,
+	public Publication(int id, String name, String author, String publisher, String type, String status,
 			String location, int year) {
 		super();
 		this.id = id;
@@ -35,16 +35,16 @@ public class Publication extends DBObject{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Author getAuthor() {
+	public String getAuthor() {
 		return author;
 	}
-	public void setAuthor(Author author) {
+	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public Publisher getPublisher() {
+	public String getPublisher() {
 		return publisher;
 	}
-	public void setPublisher(Publisher publisher) {
+	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 	public String getType() {

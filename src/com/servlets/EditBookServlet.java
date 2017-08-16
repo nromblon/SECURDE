@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
+import com.models.PublicationModel;
 /**
  * Servlet implementation class AddPublicationServlet
  */
@@ -19,7 +20,7 @@ import com.db.DBConnector;
 public class EditBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private String bookId;
+//	private String bookId;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -32,7 +33,7 @@ public class EditBookServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/publication/details?id="+bookId).forward(request, response);
+//		request.getRequestDispatcher("/publication/details?id="+bookId).forward(request, response);
 	}
 
 	/**
@@ -41,28 +42,30 @@ public class EditBookServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection con = DBConnector.getConnection();
 		
-		bookId = request.getParameter("id");
+		//TODO: change type and others
+		String bookId = request.getParameter("id");
 		String author = request.getParameter("author");
 		String title = request.getParameter("title");
 		String location = request.getParameter("location");
 		String publisher = request.getParameter("publisher");
 		String year = request.getParameter("year");
 		
-	    try {	        	
-	        PreparedStatement getPub = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId WHERE p.PublicationId = "+bookId);
-	        ResultSet rs = getPub.executeQuery();
-	        
-	        rs.next();
-	        
-	        PreparedStatement updateAuthor = con.prepareStatement("UPDATE author SET AuthorFirstName = '', AuthorLastName = '" +request.getParameter("author")+ "' WHERE AuthorId = "+rs.getInt("AuthorId"));
-	        updateAuthor.executeUpdate();
-	        
-	        PreparedStatement updatePub = con.prepareStatement("UPDATE publication SET Publication = '" +title+ "', Location = '" +location+ "', Year = "+year+" WHERE PublicationId = "+bookId);
-	        updatePub.executeUpdate();
-
-	    } catch(Exception e) {
-	    	System.out.println(e.getMessage());
-	    }
+//	    try {	        	
+//	        PreparedStatement getPub = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId WHERE p.PublicationId = "+bookId);
+//	        ResultSet rs = getPub.executeQuery();
+//	        
+//	        rs.next();
+//	        
+//	        PreparedStatement updateAuthor = con.prepareStatement("UPDATE author SET AuthorFirstName = '', AuthorLastName = '" +request.getParameter("author")+ "' WHERE AuthorId = "+rs.getInt("AuthorId"));
+//	        updateAuthor.executeUpdate();
+//	        
+//	        PreparedStatement updatePub = con.prepareStatement("UPDATE publication SET Publication = '" +title+ "', Location = '" +location+ "', Year = "+year+" WHERE PublicationId = "+bookId);
+//	        updatePub.executeUpdate();
+//
+//	    } catch(Exception e) {
+//	    	System.out.println(e.getMessage());
+//	    }
+		PublicationModel.editPublication(Integer.valueOf(bookId), title, author, publisher, location, Integer.valueOf(year));
 	    
 //	    doGet(request, response);
 	    

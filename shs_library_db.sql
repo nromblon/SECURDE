@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2017 at 04:54 AM
+-- Generation Time: Aug 16, 2017 at 05:49 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -19,41 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `shs_library_db`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `author`
---
-
-CREATE TABLE `author` (
-  `AuthorId` int(11) NOT NULL,
-  `AuthorFirstName` varchar(45) NOT NULL,
-  `AuthorLastName` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `author`
---
-
-INSERT INTO `author` (`AuthorId`, `AuthorFirstName`, `AuthorLastName`) VALUES
-(1, 'Justin Michael', 'Almazora'),
-(2, 'Brendaly', 'Bagus'),
-(3, 'Maeve', 'Binchy'),
-(4, 'Dan', 'Brown'),
-(5, 'Andrea', 'Camilleri'),
-(6, 'Kenneth', 'Chua'),
-(7, 'Umberto', 'Eco'),
-(8, 'Glenn', 'Hardaker'),
-(9, 'Tancalagan', 'Kent'),
-(10, 'Eden', 'Mariquit'),
-(11, 'Joaquin Angelo', 'Nacpil'),
-(12, 'J.K.', 'Rowling'),
-(13, '', ''),
-(14, '', ''),
-(15, '', ''),
-(16, '', 'sdf'),
-(17, '', 'sdf');
 
 -- --------------------------------------------------------
 
@@ -85,8 +50,8 @@ INSERT INTO `privilege` (`PrivilegeId`, `Privilege`) VALUES
 CREATE TABLE `publication` (
   `PublicationId` int(11) NOT NULL,
   `Publication` varchar(140) NOT NULL,
-  `AuthorId` int(11) DEFAULT NULL,
-  `PublisherId` int(11) DEFAULT NULL,
+  `Author` varchar(100) DEFAULT NULL,
+  `Publisher` varchar(100) DEFAULT NULL,
   `PublicationTypeId` int(11) NOT NULL,
   `StatusId` int(11) NOT NULL DEFAULT '1',
   `Location` varchar(45) NOT NULL,
@@ -100,31 +65,31 @@ CREATE TABLE `publication` (
 -- Dumping data for table `publication`
 --
 
-INSERT INTO `publication` (`PublicationId`, `Publication`, `AuthorId`, `PublisherId`, `PublicationTypeId`, `StatusId`, `Location`, `Year`, `BorrowedUntil`, `ReservedUntil`, `ImageLocation`) VALUES
-(1, 'ACM transactions on internet technology', NULL, 1, 2, 1, 'TK5105.875.I57', 2001, NULL, NULL, NULL),
-(2, 'An Investigation on a multi-fear recognition model using facial features and survival horror games', 11, 3, 3, 1, 'CDTG006579', 2015, NULL, NULL, NULL),
-(3, 'Angels & Demons', 4, 10, 1, 1, '813.54', 2000, NULL, NULL, NULL),
-(4, 'Evaluation of the suitability of grade B low carbon steel to low pH fluids', 2, 3, 3, 1, 'TU07669', 1997, NULL, NULL, NULL),
-(5, 'Forbes', NULL, 5, 2, 1, 'Periodicals Section', 1918, NULL, NULL, NULL),
-(6, 'GSM-controlled home security alarm system using IR/LASER based sensors and auto tracking IP camera', 1, 3, 3, 1, 'TU21505', 2016, NULL, NULL, NULL),
-(7, 'Harry Potter and the \nPrisoner of Azkaban', 12, 12, 1, 1, '823.914', 1999, NULL, NULL, NULL),
-(8, 'Harry Potter and the Chamber of Secrets', 12, 12, 1, 1, '823.914', 1999, NULL, NULL, NULL),
-(9, 'Harry Potter and the Goblet of Fire', 12, 12, 1, 1, '823.914', 2000, NULL, NULL, NULL),
-(10, 'Internet-based control mobile robot for methane gas detection and neutralization', 6, 3, 3, 1, 'TU18755', 2014, NULL, NULL, NULL),
-(11, 'Journal of information studies\r\n', NULL, 14, 2, 1, 'HM258 .T643 ', 2005, NULL, NULL, NULL),
-(12, 'PC Magazine', NULL, 8, 2, 1, 'Periodicals Section', 1986, NULL, NULL, NULL),
-(13, 'Reader\'s Digest', NULL, 11, 2, 1, 'Periodicals Section', 1922, NULL, NULL, NULL),
-(14, 'Rounding the Mark\r\n', 5, 9, 1, 1, '853.914', 2006, NULL, NULL, NULL),
-(15, 'Study of the catalytic activities of activated carbon-supported catalysts and manganese oxide catalysts for complete oxidation of xylene', 10, 3, 3, 1, 'CDTG004654', 2009, NULL, NULL, NULL),
-(16, 'Tara Road', 3, 7, 1, 1, '823.914', 1998, NULL, NULL, NULL),
-(17, 'The Da Vinci code', 4, 4, 1, 1, '813.54', 2003, NULL, NULL, NULL),
-(18, 'The Lost Symbol', 4, 4, 1, 1, '813.54', 2009, NULL, NULL, NULL),
-(19, 'The Name of the Rose', 7, 6, 1, 1, '853.914', 1986, NULL, NULL, NULL),
-(20, 'Top Gear Philippines', NULL, 13, 2, 1, 'Periodicals Section', 2004, NULL, NULL, NULL),
-(21, 'Wired', NULL, 15, 2, 1, 'Periodicals Section', 1993, NULL, NULL, NULL),
-(22, 'Wired marketing : energizing business for e-commerce', 8, 2, 1, 1, 'HF5415.1265 .H37 2001', 2001, NULL, NULL, NULL),
-(23, 'Women in agriculture : their nutritional knowledge & roles in addressing hidden hunger', 9, 3, 3, 1, 'CDTG005471', 2013, NULL, NULL, NULL),
-(25, 'adasdasd', 16, 20, 1, 1, '', 1917, NULL, NULL, NULL);
+INSERT INTO `publication` (`PublicationId`, `Publication`, `Author`, `Publisher`, `PublicationTypeId`, `StatusId`, `Location`, `Year`, `BorrowedUntil`, `ReservedUntil`, `ImageLocation`) VALUES
+(1, 'ACM transactions on internet technology', NULL, 'Association for Computing Machinery', 2, 1, 'TK5105.875.I57', 2001, NULL, NULL, NULL),
+(2, 'An Investigation on a multi-fear recognition model using facial features and survival horror games', 'Bagus, Brandaly', 'Chichester', 3, 1, 'CDTG006579', 2015, NULL, NULL, NULL),
+(3, 'Angels & Demons', 'Brown, Dan', 'Picador', 1, 1, '813.54', 2000, NULL, NULL, NULL),
+(4, 'Evaluation of the suitability of grade B low carbon steel to low pH fluids', 'Bagus, Brandaly', 'Chichester', 3, 1, 'TU07669', 1997, NULL, NULL, NULL),
+(5, 'Forbes', NULL, 'Chichester', 2, 1, 'Periodicals Section', 1918, NULL, NULL, NULL),
+(6, 'GSM-controlled home security alarm system using IR/LASER based sensors and auto tracking IP camera', 'Chua, Kenneth', 'Chichester', 3, 1, 'TU21505', 2016, NULL, NULL, NULL),
+(7, 'Harry Potter and the \nPrisoner of Azkaban', 'Rowling, J.K.', 'Readers Digest Association', 1, 1, '823.914', 1999, NULL, NULL, NULL),
+(8, 'Harry Potter and the Chamber of Secrets', 'Rowling, J.K.', 'Readers Digest Association', 1, 1, '823.914', 1999, NULL, NULL, NULL),
+(9, 'Harry Potter and the Goblet of Fire', 'Rowling, J.K.', 'Readers Digest Association', 1, 1, '823.914', 2000, NULL, NULL, NULL),
+(10, 'Internet-based control mobile robot for methane gas detection and neutralization', 'Mariquit, Eden', 'Chichester', 3, 1, 'TU18755', 2014, NULL, NULL, NULL),
+(11, 'Journal of information studies\r\n', NULL, 'Summit Media', 2, 1, 'HM258 .T643 ', 2005, NULL, NULL, NULL),
+(12, 'PC Magazine', NULL, 'Orion Publishing Group', 2, 1, 'Periodicals Section', 1986, NULL, NULL, NULL),
+(13, 'Readers Digest', NULL, 'Pocket books', 2, 1, 'Periodicals Section', 1922, NULL, NULL, NULL),
+(14, 'Rounding the Mark\r\n', 'Mark, Joseph', 'PC Communications Corp.', 1, 1, '853.914', 2006, NULL, NULL, NULL),
+(15, 'Study of the catalytic activities of activated carbon-supported catalysts and manganese oxide catalysts for complete oxidation of xylene', 'Bagus, Brandaly', 'Chichester', 3, 1, 'CDTG004654', 2009, NULL, NULL, NULL),
+(16, 'Tara Road', 'Binchy, Maeve', 'Harcourt', 1, 1, '823.914', 1998, NULL, NULL, NULL),
+(17, 'The Da Vinci code', 'Brown, Dan', 'Picador', 1, 1, '813.54', 2003, NULL, NULL, NULL),
+(18, 'The Lost Symbol', 'Brown, Dan', 'Picador', 1, 1, '813.54', 2009, NULL, NULL, NULL),
+(19, 'The Name of the Rose', 'Ball, Lucio', 'Scholastic', 1, 1, '853.914', 1986, NULL, NULL, NULL),
+(20, 'Top Gear Philippines', NULL, 'Scholastic', 2, 1, 'Periodicals Section', 2004, NULL, NULL, NULL),
+(21, 'Wired', NULL, 'The University of Tokyo', 2, 1, 'Periodicals Section', 1993, NULL, NULL, NULL),
+(22, 'Wired marketing : energizing business for e-commerce', 'Jones, John', 'Readers Digest Association', 1, 1, 'HF5415.1265 .H37 2001', 2001, NULL, NULL, NULL),
+(23, 'Women in agriculture : their nutritional knowledge & roles in addressing hidden hunger', 'Camilleri, Andrea', 'Chichester', 3, 1, 'CDTG005471', 2013, NULL, NULL, NULL),
+(25, 'adasdasd', 'Chua, Kenneth', 'Scholastic', 1, 1, '', 1917, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -208,44 +173,6 @@ INSERT INTO `publicationtype` (`PublicationTypeId`, `PublicationType`) VALUES
 (1, 'Book'),
 (2, 'Magazine'),
 (3, 'Thesis');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `publisher`
---
-
-CREATE TABLE `publisher` (
-  `PublisherId` int(11) NOT NULL,
-  `Publisher` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `publisher`
---
-
-INSERT INTO `publisher` (`PublisherId`, `Publisher`) VALUES
-(1, 'Association for Computing Machinery'),
-(2, 'Association for Computing Machinery'),
-(3, 'Chichester'),
-(4, 'De La Salle University'),
-(5, 'Doubleday'),
-(6, 'Forbes Inc.'),
-(7, 'Harcourt'),
-(8, 'Orion Publishing Group'),
-(9, 'PC Communications Corp.'),
-(10, 'Picador'),
-(11, 'Pocket books'),
-(12, 'Readers Digest Association'),
-(13, 'Scholastic'),
-(14, 'Summit Media'),
-(15, 'The University of Tokyo'),
-(16, 'Wired USA'),
-(17, ''),
-(18, ''),
-(19, ''),
-(20, 'sdf'),
-(21, 'sdfsdfs');
 
 -- --------------------------------------------------------
 
@@ -437,6 +364,7 @@ CREATE TABLE `user` (
   `Username` varchar(45) NOT NULL,
   `PasswordHash` varchar(100) NOT NULL,
   `Email` varchar(45) NOT NULL,
+  `Birthday` date DEFAULT NULL,
   `IdentificationNumber` varchar(45) NOT NULL,
   `SecurityQuestionId` int(11) NOT NULL,
   `AnswerHash` binary(64) NOT NULL,
@@ -451,12 +379,12 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`, `Created_On`, `IsLocked`, `IsTemporary`) VALUES
-(1, 'Maynard', 'Si', 'C.', 'user', 'password', 'maynard_si@dlsu.edu.ph', '1', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 1, '2017-08-16 10:48:28', 0, 0),
-(2, 'Neil', 'Romblon', 'V.', 'manager', 'password', 'neil_romblon@dlsu.edu.ph', '2', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2, NULL, '2017-08-16 10:48:28', 0, 0),
-(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password', 'luis_madrigal@dlsu.edu.ph', '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, NULL, '2017-08-16 10:48:28', 0, 0),
-(4, 'System', 'Administrator', 'D.', 'administrator', 'password', 'admin@dlsu.edu.ph', '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4, NULL, '2017-08-16 10:48:28', 0, 0),
-(5, 'John', 'Jones', 'I', 'user2', 'password', 'user@mail.com', '12312323', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 2, '2017-08-16 10:48:28', 0, 0);
+INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `Birthday`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`, `Created_On`, `IsLocked`, `IsTemporary`) VALUES
+(1, 'Maynard', 'Si', 'C.', 'user', 'password', 'maynard_si@dlsu.edu.ph', NULL, '1', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 1, '2017-08-16 10:48:28', 0, 0),
+(2, 'Neil', 'Romblon', 'V.', 'manager', 'password', 'neil_romblon@dlsu.edu.ph', NULL, '2', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2, NULL, '2017-08-16 10:48:28', 0, 0),
+(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password', 'luis_madrigal@dlsu.edu.ph', NULL, '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, NULL, '2017-08-16 10:48:28', 0, 0),
+(4, 'System', 'Administrator', 'D.', 'administrator', 'password', 'admin@dlsu.edu.ph', NULL, '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4, NULL, '2017-08-16 10:48:28', 0, 0),
+(5, 'John', 'Jones', 'I', 'user2', 'password', 'user@mail.com', NULL, '12312323', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 2, '2017-08-16 10:48:28', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -480,12 +408,6 @@ INSERT INTO `usertype` (`UserTypeId`, `UserType`) VALUES
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `author`
---
-ALTER TABLE `author`
-  ADD PRIMARY KEY (`AuthorId`);
 
 --
 -- Indexes for table `privilege`
@@ -522,12 +444,6 @@ ALTER TABLE `publicationtransaction`
 --
 ALTER TABLE `publicationtype`
   ADD PRIMARY KEY (`PublicationTypeId`);
-
---
--- Indexes for table `publisher`
---
-ALTER TABLE `publisher`
-  ADD PRIMARY KEY (`PublisherId`);
 
 --
 -- Indexes for table `reviews`
@@ -597,11 +513,6 @@ ALTER TABLE `usertype`
 --
 
 --
--- AUTO_INCREMENT for table `author`
---
-ALTER TABLE `author`
-  MODIFY `AuthorId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
---
 -- AUTO_INCREMENT for table `privilege`
 --
 ALTER TABLE `privilege`
@@ -621,11 +532,6 @@ ALTER TABLE `publicationtransaction`
 --
 ALTER TABLE `publicationtype`
   MODIFY `PublicationTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `publisher`
---
-ALTER TABLE `publisher`
-  MODIFY `PublisherId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `reviews`
 --

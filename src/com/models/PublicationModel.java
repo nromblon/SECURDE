@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
-import com.objects.Author;
 import com.objects.Publication;
-import com.objects.Publisher;
 import com.objects.User;
 
 public class PublicationModel implements Model{
@@ -19,8 +17,6 @@ public class PublicationModel implements Model{
 			//TODO: fix because query doesn't show pubs without authors
 			PreparedStatement stmt = con.prepareStatement("SELECT * "
 														+ "FROM publication p "
-														+ "INNER JOIN author a ON p.AuthorId = a.AuthorId "
-														+ "INNER JOIN publisher pub ON p.PublisherId = pub.PublisherId "
 														+ "INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId "
 														+ "INNER JOIN status s ON p.StatusId = s.StatusId "
 														+ "WHERE p.PublicationId=?");
@@ -29,7 +25,7 @@ public class PublicationModel implements Model{
 			
 			rs.next();
 			
-			pub = new Publication(id, rs.getString("Publication"), new Author(rs.getInt("AuthorId"), rs.getString("AuthorFirstName"), rs.getString("AuthorLastName")), new Publisher(rs.getInt("PublisherId"), rs.getString("Publisher")), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"));
+			pub = new Publication(id, rs.getString("Publication"), rs.getString("Author"), rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -47,22 +43,20 @@ public class PublicationModel implements Model{
     	
     	switch(searchBy) {
     	case "Publication": condition1 = "p.Publication LIKE '%"+searchTerm+"%'"; break;
-    	case "Author": condition1 = "a.AuthorFirstName LIKE '%"+searchTerm+"%' OR a.AuthorLastName LIKE '%"+searchTerm+"%'"; break;
-    	case "Publisher": condition1 = "pub.Publisher LIKE '%"+searchTerm+"%'"; break;
+    	case "Author": condition1 = "p.Author LIKE '%"+searchTerm+"%'"; break;
+    	case "Publisher": condition1 = "p.Publisher LIKE '%"+searchTerm+"%'"; break;
     	}
     	
 		try {
 			//TODO: fix because query doesn't show pubs without authors
 			PreparedStatement getPubs = con.prepareStatement("SELECT * "
 															+ "FROM publication p "
-															+ "INNER JOIN author a ON p.AuthorId = a.AuthorId "
-															+ "INNER JOIN publisher pub ON p.PublisherId = pub.PublisherId "
 															+ "INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId "
 															+ "INNER JOIN status s ON p.StatusId = s.StatusId WHERE "+condition1+" "+condition2);
 	    	ResultSet rs = getPubs.executeQuery();
 			
 	    	while(rs.next())
-				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), new Author(rs.getInt("AuthorId"), rs.getString("AuthorFirstName"), rs.getString("AuthorLastName")), new Publisher(rs.getInt("PublisherId"), rs.getString("Publisher")), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
+				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), rs.getString("Author"), rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -70,13 +64,13 @@ public class PublicationModel implements Model{
 		return pubs;
 	}
 	
-	public static int insertPublication(String publication, int authorId, int publisherId, int pubTypeId, String location, int year) {
+	public static int insertPublication(String publication, String author, String publisher, int pubTypeId, String location, int year) {
 		int id = 0;
 		try {
-	        PreparedStatement insertPub = con.prepareStatement("INSERT INTO publication (Publication, AuthorId, PublisherId, PublicationTypeId, Location, Year) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+	        PreparedStatement insertPub = con.prepareStatement("INSERT INTO publication (Publication, Author, Publisher, PublicationTypeId, Location, Year) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 	        insertPub.setString(1, publication);
-	        insertPub.setInt(2, authorId);
-	        insertPub.setInt(3, publisherId);
+	        insertPub.setString(2, author);
+	        insertPub.setString(3, publisher);
 	        insertPub.setInt(4, pubTypeId);
 	        insertPub.setString(5, location);
 	        insertPub.setInt(6, year);
@@ -163,5 +157,27 @@ public class PublicationModel implements Model{
 		}
 		
 		return false;
+	}
+	
+	public static boolean editPublication(int pubId, String title, String author, String publisher, String location, int year) {
+		boolean success = false;
+		try {	        	
+	        PreparedStatement updatePub = con.prepareStatement("UPDATE publication "
+	        												 + "SET Publication = ?, Author = ?, Publisher = ?, Location = ?, Year = ? "
+	        												 + "WHERE PublicationId = ?");
+	        updatePub.setString(1, title);
+	        updatePub.setString(2, author);
+	        updatePub.setString(3, publisher);
+	        updatePub.setString(4, location);
+	        updatePub.setInt(5, year);
+	        updatePub.setInt(6, pubId);
+	        updatePub.executeUpdate();
+	        
+	        success = true;
+	    } catch(Exception e) {
+	    	System.out.println(e.getMessage());
+	    }
+		
+		return success;
 	}
 }
