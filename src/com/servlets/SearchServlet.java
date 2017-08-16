@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.models.PubTypeModel;
 import com.models.UserModel;
 import com.objects.PubType;
+import com.utils.Validator;
 
 /**
  * Servlet implementation class SearchServlet

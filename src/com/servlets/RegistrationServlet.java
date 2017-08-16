@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.constants.Privilege;
 import com.db.DBConnector;
+import com.utils.Validator;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -95,58 +97,99 @@ public class RegistrationServlet extends HttpServlet {
         Date birthday= Date.valueOf(request.getParameter("calendar"));
         String answer= request.getParameter("answer");
         
-        try{ //TODO validate this as numbers only
-	        int idnumber= Integer.parseInt(request.getParameter("idnumber"));
-	        int secretQuestion= Integer.parseInt(request.getParameter("secretQuestion"));
-	        int userType = Integer.parseInt(request.getParameter("userType"));
-	        
-	        Connection conn = null;
-	        
-	        try{
-				conn = DBConnector.getConnection();
+        Boolean flag = true;
+        
+        Validator validator = Validator.getInstance();
 		
-				String updateQuery = "INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,Birthday,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId,UserTypeId)"
-						+ " VALUES (?,?,?,?,PASSWORD(?),?,?,?,?,PASSWORD(?),?,?)";
-		        PreparedStatement stmt = conn.prepareStatement(updateQuery,Statement.RETURN_GENERATED_KEYS);
-		        stmt.setString(1, firstname);
-		        stmt.setString(2, lastname);
-		        stmt.setString(3, midinitial);
-		        stmt.setString(4, username);
-		        stmt.setString(5, password);
-		        stmt.setString(6, email);
-		       	stmt.setDate(7, birthday);
-		        stmt.setInt(8, idnumber);
-		        stmt.setInt(9, secretQuestion); 
-		        stmt.setString(10, answer);
-		        stmt.setInt(11, 1);
-		        stmt.setInt(12, userType);
-				if(stmt.executeUpdate()>0)
-				{
-					ResultSet key = stmt.getGeneratedKeys();
-					if(key.next()){
-						HttpSession session= request.getSession();
-						session.setAttribute("userId", key.getInt(1));
-						session.setAttribute("lastName", lastname);
-						session.setAttribute("middleName", midinitial);
-						session.setAttribute("firstName", firstname);
-						session.setAttribute("username", username);
-						session.setAttribute("privilege", Integer.toString(Privilege.USER));
+		if(!(validator.isAlphaNumericHasSpace(firstname, 45))) {
+			request.setAttribute("error", "Invalid First Name!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumericHasSpace(lastname,45))) {
+			request.setAttribute("error", "Invalid Last Name!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumeric(midinitial,2))) {
+			request.setAttribute("error", "Invalid Middle Initial!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumeric(username,45))) {
+			request.setAttribute("error", "Invalid Username!");
+			flag = false;
+		}						
+		if(!(validator.isAlphaNumeric(password,45))) {
+			request.setAttribute("error", "Invalid Password!");
+			flag = false;
+		}								
+//		if(!(validator.isAlphaNumeric(cpassword,45)) && ( password!=cpassword )) {
+//			request.setAttribute("error", "Check confirm password!");
+//			flag = false;
+//		}		
+		if(!(validator.validateEmail(email))) {
+			request.setAttribute("error", "Invalid Email!");
+			flag = false;
+		}													
+		if(!(validator.isAlphaNumericHasSpace(answer,45))) {
+			request.setAttribute("error", "Invalid Answer for secret question!");
+			flag = false;
+		}
+        
+        if(flag){
+        	try{ //TODO validate this as numbers only
+    	        int idnumber= Integer.parseInt(request.getParameter("idnumber"));
+    	        int secretQuestion= Integer.parseInt(request.getParameter("secretQuestion"));
+    	        int userType = Integer.parseInt(request.getParameter("userType"));
+    	        
+    	        Connection conn = null;
+    	        
+    	        try{
+    				conn = DBConnector.getConnection();
+    		
+    				String updateQuery = "INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,Birthday,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId,UserTypeId)"
+    						+ " VALUES (?,?,?,?,PASSWORD(?),?,?,?,?,PASSWORD(?),?,?)";
+    		        PreparedStatement stmt = conn.prepareStatement(updateQuery,Statement.RETURN_GENERATED_KEYS);
+    		        stmt.setString(1, firstname);
+    		        stmt.setString(2, lastname);
+    		        stmt.setString(3, midinitial);
+    		        stmt.setString(4, username);
+    		        stmt.setString(5, password);
+    		        stmt.setString(6, email);
+    		       	stmt.setDate(7, birthday);
+    		        stmt.setInt(8, idnumber);
+    		        stmt.setInt(9, secretQuestion); 
+    		        stmt.setString(10, answer);
+    		        stmt.setInt(11, 1);
+    		        stmt.setInt(12, userType);
+    				if(stmt.executeUpdate()>0)
+    				{
+    					ResultSet key = stmt.getGeneratedKeys();
+    					if(key.next()){
+    						HttpSession session= request.getSession();
+    						session.setAttribute("userId", key.getInt(1));
+    						session.setAttribute("lastName", lastname);
+    						session.setAttribute("middleName", midinitial);
+    						session.setAttribute("firstName", firstname);
+    						session.setAttribute("username", username);
+    						session.setAttribute("privilege", Integer.toString(Privilege.USER));
 
-			        	response.sendRedirect("search");
-					}else{
-						throw new SQLException("Creating user failed, no ID obtained.");
-					}
-				}
-		        
-			}
-	        catch(Exception se)
-	        {
-	            se.printStackTrace();
-	        }
-        } catch(NumberFormatException e){
-        	//TODO: add error message for invalid input
-        	e.printStackTrace();
+    			        	response.sendRedirect("search");
+    					}else{
+    						throw new SQLException("Creating user failed, no ID obtained.");
+    					}
+    				}
+    		        
+    			}
+    	        catch(Exception se)
+    	        {
+    	            se.printStackTrace();
+    	        }
+            } catch(NumberFormatException e){
+            	//TODO: add error message for invalid input
+            	e.printStackTrace();
+            }
         }
+        else
+        	request.getRequestDispatcher("/registration.jsp").forward(request, response);  
 	
 	}
 

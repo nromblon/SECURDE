@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import com.constants.Privilege;
 import com.db.DBConnector;
+import com.utils.Validator;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -65,18 +67,16 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		Boolean flag;
-		
-		if(username != "")
-			request.setAttribute("username", username);
-		if(password != "")
-			request.setAttribute("password", password);
-		
+		Boolean flag = true;
+
 		//input validation TODO: add escaping and checking for potential malicious inputs
-		if((username != "") && (password != ""))
-			flag=true;
-		else
+		Validator validator = Validator.getInstance();
+		
+		if((username == "") || (password == "") || !(validator.isAlphaNumeric(username, 45)&&validator.isAlphaNumeric(password,40))){
 			flag=false;
+			request.setAttribute("error", "Invalid username or password!");
+        	request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
 
 		if(flag){
 			Connection conn = null;
@@ -127,10 +127,6 @@ public class LoginServlet extends HttpServlet {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-		}
-		else{//TODO: add error label instead because invalid input shit
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-
 		}
 		
 	}
