@@ -89,6 +89,14 @@
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
+          <label for="userType">User Type</label>
+          <select name="userType" id="userType">
+          	<%= request.getAttribute("userTypeOptions") %>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="twelve columns offset-by-three">
           <label for="calendar">Birthday</label>
           <input class="full-width-form" name="calendar" type="date" id="calendar">
         </div>
@@ -97,8 +105,7 @@
         <div class="twelve columns offset-by-three">
           <label for="secretQuestion">Secret Question</label>
           <select name="secretQuestion" id="secretQuestion">
-          	<!-- to change -->
-          	<option value="1">What is the name of your first pet?</option>
+          	<%= request.getAttribute("secQuestionOptions") %>
           </select>
         </div>
       </div>

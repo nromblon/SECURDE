@@ -36,10 +36,10 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
 		int privilege = -1;
 		try{
-    		privilege = Integer.parseInt( (String) session.getAttribute("privilege"));
+			if(session.getAttribute("privilege")!=null)
+    			privilege = Integer.parseInt( (String) session.getAttribute("privilege"));
     	}catch(NumberFormatException e){
     		//TODO: appropriate error message for invalid number syntax
     		e.printStackTrace();
@@ -83,7 +83,7 @@ public class LoginServlet extends HttpServlet {
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
 				conn = DBConnector.getConnection();
-				String query = "SELECT * FROM user WHERE Username=? AND PasswordHash=?";
+				String query = "SELECT * FROM user WHERE Username=? AND PasswordHash=PASSWORD(?)";
 
 		        PreparedStatement stmt = conn.prepareStatement(query);
 		        stmt.setString(1, username);
