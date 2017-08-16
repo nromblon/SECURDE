@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.3
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2017 at 05:49 AM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 7.0.8
+-- Generation Time: Aug 16, 2017 at 08:00 AM
+-- Server version: 10.1.8-MariaDB
+-- PHP Version: 5.6.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -273,7 +273,7 @@ INSERT INTO `roomslot` (`RoomSlotId`, `StartTime`, `EndTime`) VALUES
 
 CREATE TABLE `roomtransaction` (
   `RoomTransactionId` int(11) NOT NULL,
-  `RoomTransactionDateTime` datetime NOT NULL,
+  `RoomTransactionDateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `User_UserId` int(11) NOT NULL,
   `Room_RoomId` int(11) NOT NULL,
   `RoomSlotId` int(11) NOT NULL,
@@ -362,12 +362,12 @@ CREATE TABLE `user` (
   `LastName` varchar(45) NOT NULL,
   `MiddleInitial` varchar(2) NOT NULL,
   `Username` varchar(45) NOT NULL,
-  `PasswordHash` varchar(100) NOT NULL,
+  `PasswordHash` varchar(42) NOT NULL,
   `Email` varchar(45) NOT NULL,
   `Birthday` date DEFAULT NULL,
   `IdentificationNumber` varchar(45) NOT NULL,
   `SecurityQuestionId` int(11) NOT NULL,
-  `AnswerHash` binary(64) NOT NULL,
+  `AnswerHash` varchar(42) NOT NULL,
   `Privilege_PrivilegeId` int(11) NOT NULL,
   `UserTypeId` int(11) DEFAULT NULL,
   `Created_On` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -380,11 +380,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `Birthday`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`, `Created_On`, `IsLocked`, `IsTemporary`) VALUES
-(1, 'Maynard', 'Si', 'C.', 'user', 'password', 'maynard_si@dlsu.edu.ph', NULL, '1', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 1, '2017-08-16 10:48:28', 0, 0),
-(2, 'Neil', 'Romblon', 'V.', 'manager', 'password', 'neil_romblon@dlsu.edu.ph', NULL, '2', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2, NULL, '2017-08-16 10:48:28', 0, 0),
-(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password', 'luis_madrigal@dlsu.edu.ph', NULL, '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, NULL, '2017-08-16 10:48:28', 0, 0),
-(4, 'System', 'Administrator', 'D.', 'administrator', 'password', 'admin@dlsu.edu.ph', NULL, '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4, NULL, '2017-08-16 10:48:28', 0, 0),
-(5, 'John', 'Jones', 'I', 'user2', 'password', 'user@mail.com', NULL, '12312323', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 2, '2017-08-16 10:48:28', 0, 0);
+(1, 'Maynard', 'Si', 'C.', 'user', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'maynard_si@dlsu.edu.ph', NULL, '1', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 1, '2017-08-16 10:48:28', 0, 0),
+(2, 'Neil', 'Romblon', 'V.', 'manager', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'neil_romblon@dlsu.edu.ph', NULL, '2', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 2, NULL, '2017-08-16 10:48:28', 0, 0),
+(3, 'Luis', 'Madrigal', 'Q.', 'staff', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'luis_madrigal@dlsu.edu.ph', NULL, '3', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 3, NULL, '2017-08-16 10:48:28', 0, 0),
+(4, 'System', 'Administrator', 'D.', 'administrator', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'admin@dlsu.edu.ph', NULL, '4', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 4, NULL, '2017-08-16 10:48:28', 0, 0),
+(5, 'John', 'Jones', 'I', 'user2', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'user@mail.com', NULL, '12312323', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 2, '2017-08-16 10:48:28', 0, 0),
+(6, 'teststudent', 'test', 'as', 'teststudent1', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'asd@asd.com', '2017-08-22', '1231', 1, '*AEF4A361E33E31F2FEDEC46FECE94A7A744A5E6D', 1, 1, '2017-08-16 12:51:34', 0, 0),
+(7, 'testfaculty', 'sdfasda', 'As', 'testfaculty1', '*603B95038B54697676EB58296E50AB2ACC37CB99', 'asdsa@sda.com', '2017-08-29', '21321', 1, '*12033B78389744F3F39AC4CE4CCFCAD6960D8EA0', 1, 2, '2017-08-16 13:04:36', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -566,7 +568,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `usertype`
 --
