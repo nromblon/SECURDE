@@ -81,8 +81,8 @@
       <div class="twelve columns offset-by-three">
         <label for="password">Account type</label>
         <select name = "privilege">
-          <option value="2">Library Manager</option>
-          <option value="3">Library Staff</option>
+          <option value="libman">Library Manager</option>
+          <option value="libstaff">Library Staff</option>
         </select>
       </div>
     </div>
@@ -105,11 +105,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="twelve columns offset-by-three">
+        <div class="twelve columns offset-by-three">
           <label for="secretQuestion">Secret Question</label>
           <select name="secretQuestion" id="secretQuestion">
-          	<!-- to change -->
-          	<option value="1">What is the name of your first pet?</option>
+          	<%= request.getAttribute("secQuestionOptions") %>
           </select>
         </div>
     </div>

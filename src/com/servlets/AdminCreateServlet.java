@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +35,30 @@ public class AdminCreateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/admincreate.jsp").forward(request, response);
+		
+		Connection conn = DBConnector.getConnection();
+		Statement query;
+		
+		try {
+			query = conn.createStatement();
+		
+			String line1 = "SELECT * FROM securityquestion";
+			ResultSet res1 = query.executeQuery(line1);
+			
+			String options1="";			
+			while(res1.next()){
+				int key = res1.getInt("SecurityQuestionId");
+				String question = res1.getString("SecurityQuestion");
+				options1+="<option value=\""+key+"\">"+question+"</option>\n";
+			}
+			request.setAttribute("secQuestionOptions", options1);
+			request.getRequestDispatcher("/admincreate.jsp").forward(request, response);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -51,30 +77,37 @@ public class AdminCreateServlet extends HttpServlet {
         String email= request.getParameter("email");
         int idnumber= Integer.parseInt(request.getParameter("idnumber"));
         Date birthday= Date.valueOf(request.getParameter("calendar"));
-        String secretQuestion= request.getParameter("secretQuestion");
+        int secretQuestion= Integer.parseInt(request.getParameter("secretQuestion"));
         String answer= request.getParameter("answer");
-        int type = Integer.parseInt(request.getParameter("privilege"));
+        int type = -1;
+        if(request.getParameter("privilege").equals("libman"))
+        	type = 2;
+        else if(request.getParameter("privilege").equals("libstaff"))
+        	type = 3;
+        	
         Connection conn = null;
         
-        try{
+        if(type == -1)
+        	return;
         
-	        //loading drivers for mysql
-	        Class.forName("com.mysql.jdbc.Driver");
+        try{
 			conn = DBConnector.getConnection();
-	
-			PreparedStatement stmt = 
-	        		conn.prepareStatement("INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId) VALUES (?,?,?,?,?,?,?,?,?,?)");
+			String line = "INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,Birthday,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId,isTemporary)"
+					+ " VALUES (?,?,?,?,PASSWORD(?),?,?,?,?,PASSWORD(?),?,?)";
+			PreparedStatement stmt = conn.prepareStatement(line);
 	
 	        stmt.setString(1, firstname);
 	        stmt.setString(2, lastname);
 	        stmt.setString(3, midinitial);
 	        stmt.setString(4, username);
-	        stmt.setString(5, "password");
+	        stmt.setString(5, password);
 	        stmt.setString(6, email);
-	        stmt.setInt(7, idnumber);
-	        stmt.setInt(8, 1);
-	        stmt.setString(9, answer);
-	        stmt.setInt(10, type);
+	        stmt.setDate(7, birthday);
+	        stmt.setInt(8, idnumber);
+	        stmt.setInt(9, secretQuestion);
+	        stmt.setString(10, answer);
+	        stmt.setInt(11, type);
+	        stmt.setBoolean(12, true);
 	        
 	        
 	        int i = stmt.executeUpdate();
