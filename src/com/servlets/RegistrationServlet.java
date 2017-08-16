@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.constants.Privilege;
 import com.db.DBConnector;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -36,60 +38,114 @@ public class RegistrationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/registration.jsp").forward(request, response);
+		
+		Connection conn = DBConnector.getConnection();
+		Statement query;
+		
+		try {
+			query = conn.createStatement();
+		
+			String line1 = "SELECT * FROM securityquestion";
+			ResultSet res1 = query.executeQuery(line1);
+			
+			String options1="";			
+			while(res1.next()){
+				int key = res1.getInt("SecurityQuestionId");
+				String question = res1.getString("SecurityQuestion");
+				options1+="<option value=\""+key+"\">"+question+"</option>\n";
+			}
+			request.setAttribute("secQuestionOptions", options1);
+			
+			String line2 = "SELECT * FROM usertype";
+			ResultSet res2 = query.executeQuery(line2);
+			
+			String options2="";
+			while(res2.next()){
+				int key = res2.getInt("UserTypeId");
+				String type = res2.getString("UserType");
+				options2+="<option value=\""+key+"\">"+type+"</option>\n";
+			}
+			request.setAttribute("userTypeOptions", options2);
+			
+			
+			request.getRequestDispatcher("/registration.jsp").forward(request, response);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 	
+		//TODO validate this as text/number
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String midinitial = request.getParameter("midinitial");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String cpassword= request.getParameter("cpassword");
-        String email= request.getParameter("email");
-        int idnumber= Integer.parseInt(request.getParameter("idnumber"));
+        String cpassword= request.getParameter("cpassword"); //TODO: compare with password
+        String email= request.getParameter("email");     //TODO: special validation
         Date birthday= Date.valueOf(request.getParameter("calendar"));
-        String secretQuestion= request.getParameter("secretQuestion");
         String answer= request.getParameter("answer");
-        Connection conn = null;
         
-        try{
-        
-	        //loading drivers for mysql
-	        Class.forName("com.mysql.jdbc.Driver");
-			conn = DBConnector.getConnection();
-	
-	        PreparedStatement stmt = 
-	        		conn.prepareStatement("INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId) VALUES (?,?,?,?,?,?,?,?,?,?)");
-	
-	        stmt.setString(1, firstname);
-	        stmt.setString(2, lastname);
-	        stmt.setString(3, midinitial);
-	        stmt.setString(4, username);
-	        stmt.setString(5, password);
-	        stmt.setString(6, email);
-	        stmt.setInt(7, idnumber);
-	        stmt.setInt(8, 1);
-	        stmt.setString(9, answer);
-	        stmt.setInt(10, 1);
+        try{ //TODO validate this as numbers only
+	        int idnumber= Integer.parseInt(request.getParameter("idnumber"));
+	        int secretQuestion= Integer.parseInt(request.getParameter("secretQuestion"));
+	        int userType = Integer.parseInt(request.getParameter("userType"));
 	        
-	  
-			if(stmt.executeUpdate()>0)
-			{
-				System.out.println("success");
-				response.sendRedirect("search.jsp");
+	        Connection conn = null;
+	        
+	        try{
+				conn = DBConnector.getConnection();
+		
+				String updateQuery = "INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,Birthday,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId,UserTypeId)"
+						+ " VALUES (?,?,?,?,PASSWORD(?),?,?,?,?,PASSWORD(?),?,?)";
+		        PreparedStatement stmt = conn.prepareStatement(updateQuery,Statement.RETURN_GENERATED_KEYS);
+		        stmt.setString(1, firstname);
+		        stmt.setString(2, lastname);
+		        stmt.setString(3, midinitial);
+		        stmt.setString(4, username);
+		        stmt.setString(5, password);
+		        stmt.setString(6, email);
+		       	stmt.setDate(7, birthday);
+		        stmt.setInt(8, idnumber);
+		        stmt.setInt(9, secretQuestion); 
+		        stmt.setString(10, answer);
+		        stmt.setInt(11, 1);
+		        stmt.setInt(12, userType);
+				if(stmt.executeUpdate()>0)
+				{
+					ResultSet key = stmt.getGeneratedKeys();
+					if(key.next()){
+						HttpSession session= request.getSession();
+						session.setAttribute("userId", key.getInt(1));
+						session.setAttribute("lastName", lastname);
+						session.setAttribute("middleName", midinitial);
+						session.setAttribute("firstName", firstname);
+						session.setAttribute("username", username);
+						session.setAttribute("privilege", Integer.toString(Privilege.USER));
+
+			        	response.sendRedirect("search");
+					}else{
+						throw new SQLException("Creating user failed, no ID obtained.");
+					}
+				}
+		        
 			}
-	        
-		}
-        catch(Exception se)
-        {
-            se.printStackTrace();
+	        catch(Exception se)
+	        {
+	            se.printStackTrace();
+	        }
+        } catch(NumberFormatException e){
+        	//TODO: add error message for invalid input
+        	e.printStackTrace();
         }
 	
 	}

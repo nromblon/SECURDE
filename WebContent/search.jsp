@@ -164,7 +164,7 @@
 	            </div>
 	            
 	            <!--can only be seen by a registered user  -->
-	            <% if(session.getAttribute("privilege") != null && Integer.valueOf((String)session.getAttribute("privilege")) == Privilege.USER) {%>
+	            <%  if(session.getAttribute("privilege") != null && Integer.parseInt((String)session.getAttribute("privilege")) == Privilege.USER) {%>
 		            <div id = "user-options">
 		            	<span class = "side-bar-header">Reserved Books</span>
 		            	<ul>

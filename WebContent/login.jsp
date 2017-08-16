@@ -70,13 +70,14 @@
       </div>
       <!-- TODO: fix di naka center puta -->
       <div class="row">
-        <div class="six columns offset-by-four">
+        <div class="seven columns offset-by-five">
 	        <span class="error" name="error">
 				<%
 					if(request.getAttribute("error") == null) {
 						request.setAttribute("error", "");
 					}
 					out.print(request.getAttribute("error"));
+					request.setAttribute("error","");
 				%>
 			</span>
         </div>
