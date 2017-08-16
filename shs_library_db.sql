@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2017 at 04:25 AM
+-- Generation Time: Aug 16, 2017 at 04:54 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -441,19 +441,22 @@ CREATE TABLE `user` (
   `SecurityQuestionId` int(11) NOT NULL,
   `AnswerHash` binary(64) NOT NULL,
   `Privilege_PrivilegeId` int(11) NOT NULL,
-  `UserTypeId` int(11) DEFAULT NULL
+  `UserTypeId` int(11) DEFAULT NULL,
+  `Created_On` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `IsLocked` tinyint(1) NOT NULL DEFAULT '0',
+  `IsTemporary` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`) VALUES
-(1, 'Maynard', 'Si', 'C.', 'user', 'password', 'maynard_si@dlsu.edu.ph', '1', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 1),
-(2, 'Neil', 'Romblon', 'V.', 'manager', 'password', 'neil_romblon@dlsu.edu.ph', '2', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2, NULL),
-(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password', 'luis_madrigal@dlsu.edu.ph', '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, NULL),
-(4, 'System', 'Administrator', 'D.', 'administrator', 'password', 'admin@dlsu.edu.ph', '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4, NULL),
-(5, 'John', 'Jones', 'I', 'user2', 'password', 'user@mail.com', '12312323', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 2);
+INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`, `Created_On`, `IsLocked`, `IsTemporary`) VALUES
+(1, 'Maynard', 'Si', 'C.', 'user', 'password', 'maynard_si@dlsu.edu.ph', '1', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 1, '2017-08-16 10:48:28', 0, 0),
+(2, 'Neil', 'Romblon', 'V.', 'manager', 'password', 'neil_romblon@dlsu.edu.ph', '2', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2, NULL, '2017-08-16 10:48:28', 0, 0),
+(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password', 'luis_madrigal@dlsu.edu.ph', '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, NULL, '2017-08-16 10:48:28', 0, 0),
+(4, 'System', 'Administrator', 'D.', 'administrator', 'password', 'admin@dlsu.edu.ph', '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4, NULL, '2017-08-16 10:48:28', 0, 0),
+(5, 'John', 'Jones', 'I', 'user2', 'password', 'user@mail.com', '12312323', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 2, '2017-08-16 10:48:28', 0, 0);
 
 -- --------------------------------------------------------
 
