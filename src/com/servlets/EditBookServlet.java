@@ -49,7 +49,8 @@ public class EditBookServlet extends HttpServlet {
 		String location = request.getParameter("location");
 		String publisher = request.getParameter("publisher");
 		String year = request.getParameter("year");
-		
+		String[] tags = request.getParameterValues("tags[]");
+
 //	    try {	        	
 //	        PreparedStatement getPub = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId WHERE p.PublicationId = "+bookId);
 //	        ResultSet rs = getPub.executeQuery();
@@ -65,7 +66,7 @@ public class EditBookServlet extends HttpServlet {
 //	    } catch(Exception e) {
 //	    	System.out.println(e.getMessage());
 //	    }
-		PublicationModel.editPublication(Integer.valueOf(bookId), title, author, publisher, location, Integer.valueOf(year));
+		PublicationModel.editPublication(Integer.valueOf(bookId), title, author, publisher, location, Integer.valueOf(year), tags);
 	    
 //	    doGet(request, response);
 	    

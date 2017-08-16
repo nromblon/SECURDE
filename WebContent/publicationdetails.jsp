@@ -2,6 +2,7 @@
 <%@page import="com.objects.User"%>
 <%@page import="com.objects.Review"%>
 <%@page import="com.objects.Publication"%>
+<%@page import="com.objects.Tag"%>
 <%@page import="com.constants.Privilege"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -90,7 +91,7 @@
 	    </div>
 	</form>
 </div>
-
+<!-- TODO: null authors -->
 <div class="row">
   <div class="three columns"><img src="${pageContext.request.contextPath}/resources/images/Publication/noimage.jpg"></div>
   <div class="seven columns">
@@ -171,13 +172,31 @@
           <td>Tags</td>
           <td>
             <div class = "description-elems">
-              <a href="">Domestic fiction</a> <a href="">Love stories</a>
+              <div id = "pub-tags">
+              	<% ArrayList<Tag> pubTags = (ArrayList<Tag>)request.getAttribute("pubTags"); 
+              	   for(int i = 0; i < pubTags.size(); i++) {%>
+              	   		<span><%= pubTags.get(i).getName() %></span>
+             	<% } %>
+              </div>
+               
             </div>
-            <div class = "edit-elems hidden">
-              <select id = "pub-tag-select">
-                  <option>Math</option>
-                  <option>Science</option>
-              </select>
+            <div id = "pub-tag-select" class = "edit-elems hidden">
+              <% ArrayList<Tag> allTags = (ArrayList<Tag>)request.getAttribute("allTags"); 
+            	 boolean hasTag = false;
+                 for(int i = 0; i < allTags.size(); i++) {
+                	hasTag = false;
+                 	for(int j = 0; j < pubTags.size(); j++) {%>
+                 		<% if(allTags.get(i).isSameTag(pubTags.get(j))) {
+                 				hasTag = true;
+                 				break;
+                 		   } %>
+              <% 	} %>
+              		<% if(hasTag) { %>
+              				<input type="checkbox" name="tags" value=<%= allTags.get(i).getId() %> checked> <%= allTags.get(i).getName() %><br>
+              		<% } else {%>
+              				<input type="checkbox" name="tags" value=<%= allTags.get(i).getId() %>> <%= allTags.get(i).getName() %><br>
+              		<% } %>
+              <% }%>
             </div>
           </td>
         </tr>

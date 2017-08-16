@@ -48,7 +48,8 @@ $(document).ready(function() {
     		author: $("#pub-author").val(),
     		location: $("#pub-location").val(),
     		publisher: $("#pub-publisher").val(),
-    		year: $("#pub-year-select").val()
+    		year: $("#pub-year-select").val(),
+    		tags: getCheckedTags()
     	}).done(function() {
         	location.reload()
         })
@@ -88,6 +89,17 @@ $(document).ready(function() {
     })
     
 })
+
+function getCheckedTags(){
+	var tags = $("input[name='tags']:checked");
+	var tagIds = [];
+	
+	for(var i = 0; i < tags.length; i++) {
+		tagIds.push(tags[i].value);
+	}
+	
+	return tagIds;
+}
 
 function copyDescriptions() {
     $("#pub-title").val($("#pub-title-text").text());

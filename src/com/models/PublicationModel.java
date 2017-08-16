@@ -159,7 +159,7 @@ public class PublicationModel implements Model{
 		return false;
 	}
 	
-	public static boolean editPublication(int pubId, String title, String author, String publisher, String location, int year) {
+	public static boolean editPublication(int pubId, String title, String author, String publisher, String location, int year, String[] tags) {
 		boolean success = false;
 		try {	        	
 	        PreparedStatement updatePub = con.prepareStatement("UPDATE publication "
@@ -172,6 +172,9 @@ public class PublicationModel implements Model{
 	        updatePub.setInt(5, year);
 	        updatePub.setInt(6, pubId);
 	        updatePub.executeUpdate();
+	        
+	        TagModel.deleteTagsofPub(pubId);
+	        TagModel.insertTagsofPub(pubId, tags);
 	        
 	        success = true;
 	    } catch(Exception e) {

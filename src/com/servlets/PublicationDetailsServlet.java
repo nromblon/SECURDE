@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.constants.Privilege;
 import com.models.PublicationModel;
 import com.models.ReviewModel;
+import com.models.TagModel;
 import com.models.UserModel;
 import com.objects.Publication;
 import com.objects.Review;
@@ -61,6 +62,8 @@ public class PublicationDetailsServlet extends HttpServlet {
 			}
 		}
 		
+		request.setAttribute("allTags", TagModel.getAllTags());
+		request.setAttribute("pubTags", TagModel.getTagsOfPub(pubId));
 		request.setAttribute("details", pub);
 		request.setAttribute("reviews", reviews);
 		request.getRequestDispatcher("/publicationdetails.jsp").forward(request, response);
