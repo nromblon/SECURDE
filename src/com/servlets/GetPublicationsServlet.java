@@ -41,24 +41,15 @@ public class GetPublicationsServlet extends HttpServlet {
 		String searchBy = request.getParameter("searchBy");
 		String category = request.getParameter("category");
 		
-		System.out.println(searchBy+" -- "+category);
-		
 		Validator validator = Validator.getInstance();
 		
 		if(!(validator.isAlphaNumericHasSpace(searchTerm, 45)&&
 				validator.isAlphaNumericHasSpace(searchBy,45)&&
 				validator.isAlphaNumericHasSpace(category,45))){
-			System.out.println(validator.isAlphaNumericHasSpace(searchTerm, 45));
-			System.out.println(validator.isAlphaNumericHasSpace(searchBy, 45));
-			System.out.println(validator.isAlphaNumericHasSpace(category, 45));
 			request.setAttribute("error", "Invalid Input!");
         	request.getRequestDispatcher("/search").forward(request, response);
         	return;
 		}
-		System.out.println("lumabas");
-		System.out.println(validator.isAlphaNumericHasSpace(searchTerm, 45));
-		System.out.println(validator.isAlphaNumericHasSpace(searchBy, 45));
-		System.out.println(validator.isAlphaNumericHasSpace(category, 45));
 		
 		ArrayList<Publication> results = PublicationModel.searchPubBy(searchTerm, searchBy, category);
 		String message = "";
