@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2017 at 06:40 AM
+-- Generation Time: Aug 16, 2017 at 04:25 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -174,12 +174,20 @@ INSERT INTO `publicationtags` (`PublicationId`, `TagId`) VALUES
 
 CREATE TABLE `publicationtransaction` (
   `PublicationTransactionId` int(11) NOT NULL,
-  `PublicationTransactionDateTime` datetime NOT NULL,
+  `PublicationTransactionDateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UserId` int(11) NOT NULL,
   `PublicationId` int(11) NOT NULL,
   `DateBorrowed` datetime DEFAULT NULL,
   `DateReturned` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `publicationtransaction`
+--
+
+INSERT INTO `publicationtransaction` (`PublicationTransactionId`, `PublicationTransactionDateTime`, `UserId`, `PublicationId`, `DateBorrowed`, `DateReturned`) VALUES
+(1, '2017-08-14 23:17:05', 1, 3, NULL, NULL),
+(2, '2017-08-15 00:23:05', 5, 16, '2017-08-15 00:41:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -432,18 +440,39 @@ CREATE TABLE `user` (
   `IdentificationNumber` varchar(45) NOT NULL,
   `SecurityQuestionId` int(11) NOT NULL,
   `AnswerHash` binary(64) NOT NULL,
-  `Privilege_PrivilegeId` int(11) NOT NULL
+  `Privilege_PrivilegeId` int(11) NOT NULL,
+  `UserTypeId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`) VALUES
-(1, 'Maynard', 'Si', 'C.', 'user', 'password', 'maynard_si@dlsu.edu.ph', '1', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1),
-(2, 'Neil', 'Romblon', 'V.', 'manager', 'password', 'neil_romblon@dlsu.edu.ph', '2', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2),
-(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password', 'luis_madrigal@dlsu.edu.ph', '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3),
-(4, 'System', 'Administrator', 'D.', 'administrator', 'password', 'admin@dlsu.edu.ph', '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4);
+INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`) VALUES
+(1, 'Maynard', 'Si', 'C.', 'user', 'password', 'maynard_si@dlsu.edu.ph', '1', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 1),
+(2, 'Neil', 'Romblon', 'V.', 'manager', 'password', 'neil_romblon@dlsu.edu.ph', '2', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2, NULL),
+(3, 'Luis', 'Madrigal', 'Q.', 'staff', 'password', 'luis_madrigal@dlsu.edu.ph', '3', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, NULL),
+(4, 'System', 'Administrator', 'D.', 'administrator', 'password', 'admin@dlsu.edu.ph', '4', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 4, NULL),
+(5, 'John', 'Jones', 'I', 'user2', 'password', 'user@mail.com', '12312323', 1, 0x616e7377657200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usertype`
+--
+
+CREATE TABLE `usertype` (
+  `UserTypeId` int(11) NOT NULL,
+  `UserType` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `usertype`
+--
+
+INSERT INTO `usertype` (`UserTypeId`, `UserType`) VALUES
+(1, 'Student'),
+(2, 'Faculty');
 
 --
 -- Indexes for dumped tables
@@ -551,7 +580,14 @@ ALTER TABLE `tags`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`UserId`),
   ADD KEY `fk_User_SecurityQuestion1_idx` (`SecurityQuestionId`),
-  ADD KEY `fk_User_Privilege1_idx` (`Privilege_PrivilegeId`);
+  ADD KEY `fk_User_Privilege1_idx` (`Privilege_PrivilegeId`),
+  ADD KEY `UserType` (`UserTypeId`);
+
+--
+-- Indexes for table `usertype`
+--
+ALTER TABLE `usertype`
+  ADD PRIMARY KEY (`UserTypeId`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -576,7 +612,7 @@ ALTER TABLE `publication`
 -- AUTO_INCREMENT for table `publicationtransaction`
 --
 ALTER TABLE `publicationtransaction`
-  MODIFY `PublicationTransactionId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `PublicationTransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `publicationtype`
 --
@@ -621,7 +657,12 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `usertype`
+--
+ALTER TABLE `usertype`
+  MODIFY `UserTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
@@ -672,6 +713,7 @@ ALTER TABLE `roomtransaction`
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
+  ADD CONSTRAINT `fk_UserType_UserTypeId` FOREIGN KEY (`UserTypeId`) REFERENCES `usertype` (`UserTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_User_Privilege1` FOREIGN KEY (`Privilege_PrivilegeId`) REFERENCES `privilege` (`PrivilegeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_User_SecurityQuestion1` FOREIGN KEY (`SecurityQuestionId`) REFERENCES `securityquestion` (`SecurityQuestionId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
