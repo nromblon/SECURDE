@@ -85,9 +85,9 @@
 	    <div class="one column">
 	        <select name = "category" class = "search-select" id = "category">
 	            <option>View Entire Collection</option>
-	            <option value = "1">Books</option>
-	            <option value = "2">Thesis</option>
-	            <option value = "3">Magazines</option>
+	            <option value = "Books">Books</option>
+	            <option value = "Thesis">Thesis</option>
+	            <option value = "Magazines">Magazines</option>
 	        </select>
 	    </div>
 	</form>

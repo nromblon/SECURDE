@@ -14,21 +14,39 @@ import com.objects.User;
 
 public class UserModel implements Model{
 		
-	public static User getUserWithId(int id) {
-		User user = null;
+//	public static User getUserWithId(int id) {
+//		User user = null;
+//		try {
+//			PreparedStatement stmt = con.prepareStatement("SELECT * FROM user WHERE UserId = ?");
+//			stmt.setInt(1, id);
+//			ResultSet rs = stmt.executeQuery();
+//			
+//			rs.next();
+//			
+//			user = new User(id, rs.getString("FirstName"), rs.getString("LastName"), rs.getString("MiddleInitial"), rs.getString("Username"), rs.getString("FirstName"), rs.getString("FirstName"), rs.getString("FirstName"), rs.getBoolean("IsLocked"));
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return user;
+//	}
+	
+	public static ArrayList<User> getUsers() {
+		ArrayList<User> users = new ArrayList<User>();
 		try {
-			PreparedStatement stmt = con.prepareStatement("SELECT * FROM user WHERE UserId = ?");
-			stmt.setInt(1, id);
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM user u "
+													    + "INNER JOIN privilege p ON u.Privilege_PrivilegeId = p.PrivilegeId");
+
 			ResultSet rs = stmt.executeQuery();
 			
-			rs.next();
-			
-			user = new User(id, rs.getString("FirstName"), rs.getString("LastName"), rs.getString("MiddleInitial"), rs.getString("Username"), rs.getString("FirstName"), rs.getString("FirstName"), rs.getString("FirstName"));
+			while(rs.next()) {
+				users.add(new User(rs.getInt("UserId"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("MiddleInitial"), rs.getString("Username"), rs.getString("Email"), rs.getString("IdentificationNumber"), rs.getString("Privilege"), rs.getBoolean("IsLocked")));
+			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return user;
+		return users;
 	}
 	
 	public static boolean checkExistingReservation(int userId, int pubId) {
@@ -138,6 +156,25 @@ public class UserModel implements Model{
 				PublicationModel.setPubStatus(pubId, Status.OUT);
 				success = true;
 			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return success;
+	}
+	
+	public static boolean setLockedAccount(int userId, boolean isLocked) {
+		boolean success = false;
+		
+		try {
+			PreparedStatement setLocked = con.prepareStatement("UPDATE user SET IsLocked = ? "
+														     + "WHERE UserId = ?");
+			setLocked.setBoolean(1, isLocked);
+			setLocked.setInt(2, userId);
+
+			setLocked.executeUpdate();
+			
+			success = true;
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.objects.User"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -16,7 +19,7 @@
 
   <!-- Scripts [jquery always goes first!]-->
   <script src="${pageContext.request.contextPath}/resources/scripts/jquery-3.0.0.min.js"></script>
-  <script src="${pageContext.request.contextPath}/resources/scripts/publicationdetails.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/scripts/viewusers.js"></script>
 
 </head>
 <body>
@@ -65,7 +68,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+				<!-- <tr>
 					<td>Maynard C. Si</td>
 					<td>user</td>
 					<td>maynard_si@dlsu.edu.ph</td>
@@ -85,7 +88,21 @@
 					<td>neil_romblon@dlsu.edu.ph</td>
 					<td>Library Staff</td>
 					<td><button>Unlock</button></td>
-				</tr>
+				</tr> -->
+				<% ArrayList<User> users = (ArrayList<User>)request.getAttribute("users"); 
+				   for(int i = 0; i < users.size(); i++) {%>
+				   		<tr class = "user-row">
+				   			<td><%= users.get(i).getFullName() %></td>
+							<td><%= users.get(i).getUsername() %></td>
+							<td><%= users.get(i).getEmail() %></td>
+							<td><%= users.get(i).getPrivilege() %></td>
+							<% if(users.get(i).isLocked()) {%>
+								<td><button class = "lock-button" data-is-locked = 1 data-userid = <%= users.get(i).getId() %>>Unlock</button></td>
+							<% }else { %>
+								<td><button class = "lock-button" data-is-locked = 0 data-userid = <%= users.get(i).getId() %>>Lock</button></td>
+							<% } %>
+				   		</tr>
+				<% } %>
 
 			</tbody>
 		</table>

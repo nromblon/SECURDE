@@ -10,9 +10,10 @@ public class User extends DBObject{
 	private String idNumber;
 	private String privilege;
 	private String userType;
+	private boolean isLocked;
 	
 	public User(int id, String firstName, String lastName, String middleInitial, String username, String email,
-			String idNumber, String privilege) {
+			String idNumber, String privilege, boolean isLocked) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -22,6 +23,7 @@ public class User extends DBObject{
 		this.email = email;
 		this.idNumber = idNumber;
 		this.privilege = privilege;
+		this.isLocked = isLocked;
 	}
 	
 	public User(int id, String idNumber, String userType) {
@@ -80,6 +82,18 @@ public class User extends DBObject{
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+	
+	public boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(boolean isLocked) {
+		this.isLocked = isLocked;
+	}
+
+	public String getFullName() {
+		return this.firstName +" "+ this.middleInitial +". "+ this.lastName;
 	}
 
 }

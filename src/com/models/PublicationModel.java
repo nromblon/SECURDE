@@ -25,7 +25,7 @@ public class PublicationModel implements Model{
 			
 			rs.next();
 			
-			String author = (rs.getString("Author").equals("null"))? "No author":rs.getString("Author");
+			String author = (rs.getString("Author") == null)? "No author":rs.getString("Author");
 			
 			pub = new Publication(id, rs.getString("Publication"), author, rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"));
 		} catch (SQLException e) {
@@ -57,7 +57,7 @@ public class PublicationModel implements Model{
 	    	ResultSet rs = getPubs.executeQuery();
 			
 	    	while(rs.next()) {
-				String author = (rs.getString("Author").equals("null"))? "No author":rs.getString("Author");
+				String author = (rs.getString("Author") == null)? "No author":rs.getString("Author");
 				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), author, rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
 	    	}
     	} catch (SQLException e) {
