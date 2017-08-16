@@ -97,7 +97,7 @@
 							<td><%= users.get(i).getEmail() %></td>
 							<td><%= users.get(i).getPrivilege() %></td>
 							<% if(users.get(i).isLocked()) {%>
-								<td><button class = "lock-button" data-is-locked = 1 data-userid = <%= users.get(i).getId() %>>Unlock</button></td>
+								<td><button class = "lock-button button-primary" data-is-locked = 1 data-userid = <%= users.get(i).getId() %>>Unlock</button></td>
 							<% }else { %>
 								<td><button class = "lock-button" data-is-locked = 0 data-userid = <%= users.get(i).getId() %>>Lock</button></td>
 							<% } %>
