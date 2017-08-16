@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.objects.PubType;
+
 public class PubTypeModel implements Model{
 	
 	public static String getPubTypeWithId(int id) {
@@ -26,15 +28,15 @@ public class PubTypeModel implements Model{
 		return pubType;
 	}
 	
-	public static ArrayList<String> getPubTypes() {
-		ArrayList<String> pubTypes = new ArrayList<String>();
+	public static ArrayList<PubType> getPubTypes() {
+		ArrayList<PubType> pubTypes = new ArrayList<PubType>();
 		try {
 			PreparedStatement stmt = con.prepareStatement("SELECT * "
-														+ "FROM `publicationtype` ");
+														+ "FROM publicationtype ");
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()) {
-				pubTypes.add(rs.getString("PublicationType"));
+				pubTypes.add(new PubType(rs.getInt("PublicationTypeId"), rs.getString("PublicationType")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

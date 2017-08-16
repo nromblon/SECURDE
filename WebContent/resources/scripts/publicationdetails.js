@@ -44,6 +44,7 @@ $(document).ready(function() {
     $("#submitEdit").click(function() {
     	$.post("../editbook", {
     		id: id,
+    		type: $('#pub-type-select').find(":selected").val(),
     		title: $("#pub-title").val(),
     		author: $("#pub-author").val(),
     		location: $("#pub-location").val(),

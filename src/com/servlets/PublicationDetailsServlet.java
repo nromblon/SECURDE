@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.constants.Privilege;
+import com.models.PubTypeModel;
 import com.models.PublicationModel;
 import com.models.ReviewModel;
 import com.models.TagModel;
@@ -62,6 +63,7 @@ public class PublicationDetailsServlet extends HttpServlet {
 			}
 		}
 		
+		request.setAttribute("pubTypes", PubTypeModel.getPubTypes());
 		request.setAttribute("allTags", TagModel.getAllTags());
 		request.setAttribute("pubTags", TagModel.getTagsOfPub(pubId));
 		request.setAttribute("details", pub);

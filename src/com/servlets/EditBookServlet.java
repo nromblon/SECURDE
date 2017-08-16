@@ -39,10 +39,9 @@ public class EditBookServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection con = DBConnector.getConnection();
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		//TODO: change type and others
+		String type = request.getParameter("type");
 		String bookId = request.getParameter("id");
 		String author = request.getParameter("author");
 		String title = request.getParameter("title");
@@ -51,25 +50,7 @@ public class EditBookServlet extends HttpServlet {
 		String year = request.getParameter("year");
 		String[] tags = request.getParameterValues("tags[]");
 
-//	    try {	        	
-//	        PreparedStatement getPub = con.prepareStatement("SELECT * From publication p INNER JOIN author a ON p.AuthorId = a.AuthorId WHERE p.PublicationId = "+bookId);
-//	        ResultSet rs = getPub.executeQuery();
-//	        
-//	        rs.next();
-//	        
-//	        PreparedStatement updateAuthor = con.prepareStatement("UPDATE author SET AuthorFirstName = '', AuthorLastName = '" +request.getParameter("author")+ "' WHERE AuthorId = "+rs.getInt("AuthorId"));
-//	        updateAuthor.executeUpdate();
-//	        
-//	        PreparedStatement updatePub = con.prepareStatement("UPDATE publication SET Publication = '" +title+ "', Location = '" +location+ "', Year = "+year+" WHERE PublicationId = "+bookId);
-//	        updatePub.executeUpdate();
-//
-//	    } catch(Exception e) {
-//	    	System.out.println(e.getMessage());
-//	    }
-		PublicationModel.editPublication(Integer.valueOf(bookId), title, author, publisher, location, Integer.valueOf(year), tags);
-	    
-//	    doGet(request, response);
-	    
+		PublicationModel.editPublication(Integer.valueOf(bookId), Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags);
 	}
 
 }
