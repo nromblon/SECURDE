@@ -27,11 +27,19 @@
   <script src="${pageContext.request.contextPath}/resources/scripts/addpublication.js"></script>
 </head>
 <body>
-	<%
+		<%
 		String userId = null;
+		String privilege = null;
 		//allow access only if session exists
 		if(session.getAttribute("userId") == null){
-			response.sendRedirect("login");
+			response.sendRedirect("../login");
+		}
+		else {
+			userId = (String) session.getAttribute("UserId");
+		}
+		privilege = (String) session.getAttribute("privilege");
+		if(!(privilege.equals("2")||privilege.equals("3"))){	
+			throw new Exception();
 		}
 		else userId = (String) session.getAttribute("UserId");
 		String sessionID = null;

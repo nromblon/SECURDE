@@ -25,14 +25,18 @@
 <body>
 	<%
 		String userId = null;
+		String privilege = null;
 		//allow access only if session exists
 		if(session.getAttribute("userId") == null){
 			response.sendRedirect("../login");
 		}
-		if((String)session.getAttribute("privilege") != "4"){
+		else {
+			userId = (String) session.getAttribute("UserId");
+		}
+		privilege = (String) session.getAttribute("privilege");
+		if(!privilege.equals("4")){	
 			throw new Exception();
 		}
-		else userId = (String) session.getAttribute("UserId");
 		String sessionID = null;
 		Cookie[] cookies = request.getCookies();
 		if(cookies !=null){
