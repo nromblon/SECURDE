@@ -42,6 +42,11 @@ public class Validator {
 		return input.matches(pattern);
 	}
 	
+	public boolean isValidPassword(String input){
+		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+		return input.matches(pattern);
+	}
+	
 	public static boolean isNumeric(String input){
 		try {
 			Integer.parseInt(input);
