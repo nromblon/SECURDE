@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import com.constants.Privilege;
 import com.db.DBConnector;
+import com.models.UserModel;
 import com.utils.Validator;
 
 import java.sql.Connection;
@@ -83,39 +84,68 @@ public class LoginServlet extends HttpServlet {
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
 				conn = DBConnector.getConnection();
-				String query = "SELECT * FROM user WHERE Username=? AND PasswordHash=PASSWORD(?)";
+				String query = "SELECT * FROM user WHERE Username=?";
 
-		        PreparedStatement stmt = conn.prepareStatement(query);
-		        stmt.setString(1, username);
-		        stmt.setString(2, password);
-		        ResultSet rs = stmt.executeQuery();
-		        if(rs.next()){
-					HttpSession session= request.getSession();
-					session.setAttribute("userId", rs.getInt("UserId"));
-					session.setAttribute("lastName", rs.getString("LastName"));
-					session.setAttribute("middleName", rs.getString("MiddleInitial"));
-					session.setAttribute("firstName", rs.getString("FirstName"));
-					session.setAttribute("username", rs.getString("Username"));
-					session.setAttribute("privilege", rs.getString("Privilege_PrivilegeId"));
-		        
-		        	int privilege = -1;
-		        	try{
-		        		privilege = Integer.parseInt( (String) session.getAttribute("privilege"));
-		        	}catch(NumberFormatException e){
-		        		//TODO: appropriate error message for invalid number syntax
-		        		e.printStackTrace();
-		        	}
-					System.out.println(privilege);
-					if(privilege == (Privilege.USER)) {
-						System.out.println("user login");
-						response.sendRedirect("search");
-					} else if (privilege == (Privilege.LIB_MANAGER) || privilege == (Privilege.LIB_STAFF)) {
-						System.out.println("libmanager");
-						response.sendRedirect("publication/add");
-					} else if (privilege == (Privilege.ADMIN)){
-						System.out.println("admin login");
-						response.sendRedirect("admin/tools");
-					} 
+		        PreparedStatement sameUsername = conn.prepareStatement(query);
+		        sameUsername.setString(1, username);
+		        ResultSet rsU = sameUsername.executeQuery();
+		        if(rsU.next()){
+		        	PreparedStatement samePassword = conn.prepareStatement("SELECT * FROM user WHERE Username=? AND PasswordHash=PASSWORD(?)");
+		        	samePassword.setString(1, rsU.getString("Username"));
+		        	samePassword.setString(2, password);
+		        	ResultSet rsP = samePassword.executeQuery();
+			        
+			        if(rsP.next()) {
+			        	if(!rsP.getBoolean("IsLocked") && rsP.getInt("Login_Attempts") < 5) {
+			        		UserModel.setLoginAttempts(rsP.getInt("UserId"), 0);
+			        		
+			        		HttpSession session= request.getSession();
+							session.setAttribute("userId", rsP.getInt("UserId"));
+							session.setAttribute("lastName", rsP.getString("LastName"));
+							session.setAttribute("middleName", rsP.getString("MiddleInitial"));
+							session.setAttribute("firstName", rsP.getString("FirstName"));
+							session.setAttribute("username", rsP.getString("Username"));
+							session.setAttribute("privilege", rsP.getString("Privilege_PrivilegeId"));
+				        
+				        	int privilege = -1;
+				        	try{
+				        		privilege = Integer.parseInt( (String) session.getAttribute("privilege"));
+				        	}catch(NumberFormatException e){
+				        		//TODO: appropriate error message for invalid number syntax
+				        		e.printStackTrace();
+				        	}
+							System.out.println(privilege);
+							if(privilege == (Privilege.USER)) {
+								System.out.println("user login");
+								response.sendRedirect("search");
+							} else if (privilege == (Privilege.LIB_MANAGER) || privilege == (Privilege.LIB_STAFF)) {
+								System.out.println("libmanager");
+								response.sendRedirect("publication/add");
+							} else if (privilege == (Privilege.ADMIN)){
+								System.out.println("admin login");
+								response.sendRedirect("admin/tools");
+							} 
+			        	} else {
+			        		System.out.println("user is locked out");
+					        
+				        	request.setAttribute("error", "Your account is locked out! Please contact your admin.");
+				        	request.getRequestDispatcher("login.jsp").forward(request, response);
+			        	}
+			        } else {
+			        	System.out.println("no login");
+			        	
+			        	if(rsU.getInt("Login_Attempts") >= 5) {
+			        		UserModel.setLockedAccount(rsU.getInt("UserId"), true);
+			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), 0);
+			        		//TODO: 15 minutes unlock
+			        	} else {
+			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), rsU.getInt("Login_Attempts") + 1);
+			        	} 
+				        
+			        	request.setAttribute("error", "Invalid username or password!");
+			        	request.getRequestDispatcher("login.jsp").forward(request, response);
+			        }
+					
 		        }
 		        else {
 		        	System.out.println("no login");
