@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.constants.LogKey;
 import com.constants.Privilege;
 import com.db.DBConnector;
 import com.models.UserModel;
+import com.utils.Log;
 import com.utils.Validator;
 
 import java.sql.Connection;
@@ -106,6 +108,8 @@ public class LoginServlet extends HttpServlet {
 							session.setAttribute("firstName", rsP.getString("FirstName"));
 							session.setAttribute("username", rsP.getString("Username"));
 							session.setAttribute("privilege", rsP.getString("Privilege_PrivilegeId"));
+							
+							Log.info(this.getServletName(), rsP.getInt("UserId"), LogKey.LOGIN_SUCCESS, "Username: "+username);
 				        
 				        	int privilege = -1;
 				        	try{
