@@ -97,7 +97,6 @@ public class RegistrationServlet extends HttpServlet {
         Date birthday= Date.valueOf(request.getParameter("calendar"));
         String answer= request.getParameter("answer");
         
-        System.out.println(password+"\n"+cpassword);
         Boolean flag = true;
         
         Validator validator = Validator.getInstance();
@@ -138,7 +137,7 @@ public class RegistrationServlet extends HttpServlet {
 			request.setAttribute("error", "Invalid Answer for secret question!");
 			flag = false;
 		}
-        
+        System.out.println(flag);
         if(flag){
         	try{ //TODO validate this as numbers only
     	        int idnumber= Integer.parseInt(request.getParameter("idnumber"));

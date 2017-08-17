@@ -41,53 +41,62 @@
 	</div>
 	
     <form class = "registration-forms" method = "POST" action = "register">
+    <h4>
+        <%
+		if(request.getAttribute("error") == null) {
+			request.setAttribute("error", "");
+		}
+		out.print(request.getAttribute("error"));
+		request.setAttribute("error","");
+		%>
+	</h4>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="firstname">First Name</label>
-          <input class="half-width-form" type="text" name="firstname" id="firstname">
+          <input class="half-width-form" type="text" name="firstname" id="firstname" required>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="midinitial">Middle Initial</label>
-          <input class="half-width-form" type="text" name="midinitial" id="midinitial">
+          <input class="half-width-form" type="text" name="midinitial" id="midinitial" maxlength="2" required>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="lastname">Last Name</label>
-          <input class="half-width-form" type="text" name="lastname" id="lastname">
+          <input class="half-width-form" type="text" name="lastname" id="lastname" required>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="username">Username</label>
-          <input class="half-width-form" type="text" name="username" id="username">
+          <input class="half-width-form" type="text" name="username" id="username" required>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="password">Password</label>
-          <input class="half-width-form" name="password" type="password" id="password">
+          <input class="half-width-form" name="password" type="password" id="password" pattern=".{8,}" title="Minimum of 8 characters"required>
           <span id="password_strength"></span>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="cpassword">Confirm Password</label>
-          <input class="half-width-form" name="cpassword" type="password" id="cpassword">
+          <input class="half-width-form" name="cpassword" type="password" id="cpassword" required>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="email">Email Address</label>
-          <input class="half-width-form" name="email" type="email" id="email">
+          <input class="half-width-form" name="email" type="email" id="email" required>
         </div>
       </div>
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="idnumber">ID Number</label>
-          <input class="half-width-form" name="idnumber" type="text" id="idnumber">
+          <input class="half-width-form" name="idnumber" type="text" id="idnumber" required>
         </div>
       </div>
       <div class="row">
@@ -101,7 +110,7 @@
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="calendar">Birthday</label>
-          <input class="full-width-form" name="calendar" type="date" id="calendar">
+          <input class="full-width-form" name="calendar" type="date" id="calendar" required>
         </div>
       </div>
       <div class="row">
@@ -115,7 +124,7 @@
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="answer">Answer to secret question</label>
-          <input class="half-width-form" name="answer" type="text" id="answer">
+          <input class="half-width-form" name="answer" type="text" id="answer" required>
         </div>
       </div>
       <div class="row">
@@ -123,7 +132,6 @@
           <input class="button-primary submit-button" type="submit" value="register">
         </div>
       </div>
-
     </form>
   </div>
 
