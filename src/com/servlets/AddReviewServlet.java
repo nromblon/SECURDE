@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
 import com.models.ReviewModel;
+import com.models.UserModel;
 import com.mysql.jdbc.Statement;
 
 /**
@@ -40,13 +41,15 @@ public class AddReviewServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int userId = (int) request.getSession().getAttribute("userId");
 		String pubId = request.getParameter("pubId");
 		String reviewText = request.getParameter("reviewText");
 		
-		//TODO: only users who reserved book can review
-		ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
-
-		response.sendRedirect("publication/details?id="+pubId);
+		//TODO: only users who borrowed book can review
+		if(!UserModel.getBorrowed(userId).isEmpty()) {
+			ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
+			response.sendRedirect("publication/details?id="+pubId);
+		}
 	}
 
 }
