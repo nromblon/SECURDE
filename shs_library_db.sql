@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2017 at 11:04 AM
+-- Generation Time: Aug 17, 2017 at 04:40 PM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -281,6 +281,14 @@ CREATE TABLE `roomtransaction` (
   `RoomReserveDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `roomtransaction`
+--
+
+INSERT INTO `roomtransaction` (`RoomTransactionId`, `RoomTransactionDateTime`, `User_UserId`, `Room_RoomId`, `RoomSlotId`, `RoomReserveDate`) VALUES
+(3, '2017-08-17 17:25:06', 1, 3, 6, '2017-08-10'),
+(4, '2017-08-17 17:25:06', 1, 3, 7, '2017-08-10');
+
 -- --------------------------------------------------------
 
 --
@@ -384,9 +392,9 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `Birthday`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`, `Created_On`, `login_attempts`, `IsLocked`, `IsTemporary`) VALUES
 (1, 'Maynard', 'Si', 'C.', 'user', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'maynard_si@dlsu.edu.ph', NULL, '1', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 1, '2017-08-16 10:48:28', 0, 0, 0),
 (2, 'Neil', 'Romblon', 'V.', 'manager', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'neil_romblon@dlsu.edu.ph', NULL, '2', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 2, NULL, '2017-08-16 10:48:28', 0, 0, 0),
-(3, 'Luis', 'Madrigal', 'Q.', 'staff', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'luis_madrigal@dlsu.edu.ph', NULL, '3', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 3, NULL, '2017-08-16 10:48:28', 0, 0, 0),
+(3, 'Luis', 'Madrigal', 'Q.', 'staff', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'luis_madrigal@dlsu.edu.ph', NULL, '3', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 3, NULL, '2017-08-16 10:48:28', 3, 1, 0),
 (4, 'System', 'Administrator', 'D.', 'administrator', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'admin@dlsu.edu.ph', NULL, '4', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 4, NULL, '2017-08-16 10:48:28', 0, 0, 0),
-(5, 'John', 'Jones', 'I', 'user2', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'user@mail.com', NULL, '12312323', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 2, '2017-08-16 10:48:28', 0, 0, 0);
+(5, 'John', 'Jones', 'I', 'user2', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'user@mail.com', NULL, '12312323', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 2, '2017-08-16 10:48:28', 5, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -550,7 +558,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `roomtransaction`
 --
 ALTER TABLE `roomtransaction`
-  MODIFY `RoomTransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `RoomTransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `securityquestion`
 --
@@ -634,9 +642,11 @@ DELIMITER $$
 --
 -- Events
 --
-CREATE DEFINER=`root`@`localhost` EVENT `logattempt_reset` ON SCHEDULE EVERY 15 MINUTE STARTS '2017-08-17 15:50:56' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `user` set login_attempts = 0$$
-
 CREATE DEFINER=`root`@`localhost` EVENT `delete_temporary` ON SCHEDULE EVERY 1 DAY STARTS '2017-08-17 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `user` WHERE IsTemporary = true AND DATEDIFF(CURRENT_DATE,Created_On) > 0$$
+
+CREATE DEFINER=`root`@`localhost` EVENT `logattempt_reset` ON SCHEDULE EVERY 15 MINUTE STARTS '2017-08-17 15:50:56' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `user` 
+SET login_attempts = 0, IsLocked = false
+WHERE login_attempts >=5 AND IsLocked = true$$
 
 DELIMITER ;
 
