@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
+import com.utils.Validator;
 
 /**
  * Servlet implementation class AdminCreateServlet
@@ -72,13 +73,13 @@ public class AdminCreateServlet extends HttpServlet {
         String lastname = request.getParameter("lastname");
         String midinitial = request.getParameter("midinitial");
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String cpassword= request.getParameter("cpassword");
         String email= request.getParameter("email");
         int idnumber= Integer.parseInt(request.getParameter("idnumber"));
         Date birthday= Date.valueOf(request.getParameter("calendar"));
+        //to remove 
         int secretQuestion= Integer.parseInt(request.getParameter("secretQuestion"));
         String answer= request.getParameter("answer");
+        
         int type = -1;
         if(request.getParameter("privilege").equals("libman"))
         	type = 2;
@@ -90,39 +91,75 @@ public class AdminCreateServlet extends HttpServlet {
         if(type == -1)
         	return;
         
-        try{
-			conn = DBConnector.getConnection();
-			String line = "INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,Birthday,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId,isTemporary)"
-					+ " VALUES (?,?,?,?,PASSWORD(?),?,?,?,?,PASSWORD(?),?,?)";
-			PreparedStatement stmt = conn.prepareStatement(line);
-	
-	        stmt.setString(1, firstname);
-	        stmt.setString(2, lastname);
-	        stmt.setString(3, midinitial);
-	        stmt.setString(4, username);
-	        stmt.setString(5, password);
-	        stmt.setString(6, email);
-	        stmt.setDate(7, birthday);
-	        stmt.setInt(8, idnumber);
-	        stmt.setInt(9, secretQuestion);
-	        stmt.setString(10, answer);
-	        stmt.setInt(11, type);
-	        stmt.setBoolean(12, true);
-	        
-	        
-	        int i = stmt.executeUpdate();
-	        
-			if(i>0)
-			{
-				System.out.println("success");
-				out.println("You are sucessfully registered");
-			}
-	        
+        Boolean flag = true;
+        
+        Validator validator = Validator.getInstance();
+		
+		if(!(validator.isAlphaNumericHasSpace(firstname, 45))) {
+			request.setAttribute("error", "Invalid First Name!");
+			flag = false;
 		}
-        catch(Exception se)
-        {
-            se.printStackTrace();
-        }
+		if(!(validator.isAlphaNumericHasSpace(lastname,45))) {
+			request.setAttribute("error", "Invalid Last Name!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumeric(midinitial,2))) {
+			request.setAttribute("error", "Invalid Middle Initial!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumeric(username,45))) {
+			request.setAttribute("error", "Invalid Username!");
+			flag = false;
+		}						
+		if(!(validator.validateEmail(email))) {
+			request.setAttribute("error", "Invalid Email!");
+			flag = false;
+		}
+		if(!(validator.isDate(birthday.toString()))) {
+			request.setAttribute("error", "Invalid Date!");
+			flag = false;
+		}	
+		if(!(validator.isAlphaNumericHasSpace(answer,45))) {
+			request.setAttribute("error", "Invalid Answer for secret question!");
+			flag = false;
+		}
+        
+		if(flag){
+			try{
+				conn = DBConnector.getConnection();
+				String line = "INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,Birthday,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId,isTemporary)"
+						+ " VALUES (?,?,?,?,PASSWORD(?),?,?,?,?,PASSWORD(?),?,?)";
+				PreparedStatement stmt = conn.prepareStatement(line);
+		
+		        stmt.setString(1, firstname);
+		        stmt.setString(2, lastname);
+		        stmt.setString(3, midinitial);
+		        stmt.setString(4, username);
+		        stmt.setString(5, "password");
+		        stmt.setString(6, email);
+		        stmt.setDate(7, birthday);
+		        stmt.setInt(8, idnumber);
+		        stmt.setInt(9, secretQuestion);
+		        stmt.setString(10, answer);
+		        stmt.setInt(11, type);
+		        stmt.setBoolean(12, true);
+		        
+		        
+		        int i = stmt.executeUpdate();
+		        
+				if(i>0)
+				{
+					System.out.println("success");
+					out.println("You are sucessfully registered");
+				}
+		        
+			}
+	        catch(Exception se)
+	        {
+	            se.printStackTrace();
+	        }
+		}
+        
 	}
 
 }
