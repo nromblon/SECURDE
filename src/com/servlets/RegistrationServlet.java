@@ -189,7 +189,7 @@ public class RegistrationServlet extends HttpServlet {
             }
         }
         else
-        	request.getRequestDispatcher("/registration.jsp").forward(request, response);  
+        	doGet(request, response); 
 	
 	}
 
