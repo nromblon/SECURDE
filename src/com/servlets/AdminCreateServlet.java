@@ -145,8 +145,7 @@ public class AdminCreateServlet extends HttpServlet {
 		        
 				if(i>0)
 				{
-					System.out.println("success");
-					out.println("You are sucessfully registered");
+					response.sendRedirect("admin/tools");
 				}
 		        
 			}
