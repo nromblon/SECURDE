@@ -55,7 +55,7 @@ public class AddReviewServlet extends HttpServlet {
 			flag = false;
 		}
 		System.out.println(flag);
-		//TODO: only users who reserved book can review
+		
 		if(flag && !UserModel.getBorrowed(userId).isEmpty()){
 			ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
 		}

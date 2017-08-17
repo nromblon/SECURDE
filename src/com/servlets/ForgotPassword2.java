@@ -32,7 +32,6 @@ public class ForgotPassword2 extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO: add check so no skip
 		HttpSession session = request.getSession();
 		int sessionUserId = 0;
 		int userId = 0;

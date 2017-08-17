@@ -22,7 +22,7 @@ public class UserLockServlet extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public UserLockServlet() {
-        super();//TODO: fix error pages to be less descriptive
+        super();
     }
 
 	/**

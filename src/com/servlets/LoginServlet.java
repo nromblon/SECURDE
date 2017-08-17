@@ -154,7 +154,6 @@ public class LoginServlet extends HttpServlet {
 			        	if(rsU.getInt("login_attempts") >= 5) {
 			        		UserModel.setLockedAccount(rsU.getInt("UserId"), true);
 			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), 0);
-			        		//TODO: 15 minutes unlock
 			        	} else {
 			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), rsU.getInt("login_attempts") + 1);
 			        	} 

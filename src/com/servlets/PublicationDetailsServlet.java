@@ -24,7 +24,6 @@ import com.utils.Utils;
 /**
  * Servlet implementation class PublicationDetailsServlet
  */
-//TODO: vulnerable to indirect object references?
 @WebServlet("/publication/details")
 public class PublicationDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
