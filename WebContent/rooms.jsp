@@ -46,6 +46,9 @@
 				  	}
 				  </script>
 			  </a>
+			  <% if(session.getAttribute("userId") != null) {%>
+			  		<a class="r-nav" href="change">Change Password</a>
+			  <% } %>
 			</div>
 		</div>
 	</div>

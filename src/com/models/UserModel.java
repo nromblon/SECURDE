@@ -33,6 +33,25 @@ public class UserModel implements Model{
 		return users;
 	}
 	
+	public static boolean checkPasswordMatch(int id, String password) {
+		boolean success = false;
+		
+		try {
+			PreparedStatement findUser = con.prepareStatement("SELECT * FROM user WHERE UserId=? AND PasswordHash=PASSWORD(?)");
+			findUser.setInt(1, id);
+			findUser.setString(2, password);
+
+			ResultSet rs = findUser.executeQuery();
+			
+			if(rs.next())
+				success = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return success;
+	}
+	
 	public static boolean checkExistingReservation(int userId, int pubId) {
 		try {
 			PreparedStatement checkExisting = con.prepareStatement("SELECT * FROM publicationtransaction "
@@ -191,6 +210,26 @@ public class UserModel implements Model{
 			setLoginAttempts.setInt(2, userId);
 
 			setLoginAttempts.executeUpdate();
+			
+			success = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return success;
+	}
+	
+	public static boolean changePassword(int id, String password) {
+		boolean success = false;
+
+		try {
+			PreparedStatement changePass = con.prepareStatement("UPDATE user "
+															  + "SET PasswordHash = PASSWORD(?), isTemporary = FALSE "
+														      + "WHERE UserId = ?");
+			changePass.setString(1, password);
+			changePass.setInt(2, id);
+
+			changePass.executeUpdate();
 			
 			success = true;
 		}catch(SQLException e) {
