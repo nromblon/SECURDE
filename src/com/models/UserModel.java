@@ -13,23 +13,6 @@ import com.objects.Publication;
 import com.objects.User;
 
 public class UserModel implements Model{
-		
-//	public static User getUserWithId(int id) {
-//		User user = null;
-//		try {
-//			PreparedStatement stmt = con.prepareStatement("SELECT * FROM user WHERE UserId = ?");
-//			stmt.setInt(1, id);
-//			ResultSet rs = stmt.executeQuery();
-//			
-//			rs.next();
-//			
-//			user = new User(id, rs.getString("FirstName"), rs.getString("LastName"), rs.getString("MiddleInitial"), rs.getString("Username"), rs.getString("FirstName"), rs.getString("FirstName"), rs.getString("FirstName"), rs.getBoolean("IsLocked"));
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return user;
-//	}
 	
 	public static ArrayList<User> getUsers() {
 		ArrayList<User> users = new ArrayList<User>();

@@ -121,14 +121,14 @@ public class RegistrationServlet extends HttpServlet {
 			request.setAttribute("error", "Invalid Password!");
 			flag = false;
 		}								
-//		if(!(validator.isAlphaNumeric(cpassword,45)) && ( password!=cpassword )) {
-//			request.setAttribute("error", "Check confirm password!");
-//			flag = false;
-//		}		
 		if(!(validator.validateEmail(email))) {
 			request.setAttribute("error", "Invalid Email!");
 			flag = false;
 		}													
+		if(!(validator.isDate(birthday.toString()))) {
+			request.setAttribute("error", "Invalid Date!");
+			flag = false;
+		}	
 		if(!(validator.isAlphaNumericHasSpace(answer,45))) {
 			request.setAttribute("error", "Invalid Answer for secret question!");
 			flag = false;
