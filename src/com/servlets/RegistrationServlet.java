@@ -120,7 +120,15 @@ public class RegistrationServlet extends HttpServlet {
 		if(!(validator.isAlphaNumeric(password,45))) {
 			request.setAttribute("error", "Invalid Password!");
 			flag = false;
-		}								
+		}
+		if(password.length() < 8) {
+			request.setAttribute("error", "Invalid Password! Password length must be atleast 8 characters");
+			flag = false;
+		}
+		if(!cpassword.equals(password)){
+			request.setAttribute("error", "Password doesn't match");
+			flag = false;
+		}
 		if(!(validator.validateEmail(email))) {
 			request.setAttribute("error", "Invalid Email!");
 			flag = false;

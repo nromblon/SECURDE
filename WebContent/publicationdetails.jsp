@@ -265,11 +265,12 @@
 		<div class = "row">
 		  <form action = "../addreview?pubId=<%= request.getParameter("id") %>" method = "post">
 		    <h6>Leave Review</h6>
-		    <textarea name = "reviewText" rows="4" cols="100"></textarea>
+		    <textarea name = "reviewText" rows="4" cols="100" maxlength="140" required></textarea>
 		    <div class = "twelve columns">
 		      <input id = "submit-review" class="button-primary submit-button" type="submit" value="SUBMIT">
 		    </div>
 		  </form>
+		  <span class = "error"><%= request.getAttribute("error") == null? "": request.getAttribute("error") %></span>
 		</div>
 	<% } %>
 	

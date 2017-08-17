@@ -17,6 +17,7 @@ import com.db.DBConnector;
 import com.models.PubTypeModel;
 import com.models.PublicationModel;
 import com.mysql.jdbc.Statement;
+import com.utils.Validator;
 
 /**
  * Servlet implementation class AddPublicationServlet
@@ -51,11 +52,40 @@ public class AddBookServlet extends HttpServlet {
 		String location = request.getParameter("location");
 		String[] tags = request.getParameterValues("tags");
 		
+		Boolean flag = true;
+        
+        Validator validator = Validator.getInstance();
+		
+		if(!(validator.isAlphaNumericHasSpace(type, 45))) {
+			request.setAttribute("error", "Invalid Type!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumericHasSpace(title, 45))) {
+			request.setAttribute("error", "Invalid Title!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumericHasSpace(author, 45))) {
+			request.setAttribute("error", "Invalid Author!");
+			flag = false;
+		}
+		if(!(validator.isNumeric(year))) {
+			request.setAttribute("error", "Invalid Year!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumericHasSpace(location, 45))) {
+			request.setAttribute("error", "Invalid Location!");
+			flag = false;
+		}
+		
 //		int authorId = AuthorModel.insertAuthor("", author);
 //		int publisherId = PublisherModel.insertPublisher(publisher);
-		int pubId = PublicationModel.insertPublication(Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags);
-	    
-		response.sendRedirect("publication/details?id="+pubId);
+		if(flag){
+			int pubId = PublicationModel.insertPublication(Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags);
+			response.sendRedirect("publication/details?id="+pubId);
+		}
+		else
+        	request.getRequestDispatcher("/addbook").forward(request, response); 
+		
 	}
 
 }
