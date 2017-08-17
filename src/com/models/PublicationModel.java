@@ -182,7 +182,7 @@ public class PublicationModel implements Model{
 	        
 	        TagModel.deleteTagsofPub(pubId);
 	        TagModel.insertTagsofPub(pubId, tags);
-	        
+	        	                
 	        success = true;
 	    } catch(Exception e) {
 	    	System.out.println(e.getMessage());
