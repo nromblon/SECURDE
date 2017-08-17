@@ -84,6 +84,11 @@
                         </div>
                     </form>
                 </div>
+                <div class="row">
+                	<%  if(request.getAttribute("error") != null)
+                			out.println(request.getAttribute("error")); 
+                	    request.setAttribute("error", null);  %>
+                </div>
                 <!-- TODO: decide if to include this shit -->
                 <!-- <div class = "row">
                     <span>Sort by
@@ -146,6 +151,7 @@
 
           <div class = "three columns">
             <div class = "container side-bar">
+            <!--  
                 <span class = "side-bar-header">Search by Material Type</span>
                 <ul>
                     <li class = "link side-bar-link">Books</li>
@@ -153,7 +159,7 @@
                     <li class = "link side-bar-link">Magazines</li>
                 </ul>
                 <hr>
-                
+                -->
                 <!--can only be seen by the lib manager-->
                 <div id = "additional-options" class = "hidden">
 	                <span class = "side-bar-header">Library Manager</span>
