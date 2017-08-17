@@ -98,6 +98,8 @@
 				var privilege = <%=session.getAttribute("privilege")%>;
 				if (privilege == null){
 					$("#room-reserve-btn").hide();
+					$("#room-reserve-btn").attr("value","");
+					$("#room-reserve-btn").attr("onclick","");
 				}
 				else{	
 					if(privilege=='1'){
@@ -109,6 +111,11 @@
 						$("#room-reserve-btn").show();
 						$("#room-reserve-btn").attr("value","Remove Reservation");
 						$("#room-reserve-btn").attr("onclick","delReservation()");
+					}
+					else{
+						$("#room-reserve-btn").hide();
+						$("#room-reserve-btn").attr("value","");
+						$("#room-reserve-btn").attr("onclick","");
 					}
 				}
 			</script>

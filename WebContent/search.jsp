@@ -72,9 +72,9 @@
                         </div>
                         <div class="seven columns">
                         	<% if(request.getAttribute("searchTerm") == null) {%>
-                            	<input name = "searchTerm" class="u-full-width" placeholder="Search..." type="text" id="username">
+                            	<input name = "searchTerm" class="u-full-width" placeholder="Search..." type="text" id="username" maxlength="140">
                             <% } else { %>
-                            	<input name = "searchTerm" class="u-full-width" placeholder="Search..." type="text" id="username" value = <%= request.getAttribute("searchTerm")%>>
+                            	<input name = "searchTerm" class="u-full-width" placeholder="Search..." type="text" id="username" maxlength="140" value = <%= request.getAttribute("searchTerm")%>>
                             <% } %>
                         </div>
                         <div class="one column">
@@ -83,6 +83,11 @@
                             </select>
                         </div>
                     </form>
+                </div>
+                <div class="row">
+                	<%  if(request.getAttribute("error") != null)
+                			out.println(request.getAttribute("error")); 
+                	    request.setAttribute("error", null);  %>
                 </div>
                 <!-- TODO: decide if to include this shit -->
                 <!-- <div class = "row">
@@ -146,6 +151,7 @@
 
           <div class = "three columns">
             <div class = "container side-bar">
+            <!--  
                 <span class = "side-bar-header">Search by Material Type</span>
                 <ul>
                     <li class = "link side-bar-link">Books</li>
@@ -153,7 +159,7 @@
                     <li class = "link side-bar-link">Magazines</li>
                 </ul>
                 <hr>
-                
+                -->
                 <!--can only be seen by the lib manager-->
                 <div id = "additional-options" class = "hidden">
 	                <span class = "side-bar-header">Library Manager</span>

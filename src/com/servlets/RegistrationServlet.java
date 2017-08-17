@@ -133,15 +133,11 @@ public class RegistrationServlet extends HttpServlet {
 			request.setAttribute("error", "Invalid Email!");
 			flag = false;
 		}													
-		if(!(validator.isDate(birthday.toString()))) {
-			request.setAttribute("error", "Invalid Date!");
-			flag = false;
-		}	
 		if(!(validator.isAlphaNumericHasSpace(answer,45))) {
 			request.setAttribute("error", "Invalid Answer for secret question!");
 			flag = false;
 		}
-        
+        System.out.println(flag);
         if(flag){
         	try{ //TODO validate this as numbers only
     	        int idnumber= Integer.parseInt(request.getParameter("idnumber"));

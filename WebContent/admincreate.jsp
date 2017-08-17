@@ -53,28 +53,37 @@
 
   <div style="margin-top:150px;"> </div>
   <form class = "registration-forms"  method = "POST" action = "create">
+  <h4>
+        <%
+		if(request.getAttribute("error") == null) {
+			request.setAttribute("error", "");
+		}
+		out.print(request.getAttribute("error"));
+		request.setAttribute("error","");
+		%>
+	</h4>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="firstname">First Name</label>
-        <input class="half-width-form" name="firstname" type="text" id="firstname">
+        <input class="half-width-form" name="firstname" type="text" id="firstname" required>
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="midinitial">Middle Initial</label>
-        <input class="half-width-form" name="midinitial" type="text" id="midinitial">
+        <input class="half-width-form" name="midinitial" type="text" id="midinitial" maxlength="2" required>
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="lastname">Last Name</label>
-        <input class="half-width-form" name="lastname" type="text" id="lastname">
+        <input class="half-width-form" name="lastname" type="text" id="lastname" required>
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="username">Username</label>
-        <input class="half-width-form" name="username" type="text" id="username">
+        <input class="half-width-form" name="username" type="text" id="username" required>
       </div>
     </div>
     <div class="row">
@@ -89,13 +98,13 @@
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="email">Email Address</label>
-        <input class="half-width-form" name="email" type="email" id="email">
+        <input class="half-width-form" name="email" type="email" id="email" required>
       </div>
     </div>
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="idnumber">ID Number</label>
-        <input class="half-width-form" name="idnumber" type="text" id="idnumber">
+        <input class="half-width-form" name="idnumber" type="text" id="idnumber" required>
       </div>
     </div>
     <div class="row">
@@ -115,7 +124,7 @@
     <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="answer">Answer to secret question</label>
-          <input class="half-width-form" name="answer" type="text" id="answer">
+          <input class="half-width-form" name="answer" type="text" id="answer" required>
         </div>
     </div>
     <div class="row">

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
+import com.utils.Validator;
+
 import java.sql.Connection;
 
 /**
@@ -47,6 +49,7 @@ public class RoomsServlet extends HttpServlet {
 			return;
 		int userId = (int) request.getSession().getAttribute("userId");
 		Connection conn = null;
+		
 		try{
 			conn = DBConnector.getConnection();
 			String line = "INSERT INTO `roomtransaction` (User_UserId,Room_RoomId,RoomSlotId,RoomReserveDate) VALUES (?,?,?,?)";
@@ -66,7 +69,7 @@ public class RoomsServlet extends HttpServlet {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

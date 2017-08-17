@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2017 at 08:00 AM
+-- Generation Time: Aug 17, 2017 at 11:04 AM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -68,11 +68,10 @@ CREATE TABLE `publication` (
 INSERT INTO `publication` (`PublicationId`, `Publication`, `Author`, `Publisher`, `PublicationTypeId`, `StatusId`, `Location`, `Year`, `BorrowedUntil`, `ReservedUntil`, `ImageLocation`) VALUES
 (1, 'ACM transactions on internet technology', NULL, 'Association for Computing Machinery', 2, 1, 'TK5105.875.I57', 2001, NULL, NULL, NULL),
 (2, 'An Investigation on a multi-fear recognition model using facial features and survival horror games', 'Bagus, Brandaly', 'Chichester', 3, 1, 'CDTG006579', 2015, NULL, NULL, NULL),
-(3, 'Angels & Demons', 'Brown, Dan', 'Picador', 1, 1, '813.54', 2000, NULL, NULL, NULL),
+(3, 'Angels & Demons', 'Brown, Dan', 'Picador', 1, 3, '813.54', 2000, NULL, NULL, NULL),
 (4, 'Evaluation of the suitability of grade B low carbon steel to low pH fluids', 'Bagus, Brandaly', 'Chichester', 3, 1, 'TU07669', 1997, NULL, NULL, NULL),
 (5, 'Forbes', NULL, 'Chichester', 2, 1, 'Periodicals Section', 1918, NULL, NULL, NULL),
 (6, 'GSM-controlled home security alarm system using IR/LASER based sensors and auto tracking IP camera', 'Chua, Kenneth', 'Chichester', 3, 1, 'TU21505', 2016, NULL, NULL, NULL),
-(7, 'Harry Potter and the \nPrisoner of Azkaban', 'Rowling, J.K.', 'Readers Digest Association', 1, 1, '823.914', 1999, NULL, NULL, NULL),
 (8, 'Harry Potter and the Chamber of Secrets', 'Rowling, J.K.', 'Readers Digest Association', 1, 1, '823.914', 1999, NULL, NULL, NULL),
 (9, 'Harry Potter and the Goblet of Fire', 'Rowling, J.K.', 'Readers Digest Association', 1, 1, '823.914', 2000, NULL, NULL, NULL),
 (10, 'Internet-based control mobile robot for methane gas detection and neutralization', 'Mariquit, Eden', 'Chichester', 3, 1, 'TU18755', 2014, NULL, NULL, NULL),
@@ -89,7 +88,8 @@ INSERT INTO `publication` (`PublicationId`, `Publication`, `Author`, `Publisher`
 (21, 'Wired', NULL, 'The University of Tokyo', 2, 1, 'Periodicals Section', 1993, NULL, NULL, NULL),
 (22, 'Wired marketing : energizing business for e-commerce', 'Jones, John', 'Readers Digest Association', 1, 1, 'HF5415.1265 .H37 2001', 2001, NULL, NULL, NULL),
 (23, 'Women in agriculture : their nutritional knowledge & roles in addressing hidden hunger', 'Camilleri, Andrea', 'Chichester', 3, 1, 'CDTG005471', 2013, NULL, NULL, NULL),
-(25, 'adasdasd', 'Chua, Kenneth', 'Scholastic', 1, 1, '', 1917, NULL, NULL, NULL);
+(25, 'adasdasd', 'Chua, Kenneth', 'Scholastic', 1, 1, '', 1917, NULL, NULL, NULL),
+(26, 'Harry Potter and the Prisoner of Azkaban', 'Rowling, J.K.', 'Readers Digest Association', 1, 1, '8080', 1997, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -113,7 +113,6 @@ INSERT INTO `publicationtags` (`PublicationId`, `TagId`) VALUES
 (4, 3),
 (5, 4),
 (6, 5),
-(7, 6),
 (8, 6),
 (9, 6),
 (10, 7),
@@ -129,7 +128,9 @@ INSERT INTO `publicationtags` (`PublicationId`, `TagId`) VALUES
 (20, 15),
 (21, 15),
 (22, 15),
-(23, 15);
+(23, 15),
+(26, 6),
+(26, 7);
 
 -- --------------------------------------------------------
 
@@ -151,8 +152,8 @@ CREATE TABLE `publicationtransaction` (
 --
 
 INSERT INTO `publicationtransaction` (`PublicationTransactionId`, `PublicationTransactionDateTime`, `UserId`, `PublicationId`, `DateBorrowed`, `DateReturned`) VALUES
-(1, '2017-08-14 23:17:05', 1, 3, NULL, NULL),
-(2, '2017-08-15 00:23:05', 5, 16, '2017-08-15 00:41:38', NULL);
+(2, '2017-08-15 00:23:05', 5, 16, '2017-08-15 00:41:38', NULL),
+(3, '2017-08-17 16:14:07', 1, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -182,7 +183,7 @@ INSERT INTO `publicationtype` (`PublicationTypeId`, `PublicationType`) VALUES
 
 CREATE TABLE `reviews` (
   `ReviewId` int(11) NOT NULL,
-  `Review` varchar(45) NOT NULL,
+  `Review` varchar(150) NOT NULL,
   `UserId` int(11) NOT NULL,
   `PublicationId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -371,6 +372,7 @@ CREATE TABLE `user` (
   `Privilege_PrivilegeId` int(11) NOT NULL,
   `UserTypeId` int(11) DEFAULT NULL,
   `Created_On` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `login_attempts` int(11) NOT NULL DEFAULT '0',
   `IsLocked` tinyint(1) NOT NULL DEFAULT '0',
   `IsTemporary` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -379,14 +381,12 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `Birthday`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`, `Created_On`, `IsLocked`, `IsTemporary`) VALUES
-(1, 'Maynard', 'Si', 'C.', 'user', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'maynard_si@dlsu.edu.ph', NULL, '1', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 1, '2017-08-16 10:48:28', 0, 0),
-(2, 'Neil', 'Romblon', 'V.', 'manager', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'neil_romblon@dlsu.edu.ph', NULL, '2', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 2, NULL, '2017-08-16 10:48:28', 0, 0),
-(3, 'Luis', 'Madrigal', 'Q.', 'staff', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'luis_madrigal@dlsu.edu.ph', NULL, '3', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 3, NULL, '2017-08-16 10:48:28', 0, 0),
-(4, 'System', 'Administrator', 'D.', 'administrator', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'admin@dlsu.edu.ph', NULL, '4', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 4, NULL, '2017-08-16 10:48:28', 0, 0),
-(5, 'John', 'Jones', 'I', 'user2', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'user@mail.com', NULL, '12312323', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 2, '2017-08-16 10:48:28', 0, 0),
-(6, 'teststudent', 'test', 'as', 'teststudent1', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'asd@asd.com', '2017-08-22', '1231', 1, '*AEF4A361E33E31F2FEDEC46FECE94A7A744A5E6D', 1, 1, '2017-08-16 12:51:34', 0, 0),
-(7, 'testfaculty', 'sdfasda', 'As', 'testfaculty1', '*603B95038B54697676EB58296E50AB2ACC37CB99', 'asdsa@sda.com', '2017-08-29', '21321', 1, '*12033B78389744F3F39AC4CE4CCFCAD6960D8EA0', 1, 2, '2017-08-16 13:04:36', 0, 0);
+INSERT INTO `user` (`UserId`, `FirstName`, `LastName`, `MiddleInitial`, `Username`, `PasswordHash`, `Email`, `Birthday`, `IdentificationNumber`, `SecurityQuestionId`, `AnswerHash`, `Privilege_PrivilegeId`, `UserTypeId`, `Created_On`, `login_attempts`, `IsLocked`, `IsTemporary`) VALUES
+(1, 'Maynard', 'Si', 'C.', 'user', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'maynard_si@dlsu.edu.ph', NULL, '1', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 1, '2017-08-16 10:48:28', 0, 0, 0),
+(2, 'Neil', 'Romblon', 'V.', 'manager', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'neil_romblon@dlsu.edu.ph', NULL, '2', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 2, NULL, '2017-08-16 10:48:28', 0, 0, 0),
+(3, 'Luis', 'Madrigal', 'Q.', 'staff', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'luis_madrigal@dlsu.edu.ph', NULL, '3', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 3, NULL, '2017-08-16 10:48:28', 0, 0, 0),
+(4, 'System', 'Administrator', 'D.', 'administrator', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'admin@dlsu.edu.ph', NULL, '4', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 4, NULL, '2017-08-16 10:48:28', 0, 0, 0),
+(5, 'John', 'Jones', 'I', 'user2', '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19', 'user@mail.com', NULL, '12312323', 1, '*22862EE2EE01FA513A35093FAD0986CB4C460E6B', 1, 2, '2017-08-16 10:48:28', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -500,6 +500,8 @@ ALTER TABLE `tags`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`UserId`),
+  ADD UNIQUE KEY `Username` (`Username`),
+  ADD UNIQUE KEY `Email` (`Email`),
   ADD KEY `fk_User_SecurityQuestion1_idx` (`SecurityQuestionId`),
   ADD KEY `fk_User_Privilege1_idx` (`Privilege_PrivilegeId`),
   ADD KEY `UserType` (`UserTypeId`);
@@ -523,12 +525,12 @@ ALTER TABLE `privilege`
 -- AUTO_INCREMENT for table `publication`
 --
 ALTER TABLE `publication`
-  MODIFY `PublicationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `PublicationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `publicationtransaction`
 --
 ALTER TABLE `publicationtransaction`
-  MODIFY `PublicationTransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `PublicationTransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `publicationtype`
 --
@@ -548,7 +550,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `roomtransaction`
 --
 ALTER TABLE `roomtransaction`
-  MODIFY `RoomTransactionId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `RoomTransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `securityquestion`
 --
@@ -568,7 +570,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `usertype`
 --
@@ -603,8 +605,8 @@ ALTER TABLE `publicationtransaction`
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `PUBLICATION` FOREIGN KEY (`PublicationId`) REFERENCES `publication` (`PublicationId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `USER` FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_publicationId_review` FOREIGN KEY (`PublicationId`) REFERENCES `publication` (`PublicationId`),
+  ADD CONSTRAINT `fk_userId_review` FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`);
 
 --
 -- Constraints for table `room`
@@ -627,6 +629,16 @@ ALTER TABLE `user`
   ADD CONSTRAINT `fk_UserType_UserTypeId` FOREIGN KEY (`UserTypeId`) REFERENCES `usertype` (`UserTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_User_Privilege1` FOREIGN KEY (`Privilege_PrivilegeId`) REFERENCES `privilege` (`PrivilegeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_User_SecurityQuestion1` FOREIGN KEY (`SecurityQuestionId`) REFERENCES `securityquestion` (`SecurityQuestionId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+DELIMITER $$
+--
+-- Events
+--
+CREATE DEFINER=`root`@`localhost` EVENT `logattempt_reset` ON SCHEDULE EVERY 15 MINUTE STARTS '2017-08-17 15:50:56' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `user` set login_attempts = 0$$
+
+CREATE DEFINER=`root`@`localhost` EVENT `delete_temporary` ON SCHEDULE EVERY 1 DAY STARTS '2017-08-17 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `user` WHERE IsTemporary = true AND DATEDIFF(CURRENT_DATE,Created_On) > 0$$
+
+DELIMITER ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
