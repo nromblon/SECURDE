@@ -57,7 +57,7 @@
 
 	<br/><br/><br/><br/><br/><br/>
 	<div id="forgot-password">
-		<form action="../forgot/step1" method="POST">
+		<form action="../forgot/step2" method="POST">
 			<h4>
 		        <%
 				if(request.getAttribute("error") != null) {
@@ -67,8 +67,8 @@
 			</h4>
 			<div class="row">
 				<div class="twelve columns offset-by-three">
-					<label for="username">Username</label> 
-					<input class = "half-width-form" name="username" id="username" type="text" /> 
+					<label for="security-question"><%= request.getAttribute("securityQuestion") %></label> 
+					<input class = "half-width-form" name="security-question" id="security-question" type="text" /> 
 				</div>
 			</div>
 			<div class="row">

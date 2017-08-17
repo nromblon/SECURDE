@@ -19,6 +19,7 @@
  
   <!-- Scripts [jquery always goes first!]-->
  <script src="${pageContext.request.contextPath}/resources/scripts/jquery-3.0.0.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/scripts/passwordstrength.js"></script>
 
 </head>
 <body>
@@ -57,7 +58,7 @@
 
 	<br/><br/><br/><br/><br/><br/>
 	<div id="forgot-password">
-		<form action="../forgot/step1" method="POST">
+		<form action="../forgot/step3" method="POST">
 			<h4>
 		        <%
 				if(request.getAttribute("error") != null) {
@@ -67,8 +68,9 @@
 			</h4>
 			<div class="row">
 				<div class="twelve columns offset-by-three">
-					<label for="username">Username</label> 
-					<input class = "half-width-form" name="username" id="username" type="text" /> 
+					<label for="password">New Password</label> 
+					<input class="half-width-form" name="password" type="password" id="password" pattern=".{8,}" title="Minimum of 8 characters" required>
+          			<span id="password_strength"></span> 
 				</div>
 			</div>
 			<div class="row">

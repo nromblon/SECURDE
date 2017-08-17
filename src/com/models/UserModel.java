@@ -15,6 +15,26 @@ import com.utils.Utils;
 
 public class UserModel implements Model{
 	
+	public static User getUserWithId(int id) {
+		User user = null;
+		
+		try {
+			PreparedStatement findUser = con.prepareStatement("SELECT * FROM user u "
+															+ "INNER JOIN privilege p ON u.Privilege_PrivilegeId = p.PrivilegeId "
+															+ "WHERE u.UserId = ?");
+			findUser.setInt(1, id);
+
+			ResultSet rs = findUser.executeQuery();
+			
+			if(rs.next())
+				user = new User(rs.getInt("UserId"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("MiddleInitial"), rs.getString("Username"), rs.getString("Email"), rs.getString("IdentificationNumber"), rs.getString("Privilege"), rs.getBoolean("IsLocked"));
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
+	
 	public static ArrayList<User> getUsers() {
 		ArrayList<User> users = new ArrayList<User>();
 		try {
@@ -33,6 +53,63 @@ public class UserModel implements Model{
 		return users;
 	}
 	
+	public static boolean checkAnswer(int id, String answer) {
+		boolean success = false;
+		
+		try {
+			PreparedStatement checkAnswer = con.prepareStatement("SELECT * FROM user WHERE UserId=? AND AnswerHash=PASSWORD(?)");
+			checkAnswer.setInt(1, id);
+			checkAnswer.setString(2, answer);
+
+			ResultSet rs = checkAnswer.executeQuery();
+			
+			if(rs.next())
+				success = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return success;
+	}
+	
+	public static String getSecurityQuestion(int id) {
+		String question = null;
+		try {
+			PreparedStatement getQuestion = con.prepareStatement("SELECT * FROM user u "
+													    + "INNER JOIN securityquestion s ON u.SecurityQuestionId = s.SecurityQuestionId "
+													    + "WHERE u.UserId = ?");
+			getQuestion.setInt(1, id);
+			ResultSet rs = getQuestion.executeQuery();
+			
+			if(rs.next())
+				question = rs.getString("SecurityQuestion");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return question;
+	}
+	
+	public static User getUserWithUsername(String username) {
+		User user = null;
+		
+		try {
+			PreparedStatement findUser = con.prepareStatement("SELECT * FROM user u "
+															+ "INNER JOIN privilege p ON u.Privilege_PrivilegeId = p.PrivilegeId "
+															+ "WHERE u.Username = ?");
+			findUser.setString(1, username);
+
+			ResultSet rs = findUser.executeQuery();
+			
+			if(rs.next())
+				user = new User(rs.getInt("UserId"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("MiddleInitial"), rs.getString("Username"), rs.getString("Email"), rs.getString("IdentificationNumber"), rs.getString("Privilege"), rs.getBoolean("IsLocked"));
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
+	
 	public static boolean checkPasswordMatch(int id, String password) {
 		boolean success = false;
 		
@@ -40,6 +117,24 @@ public class UserModel implements Model{
 			PreparedStatement findUser = con.prepareStatement("SELECT * FROM user WHERE UserId=? AND PasswordHash=PASSWORD(?)");
 			findUser.setInt(1, id);
 			findUser.setString(2, password);
+
+			ResultSet rs = findUser.executeQuery();
+			
+			if(rs.next())
+				success = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return success;
+	}
+	
+	public static boolean checkUsernameMatch(String username) {
+		boolean success = false;
+		
+		try {
+			PreparedStatement findUser = con.prepareStatement("SELECT * FROM user WHERE Username = ?");
+			findUser.setString(1, username);
 
 			ResultSet rs = findUser.executeQuery();
 			

@@ -107,6 +107,9 @@
       </div>
       <div class="row">
         <div class="six columns offset-by-five">
+          <a class = "link" href="forgot/step1">Forgot Password?</a>
+        </div>
+        <div class="six columns offset-by-five">
           <a class = "link" href="register">New User? Register here</a>
         </div>
       </div>
