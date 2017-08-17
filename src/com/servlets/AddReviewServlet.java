@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
 import com.models.ReviewModel;
+import com.models.UserModel;
 import com.mysql.jdbc.Statement;
 import com.utils.Validator;
 
@@ -41,30 +42,27 @@ public class AddReviewServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int userId = (int) request.getSession().getAttribute("userId");
 		String pubId = request.getParameter("pubId");
 		String reviewText = request.getParameter("reviewText");
-		
+
 		Boolean flag = true;
         
         Validator validator = Validator.getInstance();
-		
-		if(!(validator.isAlphaNumeric(pubId, 45))) {
-			request.setAttribute("error", "Invalid Publication Id!");
-			flag = false;
-		}
-		if(!(validator.isAlphaNumeric(reviewText, 45))) {
+
+		if(!(validator.isAlphaNumericHasSpace(reviewText, 140))) {
 			request.setAttribute("error", "Invalid Review Text!");
 			flag = false;
 		}
-		
+		System.out.println(flag);
 		//TODO: only users who reserved book can review
-		if(flag){
+		if(flag && !UserModel.getBorrowed(userId).isEmpty()){
 			ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
-			response.sendRedirect("publication/details?id="+pubId);
 		}
-		else
-			request.getRequestDispatcher("/addreview").forward(request, response); 
 		
+		response.sendRedirect("publication/details?id="+pubId);
+//		else
+//			request.getRequestDispatcher("/addreview").forward(request, response); 
 		
 	}
 

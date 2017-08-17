@@ -39,16 +39,16 @@ public class PublicationDetailsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int pubId = Integer.valueOf(request.getParameter("id"));
-//		int userId = (request.getSession().getAttribute("userId") == null)? 0: Integer.valueOf((String) request.getSession().getAttribute("userId"));
 		HttpSession session = request.getSession();
-		
+		int userId = (session.getAttribute("userId") == null)? 0: (int)session.getAttribute("userId");
+
 		Publication pub = PublicationModel.getPubWithId(pubId);
 		ArrayList<Review> reviews = ReviewModel.getReviewsByPublication(pubId);
 		
 		if(session.getAttribute("username") != null) {
 			int privilege = Integer.valueOf((String)session.getAttribute("privilege"));
 			if(privilege == Privilege.USER) {
-				int userId = (int) session.getAttribute("userId");
+//				int userId = (int) session.getAttribute("userId");
 				boolean reservedByMe = UserModel.checkExistingReservation(userId, pubId);
 				request.setAttribute("reservedByMe", reservedByMe);
 				
@@ -63,6 +63,7 @@ public class PublicationDetailsServlet extends HttpServlet {
 			}
 		}
 		
+		request.setAttribute("userHasBorrowed", !UserModel.getBorrowed(userId).isEmpty());
 		request.setAttribute("pubTypes", PubTypeModel.getPubTypes());
 		request.setAttribute("allTags", TagModel.getAllTags());
 		request.setAttribute("pubTags", TagModel.getTagsOfPub(pubId));

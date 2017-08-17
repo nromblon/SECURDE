@@ -9,6 +9,7 @@
 <body>
 	<%@ page isErrorPage="true" %>  
 	<h2>Oops! Something went wrong</h2>
-	<a href="/search">Go back</a>
+	<a href="${pageContext.request.contextPath}/search">Go back</a>
+
 </body>
 </html>

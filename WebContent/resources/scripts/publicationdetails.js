@@ -10,10 +10,10 @@ $(document).ready(function() {
 		$("#delete-button").hide();
 	}
 	
-	if(privilege == "1")
-		$(".review-section").show();
-	else
-		$(".review-section").hide();
+//	if(privilege == "1")
+//		$(".review-section").show();
+//	else
+//		$(".review-section").hide();
     for(var i = 0; i <= 100; i++) {
         $("#pub-year-select").append("<option>" + (1917+i) + "</option>");
     }

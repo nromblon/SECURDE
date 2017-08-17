@@ -18,7 +18,9 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/roomspage.css">
 
   <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.png">
-
+	<!-- Scripts [jquery always goes first!]-->
+  <script src="${pageContext.request.contextPath}/resources/scripts/jquery-3.0.0.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/scripts/passwordstrength.js"></script>
 </head>
 <body><!-- TODO: data validation -->
   <div class = "container">
@@ -67,6 +69,7 @@
         <div class="twelve columns offset-by-three">
           <label for="password">Password</label>
           <input class="half-width-form" name="password" type="password" id="password">
+          <span id="password_strength"></span>
         </div>
       </div>
       <div class="row">

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
 import com.models.PublicationModel;
+import com.utils.Validator;
 /**
  * Servlet implementation class AddPublicationServlet
  */
@@ -49,8 +50,37 @@ public class EditBookServlet extends HttpServlet {
 		String publisher = request.getParameter("publisher");
 		String year = request.getParameter("year");
 		String[] tags = request.getParameterValues("tags[]");
-
-		PublicationModel.editPublication(Integer.valueOf(bookId), Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags);
+		
+		Boolean flag = true;
+        
+        Validator validator = Validator.getInstance();
+		
+		if(!(validator.isAlphaNumericHasSpace(type, 45))) {
+			request.setAttribute("error", "Invalid Type!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumericHasSpace(title, 45))) {
+			request.setAttribute("error", "Invalid Title!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumericHasSpace(author, 45))) {
+			request.setAttribute("error", "Invalid Author!");
+			flag = false;
+		}
+		if(!(validator.isNumeric(year))) {
+			request.setAttribute("error", "Invalid Year!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumericHasSpace(location, 45))) {
+			request.setAttribute("error", "Invalid Location!");
+			flag = false;
+		}
+		
+		if(flag){
+			PublicationModel.editPublication(Integer.valueOf(bookId), Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags);
+		} 
+		else
+			request.getRequestDispatcher("/editbook").forward(request, response); 
 	}
 
 }
