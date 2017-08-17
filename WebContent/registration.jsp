@@ -75,7 +75,7 @@
       <div class="row">
         <div class="twelve columns offset-by-three">
           <label for="cpassword">Confirm Password</label>
-          <input class="half-width-form" type="password" id="cpassword">
+          <input class="half-width-form" name="cpassword" type="password" id="cpassword">
         </div>
       </div>
       <div class="row">

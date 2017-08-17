@@ -97,6 +97,7 @@ public class RegistrationServlet extends HttpServlet {
         Date birthday= Date.valueOf(request.getParameter("calendar"));
         String answer= request.getParameter("answer");
         
+        System.out.println(password+"\n"+cpassword);
         Boolean flag = true;
         
         Validator validator = Validator.getInstance();
@@ -133,10 +134,6 @@ public class RegistrationServlet extends HttpServlet {
 			request.setAttribute("error", "Invalid Email!");
 			flag = false;
 		}													
-		if(!(validator.isDate(birthday.toString()))) {
-			request.setAttribute("error", "Invalid Date!");
-			flag = false;
-		}	
 		if(!(validator.isAlphaNumericHasSpace(answer,45))) {
 			request.setAttribute("error", "Invalid Answer for secret question!");
 			flag = false;
