@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.db.DBConnector;
+import com.utils.Validator;
+
 import java.sql.Connection;
 
 /**
@@ -47,24 +49,36 @@ public class RoomsServlet extends HttpServlet {
 			return;
 		int userId = (int) request.getSession().getAttribute("userId");
 		Connection conn = null;
-		try{
-			conn = DBConnector.getConnection();
-			String line = "INSERT INTO `roomtransaction` (User_UserId,Room_RoomId,RoomSlotId,RoomReserveDate) VALUES (?,?,?,?)";
-			PreparedStatement stmt = conn.prepareStatement(line);
-			stmt.setInt(1, userId);
-			stmt.setInt(2, rmid);
-			stmt.setInt(3, slotid);
-			stmt.setDate(4, date);
-			
-			if(stmt.executeUpdate()>0){
-				response.getWriter().write("pass");
+
+		Boolean flag = true;
+        
+        Validator validator = Validator.getInstance();
+		
+		if(!(validator.isDate(date.toString()))) {
+			request.setAttribute("error", "Invalid Date!");
+			flag = false;
+		}
+		
+		if(flag){
+			try{
+				conn = DBConnector.getConnection();
+				String line = "INSERT INTO `roomtransaction` (User_UserId,Room_RoomId,RoomSlotId,RoomReserveDate) VALUES (?,?,?,?)";
+				PreparedStatement stmt = conn.prepareStatement(line);
+				stmt.setInt(1, userId);
+				stmt.setInt(2, rmid);
+				stmt.setInt(3, slotid);
+				stmt.setDate(4, date);
+				
+				if(stmt.executeUpdate()>0){
+					response.getWriter().write("pass");
+				}
+				else
+					response.getWriter().write("fail");
+				
+				
+			}catch(Exception e){
+				e.printStackTrace();
 			}
-			else
-				response.getWriter().write("fail");
-			
-			
-		}catch(Exception e){
-			e.printStackTrace();
 		}
 		
 	}
