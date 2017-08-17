@@ -62,6 +62,7 @@
 		request.setAttribute("error","");
 		%>
 	</h4>
+	
     <div class="row">
       <div class="twelve columns offset-by-three">
         <label for="firstname">First Name</label>

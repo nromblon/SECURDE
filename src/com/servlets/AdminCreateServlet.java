@@ -145,7 +145,7 @@ public class AdminCreateServlet extends HttpServlet {
 		        
 				if(i>0)
 				{
-					response.sendRedirect("admin/tools");
+					response.sendRedirect("tools");
 				}
 		        
 			}
