@@ -37,8 +37,9 @@ public class OverrideServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pubId = request.getParameter("id");
+		String userType = request.getParameter("userType");
 		
-		UserModel.overrideReservation(Integer.valueOf(pubId));
+		UserModel.overrideReservation(Integer.valueOf(pubId), userType);
 	}
 
 }

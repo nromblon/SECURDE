@@ -214,6 +214,16 @@
             </div>
           </td>
         </tr>
+        <% if(request.getAttribute("dateLabel") != null) {%>
+	        <tr>
+	          <td><%= request.getAttribute("dateLabel") %></td>
+	          <td>
+	            <div>
+	              <span id = "pub-status-text"><%= request.getAttribute("date") %></span>
+	            </div>
+	          </td>
+	        </tr>
+	    <% } %>
         <td>
           <div class = "edit-elems hidden">
                 <button id = "submitEdit" class = "button-primary submit-button">SUBMIT EDIT</button>
@@ -253,7 +263,7 @@
 			    	<span><%= user.getUserType() %> <%= user.getIdNumber() %> is currently borrowing this book.</span>
 			    <% } else { %>
 			    	<span><%= user.getUserType() %> <%= user.getIdNumber() %> wants to reserve this book.</span>
-			    	<button id = "override-reserve" class = "button-primary submit-button u-pull-right">OVERRIDE</button>
+			    	<button id = "override-reserve" class = "button-primary submit-button u-pull-right" data-usertype = <%= user.getUserType() %>>OVERRIDE</button>
 			    <% } %>
 		    <% } %>
 		  </div>

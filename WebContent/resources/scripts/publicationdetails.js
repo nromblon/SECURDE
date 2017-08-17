@@ -82,7 +82,8 @@ $(document).ready(function() {
     	var r = confirm("Are you sure you want to override this reservation?");
         if (r == true) {
             $.post("../override", {
-            	id: id
+            	id: id,
+            	userType: $(this).data("usertype")
             }).done(function() {
             	location.reload();
             })

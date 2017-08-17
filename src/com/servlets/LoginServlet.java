@@ -108,6 +108,7 @@ public class LoginServlet extends HttpServlet {
 							session.setAttribute("firstName", rsP.getString("FirstName"));
 							session.setAttribute("username", rsP.getString("Username"));
 							session.setAttribute("privilege", rsP.getString("Privilege_PrivilegeId"));
+							session.setAttribute("usertypeid", rsP.getInt("UserTypeId"));
 							
 //							Log.info(this.getServletName(), rsP.getInt("UserId"), LogKey.LOGIN_SUCCESS, "Username: "+username);
 				        
