@@ -98,7 +98,7 @@ public class LoginServlet extends HttpServlet {
 		        	ResultSet rsP = samePassword.executeQuery();
 			        
 			        if(rsP.next()) {
-			        	if(!rsP.getBoolean("IsLocked") && rsP.getInt("Login_Attempts") < 5) {
+			        	if(!rsP.getBoolean("IsLocked") && rsP.getInt("login_attempts") < 5) {
 			        		UserModel.setLoginAttempts(rsP.getInt("UserId"), 0);
 			        		
 			        		HttpSession session= request.getSession();
@@ -109,7 +109,7 @@ public class LoginServlet extends HttpServlet {
 							session.setAttribute("username", rsP.getString("Username"));
 							session.setAttribute("privilege", rsP.getString("Privilege_PrivilegeId"));
 							
-							Log.info(this.getServletName(), rsP.getInt("UserId"), LogKey.LOGIN_SUCCESS, "Username: "+username);
+//							Log.info(this.getServletName(), rsP.getInt("UserId"), LogKey.LOGIN_SUCCESS, "Username: "+username);
 				        
 				        	int privilege = -1;
 				        	try{
@@ -138,12 +138,12 @@ public class LoginServlet extends HttpServlet {
 			        } else {
 			        	System.out.println("no login");
 			        	
-			        	if(rsU.getInt("Login_Attempts") >= 5) {
+			        	if(rsU.getInt("login_attempts") >= 5) {
 			        		UserModel.setLockedAccount(rsU.getInt("UserId"), true);
 			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), 0);
 			        		//TODO: 15 minutes unlock
 			        	} else {
-			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), rsU.getInt("Login_Attempts") + 1);
+			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), rsU.getInt("login_attempts") + 1);
 			        	} 
 				        
 			        	request.setAttribute("error", "Invalid username or password!");

@@ -169,7 +169,7 @@ public class UserModel implements Model{
 		boolean success = false;
 		System.out.println(userId);
 		try {
-			PreparedStatement setLoginAttempts = con.prepareStatement("UPDATE user SET Login_Attempts = ? "
+			PreparedStatement setLoginAttempts = con.prepareStatement("UPDATE user SET login_attempts = ? "
 														     + "WHERE UserId = ?");
 			setLoginAttempts.setInt(1, val);
 			setLoginAttempts.setInt(2, userId);
