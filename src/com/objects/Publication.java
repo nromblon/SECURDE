@@ -1,5 +1,7 @@
 package com.objects;
 
+import java.util.Date;
+
 public class Publication extends DBObject{
 	
 	private String name;
@@ -9,8 +11,10 @@ public class Publication extends DBObject{
 	private String status;
 	private String location;
 	private int year;
+	private Date borrowedUntil;
+	
 	public Publication(int id, String name, String author, String publisher, String type, String status,
-			String location, int year) {
+			String location, int year, Date borrowedUntil) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -20,6 +24,7 @@ public class Publication extends DBObject{
 		this.status = status;
 		this.location = location;
 		this.year = year;
+		this.borrowedUntil = borrowedUntil;
 	}
 	
 	public Publication(int id, String name) {
@@ -70,5 +75,13 @@ public class Publication extends DBObject{
 	}
 	public void setYear(int year) {
 		this.year = year;
+	}
+
+	public Date getBorrowedUntil() {
+		return borrowedUntil;
+	}
+
+	public void setBorrowedUntil(Date borrowedUntil) {
+		this.borrowedUntil = borrowedUntil;
 	}
 }

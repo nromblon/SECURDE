@@ -11,6 +11,7 @@ import com.constants.Status;
 import com.mysql.jdbc.Statement;
 import com.objects.Publication;
 import com.objects.User;
+import com.utils.Utils;
 
 public class UserModel implements Model{
 	
@@ -115,7 +116,7 @@ public class UserModel implements Model{
 		return reservedPubs;
 	}
 	
-	public static boolean overrideReservation(int pubId) {
+	public static boolean overrideReservation(int pubId, String userType) {
 		boolean success = false;
 		Date date = new Date();
 		Timestamp dateToday = new Timestamp(date.getTime());
@@ -139,6 +140,21 @@ public class UserModel implements Model{
 				PublicationModel.setPubStatus(pubId, Status.OUT);
 				success = true;
 			}
+			
+			Date returnDate = null;
+			if(userType == "Student") {
+				returnDate = Utils.stringToDate(Utils.getDatePlusWeek(), "MM-dd-yyyy");
+			} else {
+				returnDate = Utils.stringToDate(Utils.getDatePlusMonth(), "MM-dd-yyyy");
+			}
+			
+			PreparedStatement setBorrowedUntil = con.prepareStatement("UPDATE publication "
+																 	+ "SET BorrowedUntil = ? "
+																 	+ "WHERE PublicationId = ?");
+			setBorrowedUntil.setDate(1, new java.sql.Date(returnDate.getTime()));
+			setBorrowedUntil.setInt(2, pubId);
+			
+			setBorrowedUntil.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -169,7 +185,7 @@ public class UserModel implements Model{
 		boolean success = false;
 		System.out.println(userId);
 		try {
-			PreparedStatement setLoginAttempts = con.prepareStatement("UPDATE user SET Login_Attempts = ? "
+			PreparedStatement setLoginAttempts = con.prepareStatement("UPDATE user SET login_attempts = ? "
 														     + "WHERE UserId = ?");
 			setLoginAttempts.setInt(1, val);
 			setLoginAttempts.setInt(2, userId);

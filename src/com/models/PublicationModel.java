@@ -14,7 +14,6 @@ public class PublicationModel implements Model{
 	public static Publication getPubWithId(int id) {
 		Publication pub = null;
 		try {
-			//TODO: fix because query doesn't show pubs without authors
 			PreparedStatement stmt = con.prepareStatement("SELECT * "
 														+ "FROM publication p "
 														+ "INNER JOIN publicationtype pubt ON p.PublicationTypeId = pubt.PublicationTypeId "
@@ -27,7 +26,7 @@ public class PublicationModel implements Model{
 			
 			String author = (rs.getString("Author") == null)? "No author":rs.getString("Author");
 			
-			pub = new Publication(id, rs.getString("Publication"), author, rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"));
+			pub = new Publication(id, rs.getString("Publication"), author, rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"), rs.getDate("BorrowedUntil"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -58,7 +57,7 @@ public class PublicationModel implements Model{
 			
 	    	while(rs.next()) {
 				String author = (rs.getString("Author") == null)? "No author":rs.getString("Author");
-				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), author, rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year")));
+				pubs.add(new Publication(rs.getInt("PublicationId"), rs.getString("Publication"), author, rs.getString("Publisher"), rs.getString("PublicationType"), rs.getString("Status"), rs.getString("Location"), rs.getInt("Year"), rs.getDate("BorrowedUntil")));
 	    	}
     	} catch (SQLException e) {
 			e.printStackTrace();

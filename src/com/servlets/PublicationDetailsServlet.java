@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.constants.Privilege;
+import com.constants.UserType;
 import com.models.PubTypeModel;
 import com.models.PublicationModel;
 import com.models.ReviewModel;
@@ -19,6 +20,7 @@ import com.models.UserModel;
 import com.objects.Publication;
 import com.objects.Review;
 import com.objects.User;
+import com.utils.Utils;
 /**
  * Servlet implementation class PublicationDetailsServlet
  */
@@ -54,6 +56,18 @@ public class PublicationDetailsServlet extends HttpServlet {
 				
 				boolean alreadyReserved = PublicationModel.checkExistingReservation(pubId);
 				request.setAttribute("alreadyReserved", alreadyReserved);
+				
+				if(pub.getStatus().equals("Available")) {
+					request.setAttribute("dateLabel", "Anticipated Return Date");
+					if((int) session.getAttribute("usertypeid") == UserType.STUDENT) {
+						request.setAttribute("date", Utils.getDatePlusWeek());
+					} else {
+						request.setAttribute("date", Utils.getDatePlusMonth());
+					}
+				} else if(pub.getStatus().equals("Out")) {
+					request.setAttribute("dateLabel", "Date of Availability");
+					request.setAttribute("date", Utils.dateToString(pub.getBorrowedUntil()));
+				}
 			} else if(privilege == Privilege.LIB_MANAGER) {
 				User user = PublicationModel.getUserWhoReserved(pubId);
 				boolean isBorrowed = PublicationModel.checkIfBorrowed(pubId);
@@ -61,6 +75,8 @@ public class PublicationDetailsServlet extends HttpServlet {
 				request.setAttribute("userWhoReserved", user);
 				request.setAttribute("alreadyBorrowed", isBorrowed);
 			}
+			
+			
 		}
 		
 		request.setAttribute("userHasBorrowed", !UserModel.getBorrowed(userId).isEmpty());
