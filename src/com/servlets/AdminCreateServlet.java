@@ -115,10 +115,6 @@ public class AdminCreateServlet extends HttpServlet {
 			request.setAttribute("error", "Invalid Email!");
 			flag = false;
 		}
-		if(!(validator.isDate(birthday.toString()))) {
-			request.setAttribute("error", "Invalid Date!");
-			flag = false;
-		}	
 		if(!(validator.isAlphaNumericHasSpace(answer,45))) {
 			request.setAttribute("error", "Invalid Answer for secret question!");
 			flag = false;
@@ -149,8 +145,7 @@ public class AdminCreateServlet extends HttpServlet {
 		        
 				if(i>0)
 				{
-					System.out.println("success");
-					out.println("You are sucessfully registered");
+					response.sendRedirect("admin/tools");
 				}
 		        
 			}
@@ -159,7 +154,9 @@ public class AdminCreateServlet extends HttpServlet {
 	            se.printStackTrace();
 	        }
 		}
-        
+		else
+			request.getRequestDispatcher("/admincreate.jsp").forward(request, response);  
+        	
 	}
 
 }
