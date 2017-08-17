@@ -181,4 +181,23 @@ public class UserModel implements Model{
 
 		return success;
 	}
+	
+	public static boolean setLoginAttempts(int userId, int val) {
+		boolean success = false;
+		System.out.println(userId);
+		try {
+			PreparedStatement setLoginAttempts = con.prepareStatement("UPDATE user SET Login_Attempts = ? "
+														     + "WHERE UserId = ?");
+			setLoginAttempts.setInt(1, val);
+			setLoginAttempts.setInt(2, userId);
+
+			setLoginAttempts.executeUpdate();
+			
+			success = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return success;
+	}
 }
