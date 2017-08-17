@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.db.DBConnector;
 import com.models.ReviewModel;
 import com.mysql.jdbc.Statement;
+import com.utils.Validator;
 
 /**
  * Servlet implementation class AddPublicationServlet
@@ -43,10 +44,28 @@ public class AddReviewServlet extends HttpServlet {
 		String pubId = request.getParameter("pubId");
 		String reviewText = request.getParameter("reviewText");
 		
+		Boolean flag = true;
+        
+        Validator validator = Validator.getInstance();
+		
+		if(!(validator.isAlphaNumeric(pubId, 45))) {
+			request.setAttribute("error", "Invalid Publication Id!");
+			flag = false;
+		}
+		if(!(validator.isAlphaNumeric(reviewText, 45))) {
+			request.setAttribute("error", "Invalid Review Text!");
+			flag = false;
+		}
+		
 		//TODO: only users who reserved book can review
-		ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
-
-		response.sendRedirect("publication/details?id="+pubId);
+		if(flag){
+			ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
+			response.sendRedirect("publication/details?id="+pubId);
+		}
+		else
+			request.getRequestDispatcher("/addreview").forward(request, response); 
+		
+		
 	}
 
 }
