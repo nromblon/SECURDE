@@ -23,6 +23,32 @@
 
 </head>
 <body>
+	<%
+		String userId = null;
+		//allow access only if session exists
+		if(session.getAttribute("userId") == null){
+			response.sendRedirect("../login");
+		}
+		if((String)session.getAttribute("privilege") != "4"){
+			throw new Exception();
+		}
+		else userId = (String) session.getAttribute("UserId");
+		String sessionID = null;
+		Cookie[] cookies = request.getCookies();
+		if(cookies !=null){
+			for(Cookie cookie : cookies){
+				if(cookie.getName().equals("UserId")){
+					userId = cookie.getValue();
+				}
+				if(cookie.getName().equals("JSESSIONID")){
+					sessionID = cookie.getValue();
+				}
+			}
+		}
+		else{
+			sessionID = session.getId();
+		}
+	%>
   <div class = "container">
    <!--nav header-->
    <div class="header">

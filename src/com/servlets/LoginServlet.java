@@ -3,6 +3,7 @@ package com.servlets;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -110,6 +111,11 @@ public class LoginServlet extends HttpServlet {
 							session.setAttribute("privilege", rsP.getString("Privilege_PrivilegeId"));
 							session.setAttribute("usertypeid", rsP.getInt("UserTypeId"));
 							
+							Cookie userId = new Cookie("user",rsP.getString("UserId"));
+							//setting cookie to expiry in 30 mins
+							userId.setMaxAge(30*60);
+							response.addCookie(userId);
+							
 //							Log.info(this.getServletName(), rsP.getInt("UserId"), LogKey.LOGIN_SUCCESS, "Username: "+username);
 				        
 				        	int privilege = -1;
@@ -121,13 +127,18 @@ public class LoginServlet extends HttpServlet {
 				        	}
 							System.out.println(privilege);
 							if(privilege == (Privilege.USER)) {
-								System.out.println("user login");
+//								System.out.println("user login");
+//								String encodedURL = response.encodeRedirectURL("search.jsp");
 								response.sendRedirect("search");
 							} else if (privilege == (Privilege.LIB_MANAGER) || privilege == (Privilege.LIB_STAFF)) {
 								System.out.println("libmanager");
+//								String encodedURL = response.encodeRedirectURL("addpublication.jsp");
+//								response.sendRedirect(encodedURL);
 								response.sendRedirect("publication/add");
 							} else if (privilege == (Privilege.ADMIN)){
 								System.out.println("admin login");
+//								String encodedURL = response.encodeRedirectURL("admintools.jsp");
+//								response.sendRedirect(encodedURL);
 								response.sendRedirect("admin/tools");
 							} 
 			        	} else {
