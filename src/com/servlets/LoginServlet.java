@@ -76,7 +76,8 @@ public class LoginServlet extends HttpServlet {
 		//input validation TODO: add escaping and checking for potential malicious inputs
 		Validator validator = Validator.getInstance();
 		
-		if((username == "") || (password == "") || !(validator.isAlphaNumeric(username, 45)&&validator.isAlphaNumeric(password,40))){
+		if((username == "") || (password == "") || !(validator.isAlphaNumeric(username, 45))){
+			System.out.println("input not valid");
 			flag=false;
 			request.setAttribute("error", "Invalid username or password!");
         	request.getRequestDispatcher("login.jsp").forward(request, response);
