@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.constants.LogKey;
 import com.db.DBConnector;
 import com.models.PublicationModel;
 import com.models.UserModel;
 import com.objects.Publication;
+import com.utils.Logger;
 import com.utils.Validator;
 
 /**
@@ -63,6 +65,15 @@ public class GetPublicationsServlet extends HttpServlet {
 	    request.setAttribute("searchTerm", searchTerm);
         request.setAttribute("publications", results);
         request.setAttribute("message", message);
+        
+        String userId = null;
+        if(request.getSession().getAttribute("userId")!=null)
+        userId = Integer.toString((int) request.getSession().getAttribute("userId"));
+        
+        Logger.info(this.getServletName(), LogKey.SEARCH, "User searched publication"
+				, "From:" + request.getRemoteAddr(), "UserId:"+userId
+				, "SearchTerm:"+searchTerm, "SearchFilter:"+searchBy, "SearchCategory:"+category);
+	
     
 	    request.getRequestDispatcher("/search").forward(request, response);
 	}

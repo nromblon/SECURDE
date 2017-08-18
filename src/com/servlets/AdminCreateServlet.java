@@ -14,8 +14,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.constants.LogKey;
+import com.constants.Privilege;
 import com.db.DBConnector;
+import com.models.PubTypeModel;
+import com.models.TagModel;
+import com.utils.Logger;
 import com.utils.Validator;
 
 /**
@@ -36,29 +42,51 @@ public class AdminCreateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		int privilege = -1;
+		Logger.info(this.getServletName(), LogKey.AUTH_ATTEMPT, "User attempted authorization", "From:" + request.getRemoteAddr());
+
+		try{
+			if(session.getAttribute("privilege")!=null)
+    			privilege = Integer.parseInt( (String) session.getAttribute("privilege"));
+    	}catch(NumberFormatException e){
+    		//TODO: appropriate error message for invalid number syntax
+    		e.printStackTrace();
+    	}
 		
-		Connection conn = DBConnector.getConnection();
-		Statement query;
-		
-		try {
-			query = conn.createStatement();
-		
-			String line1 = "SELECT * FROM securityquestion";
-			ResultSet res1 = query.executeQuery(line1);
-			
-			String options1="";			
-			while(res1.next()){
-				int key = res1.getInt("SecurityQuestionId");
-				String question = res1.getString("SecurityQuestion");
-				options1+="<option value=\""+key+"\">"+question+"</option>\n";
+		if(session.getAttribute("username") != null) {
+			String username = (String) session.getAttribute("username");
+			if (privilege == Privilege.ADMIN) {
+				Connection conn = DBConnector.getConnection();
+				Statement query;
+				
+				try {
+					query = conn.createStatement();
+				
+					String line1 = "SELECT * FROM securityquestion";
+					ResultSet res1 = query.executeQuery(line1);
+					
+					String options1="";			
+					while(res1.next()){
+						int key = res1.getInt("SecurityQuestionId");
+						String question = res1.getString("SecurityQuestion");
+						options1+="<option value=\""+key+"\">"+question+"</option>\n";
+					}
+					request.setAttribute("secQuestionOptions", options1);
+					request.getRequestDispatcher("/admincreate.jsp").forward(request, response);
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Logger.info(this.getServletName(), LogKey.AUTH_SUCCESS, "Admin Authorization Successful", "From:" + request.getRemoteAddr(), "Username:"+username);
+				
 			}
-			request.setAttribute("secQuestionOptions", options1);
-			request.getRequestDispatcher("/admincreate.jsp").forward(request, response);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}else{
+			response.sendRedirect("../login"); 
 		}
+		
 		
 	}
 
@@ -125,7 +153,7 @@ public class AdminCreateServlet extends HttpServlet {
 				conn = DBConnector.getConnection();
 				String line = "INSERT INTO user (FirstName,LastName,MiddleInitial,Username,PasswordHash,Email,Birthday,IdentificationNumber,SecurityQuestionId,AnswerHash,Privilege_PrivilegeId,isTemporary)"
 						+ " VALUES (?,?,?,?,PASSWORD(?),?,?,?,?,PASSWORD(?),?,?)";
-				PreparedStatement stmt = conn.prepareStatement(line);
+				PreparedStatement stmt = conn.prepareStatement(line,Statement.RETURN_GENERATED_KEYS);
 		
 		        stmt.setString(1, firstname);
 		        stmt.setString(2, lastname);
@@ -142,9 +170,15 @@ public class AdminCreateServlet extends HttpServlet {
 		        
 		        
 		        int i = stmt.executeUpdate();
+		      
 		        
 				if(i>0)
 				{
+					String logkey = type==2? LogKey.ACC_CREATION_MANAGER : LogKey.ACC_CREATION_STAFF;
+					ResultSet res = stmt.getGeneratedKeys();
+					res.next();
+					Logger.info(this.getServletName(), logkey
+							, "Admin created an account", "From:" + request.getRemoteAddr(), "Created UserId"+res.getInt(1));
 					response.sendRedirect("tools");
 				}
 		        

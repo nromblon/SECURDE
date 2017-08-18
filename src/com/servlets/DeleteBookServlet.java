@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.constants.LogKey;
 import com.db.DBConnector;
 import com.models.PublicationModel;
+import com.utils.Logger;
 
 /**
  * Servlet implementation class AddPublicationServlet
@@ -41,8 +43,11 @@ public class DeleteBookServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id = request.getParameter("id");
-		
-	    PublicationModel.deletePublication(Integer.valueOf(id));
+		String userId = (String) request.getSession().getAttribute("userId");
+	    if(PublicationModel.deletePublication(Integer.valueOf(id))){
+	    	Logger.info(this.getServletName(), LogKey.DELETE_PUB, "User deleted a publication"
+					, "From:" + request.getRemoteAddr(), "UserId:"+userId, "PubId:"+id);
+	    }
 	}
 
 }

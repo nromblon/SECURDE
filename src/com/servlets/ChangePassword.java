@@ -1,6 +1,10 @@
 package com.servlets;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -10,7 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.constants.LogKey;
+import com.constants.Privilege;
+import com.db.DBConnector;
 import com.models.UserModel;
+import com.utils.Logger;
 import com.utils.Validator;
 
 /**
@@ -31,7 +39,28 @@ public class ChangePassword extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/changepassword.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		int privilege = -1;
+		Logger.info(this.getServletName(), LogKey.AUTH_ATTEMPT, "User attempted authorization", "From:" + request.getRemoteAddr());
+
+		try{
+			if(session.getAttribute("privilege")!=null)
+    			privilege = Integer.parseInt( (String) session.getAttribute("privilege"));
+    	}catch(NumberFormatException e){
+    		//TODO: appropriate error message for invalid number syntax
+    		e.printStackTrace();
+    	}
+		
+		if(session.getAttribute("username") != null) {
+			String username = (String) session.getAttribute("username");
+			if (privilege != -1) {
+				request.getRequestDispatcher("/changepassword.jsp").forward(request, response);
+				Logger.info(this.getServletName(), LogKey.AUTH_SUCCESS, "Authorization Successful", "From:" + request.getRemoteAddr(), "Username:"+username);
+				
+			}
+		}else{
+			response.sendRedirect("login"); 
+		}
 	}
 
 	/**
@@ -63,7 +92,10 @@ public class ChangePassword extends HttpServlet {
 			}
 			
 			if(flag) {
-				UserModel.changePassword(userId, password);
+				if(UserModel.changePassword(userId, password)){
+					Logger.info(this.getServletName(), LogKey.CHANGE_PASS, "User changed password"
+							, "From:" + request.getRemoteAddr(), "UserId:"+userId);
+				}
 				response.sendRedirect("search");
 			} else {
 				request.setAttribute("errors", errors);

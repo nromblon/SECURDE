@@ -5,9 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.constants.LogKey;
 import com.mysql.jdbc.Statement;
 import com.objects.Publication;
 import com.objects.User;
+import com.utils.Logger;
 
 public class PublicationModel implements Model{
 	
@@ -67,7 +69,7 @@ public class PublicationModel implements Model{
 	}
 	
 	public static int insertPublication(int type, String publication, String author, String publisher, String location, int year, String[] tags) {
-		int id = 0;
+		int id = -1;
 		try {
 	        PreparedStatement insertPub = con.prepareStatement("INSERT INTO publication (Publication, PublicationTypeId, Author, Publisher, Location, Year) "
 	        												 + "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -84,6 +86,8 @@ public class PublicationModel implements Model{
 	        id = pubId.getInt(1);
 	        
 	        TagModel.insertTagsofPub(id, tags);
+	        
+	        
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.constants.LogKey;
 import com.db.DBConnector;
 import com.models.PubTypeModel;
 import com.models.PublicationModel;
 import com.mysql.jdbc.Statement;
+import com.utils.Logger;
 import com.utils.Validator;
 
 /**
@@ -81,7 +83,11 @@ public class AddBookServlet extends HttpServlet {
 //		int publisherId = PublisherModel.insertPublisher(publisher);
 		if(flag){
 			int pubId = PublicationModel.insertPublication(Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags);
-			response.sendRedirect("publication/details?id="+pubId);
+			if(pubId != -1){
+				Logger.info(this.getServletName(), LogKey.ADD_PUB, "A publication was added", "From:" + request.getRemoteAddr(),"UserId:"
+						+request.getSession().getAttribute("userId"), "PubId:"+pubId);
+				response.sendRedirect("publication/details?id="+pubId);
+			}
 		}
 		else
         	request.getRequestDispatcher("/addbook").forward(request, response); 

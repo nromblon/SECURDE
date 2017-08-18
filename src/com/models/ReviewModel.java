@@ -31,7 +31,7 @@ public class ReviewModel implements Model{
 	}
 
 	public static int insertReview(int pubId, int userId, String review) {
-		int id = 0;
+		int id = -1;
 		try {
 	        PreparedStatement insertReview = con.prepareStatement("INSERT INTO reviews (Review, UserId, PublicationId) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 	        insertReview.setString(1, review);

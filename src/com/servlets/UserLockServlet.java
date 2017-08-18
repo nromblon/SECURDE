@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.constants.LogKey;
 import com.models.UserModel;
+import com.utils.Logger;
 
 /**
  * Servlet implementation class AddPublicationServlet
@@ -40,7 +42,10 @@ public class UserLockServlet extends HttpServlet {
 		int locked = Integer.valueOf(request.getParameter("isLocked"));
 		boolean isLocked = (locked == 1)? true: false;
 		
-		UserModel.setLockedAccount(userId, isLocked);
+		if(UserModel.setLockedAccount(userId, isLocked)){
+			Logger.info(this.getServletName(), LogKey.ACC_UNLOCK, "Account lock status toggled", "From:" + request.getRemoteAddr()
+			,"of UserId:"+userId,"to State:"+isLocked);
+		}
 	}
 
 }

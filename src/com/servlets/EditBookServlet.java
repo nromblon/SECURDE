@@ -10,9 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
 
+import com.constants.LogKey;
 import com.db.DBConnector;
 import com.models.PublicationModel;
+import com.utils.Logger;
 import com.utils.Validator;
 /**
  * Servlet implementation class AddPublicationServlet
@@ -77,7 +80,10 @@ public class EditBookServlet extends HttpServlet {
 		}
 		
 		if(flag){
-			PublicationModel.editPublication(Integer.valueOf(bookId), Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags);
+			if(PublicationModel.editPublication(Integer.valueOf(bookId), Integer.valueOf(type), title, author, publisher, location, Integer.valueOf(year), tags)){
+				Logger.info(this.getServletName(), LogKey.EDIT_PUB, "User edited a publication"
+						, "From:" + request.getRemoteAddr(), "UserId:"+request.getSession().getAttribute("userId"), "PubId:"+bookId);
+			}
 		} 
 		else
 			request.getRequestDispatcher("/editbook").forward(request, response); 

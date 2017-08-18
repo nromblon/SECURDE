@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.constants.LogKey;
 import com.models.UserModel;
+import com.utils.Logger;
 
 /**
  * Servlet implementation class AddPublicationServlet
@@ -39,7 +41,10 @@ public class OverrideServlet extends HttpServlet {
 		String pubId = request.getParameter("id");
 		String userType = request.getParameter("userType");
 		
-		UserModel.overrideReservation(Integer.valueOf(pubId), userType);
+		if(UserModel.overrideReservation(Integer.valueOf(pubId), userType)){
+			Logger.info(this.getServletName(), LogKey.OVERRIDE_PUB, "Publication reservation overriden", "From:" + request.getRemoteAddr(),"UserId:"
+					+request.getSession().getAttribute("userId"), "PubId:"+pubId);
+		}
 	}
 
 }

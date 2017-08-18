@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import com.constants.LogKey;
 import com.models.UserModel;
+import com.utils.Logger;
 
 /**
  * Servlet implementation class AddPublicationServlet
@@ -40,7 +41,10 @@ public class ReservationServlet extends HttpServlet {
 		String pubId = request.getParameter("id");
 		int userId = (int) request.getSession().getAttribute("userId");
 		
-		UserModel.reservePublication(userId, Integer.valueOf(pubId));
+		if(UserModel.reservePublication(userId, Integer.valueOf(pubId))>0){
+			Logger.info(this.getServletName(), LogKey.RESERVE_PUB, "Publication reserved", "From:" + request.getRemoteAddr(),"UserId:"
+					+userId, "PubId:"+pubId);
+		}
 	}
 
 }

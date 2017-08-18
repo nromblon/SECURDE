@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.constants.LogKey;
 import com.db.DBConnector;
 import com.models.ReviewModel;
 import com.models.UserModel;
 import com.mysql.jdbc.Statement;
+import com.utils.Logger;
 import com.utils.Validator;
 
 /**
@@ -57,7 +59,11 @@ public class AddReviewServlet extends HttpServlet {
 		System.out.println(flag);
 		
 		if(flag && !UserModel.getBorrowed(userId).isEmpty()){
-			ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
+			int revId = ReviewModel.insertReview(Integer.valueOf(pubId), (int)request.getSession().getAttribute("userId"), reviewText);
+			if(revId > -1)
+				Logger.info(this.getServletName(), LogKey.ADD_REVIEW, "User added review", "From:" + request.getRemoteAddr(),
+					"UserId:"+userId,"PubId:"+pubId,"ReviewId:"+revId);
+			
 		}
 		
 		response.sendRedirect("publication/details?id="+pubId);

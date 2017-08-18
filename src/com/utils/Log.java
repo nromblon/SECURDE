@@ -28,7 +28,7 @@ public class Log {
 				toLog = toLog.concat(">>");
 		}
 		
-		print.printf("%s>>%s>>%s>>%s" + "%n", dateToday.toString(), servletPath, InetAddress.getLocalHost().getHostAddress(), toLog);
+		print.printf("%s>>%s|%s|%s|" + "%n", dateToday.toString(), servletPath, InetAddress.getLocalHost().getHostAddress(), toLog);
 	}
 	
 	public static void info(String servletPath, int userId, String logKey, Object... args) throws IOException{
@@ -47,7 +47,7 @@ public class Log {
 				toLog = toLog.concat(">>");
 		}
 		
-		print.printf("%s>>%s>>%s>>%s>>%s" + "%n", dateToday.toString(), servletPath, InetAddress.getLocalHost().getHostAddress(), "USERID: "+userId, toLog);
+		print.printf("%s>>%s|%s|%s|%s|" + "%n", dateToday.toString(), servletPath, InetAddress.getLocalHost().getHostAddress(), "USERID: "+userId, toLog);
 	}
 	
 }

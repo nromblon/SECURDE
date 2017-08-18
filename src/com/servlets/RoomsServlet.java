@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.constants.LogKey;
 import com.db.DBConnector;
+import com.utils.Logger;
 import com.utils.Validator;
 
 import java.sql.Connection;
@@ -61,6 +63,8 @@ public class RoomsServlet extends HttpServlet {
 			
 			if(stmt.executeUpdate()>0){
 				response.getWriter().write("pass");
+				Logger.info(this.getServletName(), LogKey.RESERVE_RM, "Room slot reserved", "From:" + request.getRemoteAddr(),"UserId:"
+						+userId,"RoomId:"+rmid,"SlotId:"+slotid);
 			}
 			else
 				response.getWriter().write("fail");

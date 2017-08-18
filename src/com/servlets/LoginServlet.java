@@ -14,6 +14,7 @@ import com.constants.Privilege;
 import com.db.DBConnector;
 import com.models.UserModel;
 import com.utils.Log;
+import com.utils.Logger;
 import com.utils.Validator;
 
 import java.sql.Connection;
@@ -50,16 +51,22 @@ public class LoginServlet extends HttpServlet {
     		//TODO: appropriate error message for invalid number syntax
     		e.printStackTrace();
     	}
-		//TODO: assign redirects after login for each user type
+		Logger.info(this.getServletName(), LogKey.AUTH_ATTEMPT, "Anonymous user attempted authorization", "From:" + request.getRemoteAddr());
+		
 		if(session.getAttribute("username") != null) {
+			String username = (String) session.getAttribute("username");
+			
 			if(privilege == Privilege.USER) {
 				response.sendRedirect("search");
+				
 			} else if (privilege == Privilege.LIB_STAFF || privilege == Privilege.LIB_MANAGER) {
 				response.sendRedirect("publication/add");
 			} else if (privilege == Privilege.ADMIN){
 				response.sendRedirect("admin/tools");
-			} else //TODO: change to fitting error message (this only appears when privilege is not parsable to int)
+			} else{ //TODO: change to fitting error message (this only appears when privilege is not parsable to int)
 				request.getRequestDispatcher("/login.jsp").forward(request, response);
+				Logger.info(this.getServletName(), LogKey.AUTH_SUCCESS, "User Authorization Successful", "From:" + request.getRemoteAddr(), "Username:"+username);
+			}
 		}else
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 
@@ -82,7 +89,10 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("error", "Invalid username or password!");
         	request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
-
+		
+		Logger.info(this.getServletName(), LogKey.LOGIN_ATTEMPT, "Login attempt", "From:" + request.getRemoteAddr(), "Username:"+username);
+		
+		
 		if(flag){
 			Connection conn = null;
 			try{
@@ -142,9 +152,13 @@ public class LoginServlet extends HttpServlet {
 //								response.sendRedirect(encodedURL);
 								response.sendRedirect("admin/tools");
 							} 
+							Logger.info(this.getServletName(), LogKey.LOGIN_SUCCESS, "Successful Login", "From:" + request.getRemoteAddr(), "UserID:"+rsP.getInt("UserId"),"Username:"+username,
+									"Privilege:"+privilege);
 			        	} else {
 			        		System.out.println("user is locked out");
 					        
+			        		Logger.info(this.getServletName(), LogKey.ACC_LOCKOUTS, "Account Locked", "From:" + request.getRemoteAddr(), "Username:"+username);
+			        		
 				        	request.setAttribute("error", "Your account is locked out! Please contact your admin.");
 				        	request.getRequestDispatcher("login.jsp").forward(request, response);
 			        	}
@@ -153,19 +167,20 @@ public class LoginServlet extends HttpServlet {
 			        	
 			        	if(rsU.getInt("login_attempts") >= 5) {
 			        		UserModel.setLockedAccount(rsU.getInt("UserId"), true);
-			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), 0);
 			        	} else {
+			        		Logger.info(this.getServletName(), LogKey.LOGIN_FAIL,"User attempted to login", "From:" + request.getRemoteAddr(), "Username:"+username);
 			        		UserModel.setLoginAttempts(rsU.getInt("UserId"), rsU.getInt("login_attempts") + 1);
 			        	} 
 				        
 			        	request.setAttribute("error", "Invalid username or password!");
+			        	
 			        	request.getRequestDispatcher("login.jsp").forward(request, response);
 			        }
 					
 		        }
 		        else {
 		        	System.out.println("no login");
-		        
+		        	Logger.info(this.getServletName(), LogKey.LOGIN_FAIL,"No username exists","From:" + request.getRemoteAddr(), "Username:"+username);
 		        	request.setAttribute("error", "Invalid username or password!");
 		        	request.getRequestDispatcher("login.jsp").forward(request, response);
 		        }

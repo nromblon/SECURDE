@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.constants.LogKey;
+import com.utils.Logger;
+
 /**
  * Servlet implementation class LogoutServlet
  */
@@ -28,7 +31,9 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Cookie[] cookies = request.getCookies();
-    	if(cookies != null){
+		
+		
+		if(cookies != null){
     	for(Cookie cookie : cookies){
     		if(cookie.getName().equals("JSESSIONID")){
     			System.out.println("JSESSIONID="+cookie.getValue());
@@ -37,8 +42,12 @@ public class LogoutServlet extends HttpServlet {
     		response.addCookie(cookie);
     		}
     	}
+    	
     	HttpSession session = request.getSession(false);
     	System.out.println("User="+session.getAttribute("userId"));
+    	if(session.getAttribute("userId")!=null)
+    		Logger.info(this.getServletName(), LogKey.LOGOUT, "User Logged out", "From:" + request.getRemoteAddr()
+		, "UserId:"+session.getAttribute("userId"), "Username:"+session.getAttribute("username"));
 		request.getSession().invalidate();
 		response.sendRedirect("search");
 		return;

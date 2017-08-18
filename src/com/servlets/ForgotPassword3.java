@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.constants.LogKey;
 import com.constants.Privilege;
 import com.db.DBConnector;
 import com.models.UserModel;
 import com.objects.User;
+import com.utils.Logger;
 import com.utils.Validator;
 
 /**
@@ -76,7 +78,11 @@ public class ForgotPassword3 extends HttpServlet {
 		}
 		
 		if(flag) {
-			UserModel.changePassword(user.getId(), password);
+			if(UserModel.changePassword(user.getId(), password)){
+				Logger.info(this.getServletName(), LogKey.CHANGE_PASS, "User changed password"
+						, "From:" + request.getRemoteAddr(), "UserId:"+user.getId());
+			
+			}
 			
 			try {
 				PreparedStatement loginUser = conn.prepareStatement("SELECT * FROM user WHERE UserId = ?");

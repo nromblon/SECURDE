@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.constants.LogKey;
 import com.constants.Privilege;
 import com.db.DBConnector;
+import com.utils.Logger;
 import com.utils.Validator;
 
 import java.sql.Connection;
@@ -171,7 +173,8 @@ public class RegistrationServlet extends HttpServlet {
     						session.setAttribute("firstName", firstname);
     						session.setAttribute("username", username);
     						session.setAttribute("privilege", Integer.toString(Privilege.USER));
-
+    						Logger.info(this.getServletName(), LogKey.ACC_CREATION
+    								, "User registration successful", "From:" + request.getRemoteAddr(), "UserId:"+ key.getInt(1), "Username:"+username);
     			        	response.sendRedirect("search");
     					}else{
     						throw new SQLException("Creating user failed, no ID obtained.");

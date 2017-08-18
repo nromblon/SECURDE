@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.constants.LogKey;
 import com.db.DBConnector;
+import com.utils.Logger;
 
 /**
  * Servlet implementation class UpdateRoomReservationServlet
@@ -78,6 +80,8 @@ public class UpdateRoomReservationServlet extends HttpServlet {
 			
 			if(stmt.executeUpdate()>0){
 				response.getWriter().write("pass");
+				Logger.info(this.getServletName(), LogKey.CANCEL_RM, "Room reservation slot cancelled", "From:" + request.getRemoteAddr(),"UserId:"
+						+request.getSession().getAttribute("userd"),"RoomId:"+rmid,"SlotId:"+slotid);
 			}
 			else{
 				System.out.println("nochange");
