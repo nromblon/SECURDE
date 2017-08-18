@@ -82,6 +82,8 @@ public class AdminCreateServlet extends HttpServlet {
 				
 				Logger.info(this.getServletName(), LogKey.AUTH_SUCCESS, "Admin Authorization Successful", "From:" + request.getRemoteAddr(), "Username:"+username);
 				
+			}else{
+				response.sendRedirect("../login");
 			}
 		}else{
 			response.sendRedirect("../login"); 

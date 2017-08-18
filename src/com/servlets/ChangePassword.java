@@ -56,7 +56,8 @@ public class ChangePassword extends HttpServlet {
 			if (privilege != -1) {
 				request.getRequestDispatcher("/changepassword.jsp").forward(request, response);
 				Logger.info(this.getServletName(), LogKey.AUTH_SUCCESS, "Authorization Successful", "From:" + request.getRemoteAddr(), "Username:"+username);
-				
+			}else{
+				response.sendRedirect("../login");
 			}
 		}else{
 			response.sendRedirect("login"); 

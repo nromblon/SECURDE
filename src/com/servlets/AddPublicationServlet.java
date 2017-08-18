@@ -54,6 +54,8 @@ public class AddPublicationServlet extends HttpServlet {
 				
 				request.getRequestDispatcher("/addpublication.jsp").forward(request, response);
 				
+			}else{
+				response.sendRedirect("../login");
 			}
 		}else{
 			response.sendRedirect("../login"); 
